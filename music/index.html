@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>林宥嘉 | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<link rel="stylesheet" type="text/css" href="/assets/css/DPlayer.min.css"><script src="/assets/js/DPlayer.min.js"></script></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/music">Music</a>
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/music">Music</a>
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">林宥嘉</h2>
+        
+        <section class="post-content">
+            <img src="https://pic.xiami.net/images/artistlogo/92/15276623894692.jpg?x-oss-process=image/resize,limit_0,s_410,m_fill/quality,q_80" align="left">
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+中 文 名 林宥嘉
+
+<p>外 文 名 Yoga</p>
+<p>别 名 迷幻宥嘉，嘟嘟嘴，太子包</p>
+<p>民 族 汉族</p>
+<p>星 座 巨蟹座</p>
+<p>身 高 171cm</p>
+<p>体 重 70kg</p>
+<p>出 生 地 中国台湾屏东</p>
+<p>出生日期 1987年7月1日（农历六月初六）</p>
+<p>职 业 歌手，演员</p>
+<p>毕业院校 国立东华大学运动与休闲学系</p>
+<p>经纪公司 华研国际音乐（全约）</p>
+<p>代表作品 《说谎》、《伯乐》、《自然醒》、《想自由》、《背影》、《心酸》、《残酷月光》、《浪费》</p>
+<p>主要成就 2008年新城劲爆新人王</p>
+<p>入围24届金曲奖最佳男国语演唱人</p>
+<p>家 人 父亲、母亲、一弟一妹</p>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<div id="aplayer"></div>
+<div id="aplayer" style="position:absolute;left;0;bottom:0;"></div>
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/color-thief-don@2.0.2/src/color-thief.js"></script>
+
+
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    autoplay: false, //自动播放
+    listFolded: true, //播放列表默认折叠
+    listMaxHeight: 90, //播放列表最大高度
+    order: 'list', //音频循环顺序, 可选值: 'list', 'random'
+    loop: 'all', //音频循环播放, 可选值: 'all', 'one', 'none'
+    theme: '#e9e9e9', //切换音频时的主题色，优先级低于audio.theme
+    preload: 'none', //音频预加载，可选值: 'none', 'metadata', 'auto'
+    mutex: true, //互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器
+    lrcType: 3, //歌词格式，可选值：3（LRC文件歌词格式），1（JS字符串歌词格式）
+    volume: 0.7, //默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效
+    fixed: false, //吸底模式（fixed:true），迷你模式（mini:true），普通模式（注释此行或者设置fixed:false）
+    audio: [{
+        name: '金粉世家',
+        artist: '林宥嘉',
+        lrc: '/downloads/lrc/金粉世家-林宥嘉.lrc',
+        cover: 'https://pic.xiami.net/images/album/img17/23517/8732543881386439516.jpg?x-oss-process=image/resize,limit_0,s_410,m_fill/quality,q_80',
+        url: 'https://s128.xiami.net/517/23517/873254388/1772002305_10391618_l.mp3?ccode=xiami_web_web&expire=86400&duration=271&psid=658729922da57f28fb482994dc453036&ups_client_netip=61.140.43.130&ups_ts=1570083802&ups_userid=0&utid=HLgZFqXgLX0CAXFtHuRb23LA&vid=1772002305&fn=1772002305_10391618_l.mp3&vkey=B422b1babf1a18997e7204c38a6273933'
+      },
+      {
+        name: '思凡',
+        artist: '林宥嘉',
+        lrc: '/downloads/lrc/思凡-林宥嘉.lrc',
+        cover: 'https://pic.xiami.net/images/album/img17/23517/8732543881386439516.jpg?x-oss-process=image/resize,limit_0,s_410,m_fill/quality,q_80',
+        url: 'https://s128.xiami.net/517/23517/873254388/1772002285_10391578_l.mp3?ccode=xiami_web_web&expire=86400&duration=225&psid=1bfb6607e670b3e2686707dea02b52b0&ups_client_netip=61.140.43.179&ups_ts=1570115552&ups_userid=0&utid=/ZgcFg4Qh3ECAT2MK6sYfYaX&vid=1772002285&fn=1772002285_10391578_l.mp3&vkey=Bc1998b4444569fd071e1704c350260fe'
+      },
+      {
+        name: '解High人',
+        artist: '林宥嘉',
+        lrc: '/downloads/lrc/解High人-林宥嘉.lrc',
+        cover: 'https://pic.xiami.net/images/album/img17/23517/8732543881386439516.jpg?x-oss-process=image/resize,limit_0,s_410,m_fill/quality,q_80',
+        url: 'https://s128.xiami.net/517/23517/873254388/1772002284_10391576_l.mp3?ccode=xiami_web_web&expire=86400&duration=280&psid=f8c2a824d721f4f12c53e550c06c8782&ups_client_netip=61.140.43.179&ups_ts=1570115929&ups_userid=0&utid=/ZgcFg4Qh3ECAT2MK6sYfYaX&vid=1772002284&fn=1772002284_10391576_l.mp3&vkey=Bfce7a9d8016481031f173499675cd98f'
+      },
+      {
+        name: '再别康桥',
+        artist: '林宥嘉',
+        lrc: '/downloads/lrc/再别康桥-林宥嘉.lrc',
+        cover: 'https://pic.xiami.net/images/album/img17/23517/8732543881386439516.jpg?x-oss-process=image/resize,limit_0,s_410,m_fill/quality,q_80',
+        url: 'https://s128.xiami.net/517/23517/873254388/1772002291_10391590_l.mp3?ccode=xiami_web_web&expire=86400&duration=214&psid=3edee0ce85dc4ab8d683eec6d289321e&ups_client_netip=61.140.43.179&ups_ts=1570116006&ups_userid=0&utid=/ZgcFg4Qh3ECAT2MK6sYfYaX&vid=1772002291&fn=1772002291_10391590_l.mp3&vkey=B8967c5e9786cd0f8c4b2a1bcef2e4be2'
+      },
+      {
+        name: '歇斯底里',
+        artist: '林宥嘉',
+        lrc: '/downloads/lrc/歇斯底里-林宥嘉.lrc',
+        cover: 'https://pic.xiami.net/images/album/img17/23517/8732543881386439516.jpg?x-oss-process=image/resize,limit_0,s_410,m_fill/quality,q_80',
+        url: 'https://s128.xiami.net/517/23517/873254388/1772002304_10391616_l.mp3?ccode=xiami_web_web&expire=86400&duration=281&psid=39b7d38e7d225de81f4041cec9104727&ups_client_netip=61.140.43.179&ups_ts=1570116039&ups_userid=0&utid=/ZgcFg4Qh3ECAT2MK6sYfYaX&vid=1772002304&fn=1772002304_10391616_l.mp3&vkey=B9373065002f01aa541888277c5916424'
+      }
+    ]
+  });
+
+
+  //实现切换音频时，根据音频的封面图片自适应主题色
+  const colorThief = new ColorThief();
+  const setTheme = (index) => {
+    if (!ap.list.audios[index].theme) {
+      colorThief.getColorAsync(ap.list.audios[index].cover, function(color) {
+        ap.theme(`rgb(${color[0]}, ${color[1]}, ${color[2]})`, index);
+      });
+    }
+  };
+  setTheme(ap.list.index);
+  ap.on('listswitch', (data) => {
+    setTheme(data.index);
+  });
+</script> 
+<h3 id="最新MV-少女"><a href="#最新MV-少女" class="headerlink" title="最新MV:少女"></a>最新MV:少女</h3><div id="dplayer0" class="dplayer hexo-tag-dplayer-mark" style="margin-bottom: 20px;"></div><script>(function(){var player = new DPlayer({"container":document.getElementById("dplayer0"),"theme":"#FADFA3","loop":true,"video":{"url":"https://cloud.video.taobao.com/play/u/1748679248/p/2/e/6/t/1/237132697247.mp4","pic":"https://pic.xiami.net/images/album/img71/179/5d89ecabd02c9_8994171_1569320107.png?x-oss-process=image/resize,limit_0,s_390,m_fill/quality,q_80"}});window.dplayers||(window.dplayers=[]);window.dplayers.push(player);})()</script>
+
+        </section>
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>   
+	</div>
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/z16.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
