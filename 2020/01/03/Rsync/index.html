@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Rsync同步 | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/music">Music</a>
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/music">Music</a>
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Rsync同步</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 3, 2020&nbsp;&nbsp;10:30:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/nmk/">nmk</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="一、Rsync简介"><a href="#一、Rsync简介" class="headerlink" title="一、Rsync简介"></a>一、Rsync简介</h3><p>1、认识</p>
+<p>Rsync（remote synchronize）是一个远程数据同步工具，可通过LAN/WAN快速同步多台主机间的文件。Rsync使用所谓的“Rsync算法”来使本地和远 程两个主机之间的文件达到同步，这个算法只传送两个文件的不同部分，而不是每次都整份传送，因此速度相当快</p>
+<p>2、原理</p>
+<p>Rsync本来是用于替代rcp的一个工具，目前由rsync.samba.org维护，所以rsync.conf文件的格式类似于samba的主配 置文件；Rsync可以通过rsh或ssh使用，也能以daemon模式去运行</p>
+<p>在以daemon方式运行时Rsync server会打开一个873 端口，等待客户端去连接。连接时，Rsync server会检查口令是否相符，若通过口令查核，则可以开始进行文件传输。第一次连通完成时，会把整份文件传输一次，以后则就只需进行增量备份</p>
+<p>3、特点</p>
+<p>1、可以镜像保存整个目录树和文件系统；</p>
+<p>2、可以很容易做到保持原来文件的权限、时间、软硬链接等；</p>
+<p>3、无须特殊权限即可安装；</p>
+<p>4、优化的流程，文件传输效率高；</p>
+<p>5、可以使用rsh、ssh等方式来传输文件，当然也可以通过直接的socket连接；</p>
+<p>6、支持匿名传输</p>
+<h3 id="二、rsync的选项说明。"><a href="#二、rsync的选项说明。" class="headerlink" title="二、rsync的选项说明。"></a>二、rsync的选项说明。</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-v		：显示rsync过程中详细信息。可以使用&quot;-vvvv&quot;获取更详细信息。</span><br><span class="line">-a --archive  	：归档模式，表示递归传输并保持文件属性。等同于&quot;-rtopgDl&quot;。</span><br><span class="line">-r --recursive	：递归到目录中去。</span><br><span class="line">-t --times	：保持mtime属性。强烈建议任何时候都加上&quot;-t&quot;，否则目标文件mtime会设置为系统时间，导致下次更新</span><br><span class="line">-z		：传输时进行压缩提高效率。</span><br></pre></td></tr></table></figure>
+
+<p>最常用的选项组合是”avz”，即压缩和显示部分信息，并以归档模式传输。</p>
+<ul>
+<li><h4 id="linux下使用rsync同步"><a href="#linux下使用rsync同步" class="headerlink" title="linux下使用rsync同步"></a>linux下使用rsync同步</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#新建脚本</span><br><span class="line">touch rsync.sh</span><br><span class="line">#授予执行权限</span><br><span class="line">chmod +x rsync.sh</span><br></pre></td></tr></table></figure>
+
+<p>脚本内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">#安装rsync</span><br><span class="line">yum -y install rsync   </span><br><span class="line"></span><br><span class="line">#修改rsync配置文件</span><br><span class="line">cat &gt;&gt;/etc/rsyncd.conf&lt;&lt;MUL  </span><br><span class="line">uid = root</span><br><span class="line">gid = root</span><br><span class="line">use chroot = no</span><br><span class="line">max connections = 100</span><br><span class="line">address=127.0.0.1</span><br><span class="line">port=8173</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsync.lock</span><br><span class="line">MUL</span><br><span class="line"></span><br><span class="line">#获取本地ip,替换address为本地ip</span><br><span class="line">eth0_ip=`ip addr |grep inet |grep eth0|awk &apos;&#123;print $2&#125;&apos; |awk -F &quot;/&quot; &apos;&#123;print $1&#125;&apos;`</span><br><span class="line">sed  -i  &quot;s/127.0.0.1/$eth0_ip/g&quot;     /etc/rsyncd.conf </span><br><span class="line"></span><br><span class="line">#启动rsync</span><br><span class="line">/usr/bin/rsync --daemon</span><br><span class="line">cat&gt;&gt;/etc/rc.local&lt;&lt;&apos;MUL&apos;</span><br><span class="line">/usr/bin/rsync --daemon</span><br><span class="line">MUL</span><br><span class="line"></span><br><span class="line">#定义密钥fsb_logs供客户端连接</span><br><span class="line">rsync_datalogs=`grep  -rn  &quot;/data/logs&quot;  /etc/rsyncd.conf |wc  -l`</span><br><span class="line">if   [  &quot;$rsync_datalogs&quot; -eq &quot;0&quot;  ] ;then</span><br><span class="line">cat &gt;&gt;/etc/rsyncd.conf&lt;&lt;&apos;MUL&apos;</span><br><span class="line">[fsb_logs]</span><br><span class="line">path = /data/logs/</span><br><span class="line">ignore errors = yes</span><br><span class="line">read only = no</span><br><span class="line">MUL</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="windows下使用rsync同步"><a href="#windows下使用rsync同步" class="headerlink" title="windows下使用rsync同步"></a>windows下使用rsync同步</h4></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2020/01/03/Rsync/">http://nmk0718.github.io/2020/01/03/Rsync/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Rsync/"># Rsync</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/09/30/oracle/">数据库之oracle</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>   
+	</div>
+</footer>
+
+    </div>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/null"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
