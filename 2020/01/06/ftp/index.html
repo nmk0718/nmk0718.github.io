@@ -238,12 +238,16 @@
 <p>  3、设置服务自动启动并启动服务：</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sc config sshd start= auto</span><br><span class="line"></span><br><span class="line">net start sshd</span><br></pre></td></tr></table></figure>
 
-<p>  到此服务安装完毕，默认端口是22，默认用户名密码为Window账户名和密码</p>
+<p>  服务安装完毕，默认端口是22，默认用户名密码为Window账户名和密码</p>
 <p>  配置文件会存放在C:\ProgramData\ssh\</p>
 <p>  主要配置文件为sshd_config</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#此配置指定SFTP连接的根目录,如果默认注释则为windows的用户目录</span><br><span class="line">ChrootDirectory D:\SFTP\</span><br><span class="line"></span><br><span class="line">#密钥访问</span><br><span class="line">PasswordAuthentication yes</span><br><span class="line"></span><br><span class="line">#允许哪些用户访问</span><br><span class="line">AllowUsers  nmk</span><br></pre></td></tr></table></figure>
 
 <p>  具体可参考sshd_config配置,此处只列举使用到的一部分</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#window下SFTP目录配置</span><br><span class="line">创建用户&gt;管理用户&gt;隶属于的组&gt;删除users</span><br><span class="line">右键D:\SFTP目录&gt;权限&gt;高级&gt;禁用继承</span><br><span class="line">只给nmk用户读写D:\SFTP文件夹权限</span><br><span class="line">这样用户就访问不到系统目录,可能访问D:/SFTP目录了</span><br></pre></td></tr></table></figure>
+
+
+
 
         </div>
 
