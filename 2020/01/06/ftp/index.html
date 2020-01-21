@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -38,7 +39,7 @@
     
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 <body>
     <div class="wrapper">
         <header>
@@ -46,8 +47,6 @@
         <div class="container">
             <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
             <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/music">Music</a>
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
@@ -74,8 +73,6 @@
                 <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
             </div>
             <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/music">Music</a>
                 
                     <a class="menu-item" href="/archives">Posts</a>
                 
@@ -198,7 +195,7 @@
         </header>
 
         <div class="post-content">
-            <h3 id="一、linux"><a href="#一、linux" class="headerlink" title="一、linux"></a>一、linux</h3><ul>
+            <link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="一、linux"><a href="#一、linux" class="headerlink" title="一、linux"></a>一、linux</h3><ul>
 <li><h4 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yum install vsftpd -y</span><br><span class="line"></span><br><span class="line">touch ftp.sh</span><br><span class="line"></span><br><span class="line">chmod +x ftp.sh</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">name=nmk</span><br><span class="line"></span><br><span class="line">filePath=/sftp/$name</span><br><span class="line">lnPath=/files/sftp/$name</span><br><span class="line"></span><br><span class="line">#groupadd sftp</span><br><span class="line"></span><br><span class="line">echo create $name ....</span><br><span class="line"></span><br><span class="line">useradd -g sftp -s /sbin/nologin -M $name</span><br><span class="line">usermod -d $filePath $name</span><br><span class="line"></span><br><span class="line">#mkdir $filePath</span><br><span class="line"></span><br><span class="line">mkdir $lnPath</span><br><span class="line">mkdir $lnPath/cmpay</span><br><span class="line"></span><br><span class="line">ln -s $lnPath /sftp</span><br><span class="line"></span><br><span class="line">chown root:root  $filePath      </span><br><span class="line">chmod 755 $filePath</span><br><span class="line"></span><br><span class="line">chown $name:sftp  $lnPath/cmpay  </span><br><span class="line">chmod 755 $lnPath/cmpay</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;password&quot; | passwd $name --stdin &gt; /dev/null 2&gt;&amp;1</span><br><span class="line">echo $name &gt;&gt; /etc/vsftpd/chroot_list</span><br><span class="line"></span><br><span class="line">service vsftpd restart</span><br><span class="line"></span><br><span class="line">echo create $name success.</span><br></pre></td></tr></table></figure>
@@ -268,7 +265,7 @@
                 
                     <p class="copyright-item">
                         <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
                     </p>
                 
                 
@@ -294,6 +291,8 @@
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/2020/01/08/redis%E5%85%B1%E4%BA%AB/">redis共享</a>
+            
             
             <a class="next" rel="next" href="/2020/01/03/Rsync/">Rsync同步</a>
             
@@ -311,5 +310,5 @@
 </footer>
 
     </div>
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/null"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</body>
 </html>

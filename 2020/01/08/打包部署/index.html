@@ -8,7 +8,7 @@
 
 
 
-<title>redis共享 | K&#39;s Blog</title>
+<title>打包部署 | K&#39;s Blog</title>
 
 
 
@@ -170,7 +170,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">redis共享</h1>
+            <h1 class="post-title">打包部署</h1>
             
                 <div class="post-meta">
                     
@@ -179,7 +179,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2020-1-8&nbsp;&nbsp;12:00:00</a>
+                        Date: <a href="#">2020-1-8&nbsp;&nbsp;12:30:00</a>
                         </span>
                     
                     
@@ -195,14 +195,28 @@
         </header>
 
         <div class="post-content">
-            <link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h3 id="redis共享"><a href="#redis共享" class="headerlink" title="redis共享"></a>redis共享</h3><p>jedis.jar:<a href="https://nmk0718.github.io/redis/jedis.jar">jedis.jar</a></p>
-<p>commons-pool.jar:<a href="https://nmk0718.github.io/redis/commons-pool2-2.4.2.jar">commons-pool.jar</a></p>
-<p>TomcatRedisSessionManager.jar:<a href="https://nmk0718.github.io/redis/TomcatRedisSessionManager-2.0.0.jar">TomcatRedisSessionManager.jar</a></p>
-<p>把三个文件放入tomcat的lib文件夹下</p>
-<p>修改tomcat/conf/context.xml,在前加入以下代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#请根据实际情况修改</span><br><span class="line">&lt;Valve className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve&quot;/&gt;</span><br><span class="line">&lt;Manager className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionManager&quot; </span><br><span class="line">        host=&quot;127.0.0.1&quot;       </span><br><span class="line">        port=&quot;6379&quot;                 </span><br><span class="line">        password=&quot;nmk@2020&quot;            </span><br><span class="line">        database=&quot;10&quot;                 </span><br><span class="line">        maxInactiveInterval=&quot;60&quot; /&gt;</span><br></pre></td></tr></table></figure>
+            <h3 id="打包命令"><a href="#打包命令" class="headerlink" title="打包命令"></a>打包命令</h3><p>前台js打包  需要:node.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
 
-<p>即可实现redis共享</p>
+<p>普通WEB项目  需要:ant</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ant -buildfile build.xml</span><br><span class="line">#进入项目目录,在有build.xml的目录,使用命令打包</span><br></pre></td></tr></table></figure>
+
+
+<p>maven项目  需要:maven</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">maven clean install -P&#123;profile&#125; -Dmaven.test.skip&#x3D;true</span><br><span class="line">#clean清理本地库 install编译打包可执行的war -P指定多环境参数 -Dmaven.test.skip&#x3D;true 跳过测试</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动命令"><a href="#启动命令" class="headerlink" title="启动命令"></a>启动命令</h3><h5 id="spring项目"><a href="#spring项目" class="headerlink" title="spring项目"></a>spring项目</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java -jar nmk.jar --spring.profiles.active&#x3D;dev</span><br><span class="line">#可在java后配置启动参数 -Xms512m -Xmx1024m 限制项目使用内存</span><br><span class="line">#--spring.profiles.active 指定多环境</span><br><span class="line">#在linux启动请在启动命令最后加&amp; 代表后台运行,如果项目在你断掉连接时挂掉请使用nohup+&amp;</span><br><span class="line">#示例如下:</span><br><span class="line">#nohup java -Xms512m -Xmx1024m -jar nmk.jar --spring.profiles.active&#x3D;prod &gt;&gt; catalina.out 2&gt;&amp;1 &amp;</span><br><span class="line">#指定程序后台,使用prod环境配置运行,最大堆内存为1024M,启动日志输出到catalina.out</span><br></pre></td></tr></table></figure>
+
+<h5 id="tomcat项目"><a href="#tomcat项目" class="headerlink" title="tomcat项目"></a>tomcat项目</h5><ul>
+<li><p>windows下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">把war包或文件夹放入tomcat&#x2F;webapps下,启动tomcat&#x2F;bin目录下的startup.bat</span><br><span class="line">可在catalina.bat开头配置堆内存</span><br><span class="line">set JAVA_OPTS&#x3D;-server -Xms512m -Xmx1024m</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>linux下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">把war包或文件夹放入tomcat&#x2F;webapps下,进入tomcat&#x2F;bin目录下</span><br><span class="line">chmod +x startup.sh #授权执行权限</span><br><span class="line">chmod +x catalina.sh </span><br><span class="line">.&#x2F;startup.sh 或sh startup.sh启动tomcat</span><br><span class="line">可在catalina.sh开头配置堆内存</span><br><span class="line">JAVA_OPTS&#x3D;&quot;-Xms512m -Xmx1024m&quot;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>*项目环境必须有安装JDK</p>
 
         </div>
 
@@ -217,7 +231,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2020/01/08/redis%E5%85%B1%E4%BA%AB/">http://nmk0718.github.io/2020/01/08/redis%E5%85%B1%E4%BA%AB/</a></span>
+                        <span><a href="http://nmk0718.github.io/2020/01/08/%E6%89%93%E5%8C%85%E9%83%A8%E7%BD%B2/">http://nmk0718.github.io/2020/01/08/%E6%89%93%E5%8C%85%E9%83%A8%E7%BD%B2/</a></span>
                     </p>
                 
                 
@@ -236,7 +250,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tag/redis/"># redis</a>
+                        <a href="/tag/%E6%89%93%E5%8C%85/"># 打包</a>
                     
                         
                 </span>
@@ -249,10 +263,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/01/08/%E6%89%93%E5%8C%85%E9%83%A8%E7%BD%B2/">打包部署</a>
+                <a class="prev" rel="prev" href="/2020/01/21/%E8%BF%9B%E7%A8%8B/">进程</a>
             
             
-            <a class="next" rel="next" href="/2020/01/06/ftp/">FTP</a>
+            <a class="next" rel="next" href="/2020/01/08/redis%E5%85%B1%E4%BA%AB/">redis共享</a>
             
         </section>
 
