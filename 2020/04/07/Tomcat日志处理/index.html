@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>subversion | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">subversion</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-4-7&nbsp;&nbsp;23:30:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/deployment/">deployment</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="Tomcat日志处理"><a href="#Tomcat日志处理" class="headerlink" title="Tomcat日志处理"></a>Tomcat日志处理</h3><h4 id="tomcat使用log4j分割"><a href="#tomcat使用log4j分割" class="headerlink" title="tomcat使用log4j分割"></a>tomcat使用log4j分割</h4><p><a href="https://tomcat.apache.org/tomcat-8.0-doc/logging.html" target="_blank" rel="noopener">官方文档</a></p>
+<p>下载<a href="https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.53/bin/extras/tomcat-juli-adapters.jar" target="_blank" rel="noopener">tomcat-juli-adapters.jar</a>和<a href="https://archive.apache.org/dist/tomcat/tomcat-8/v8.0.53/bin/extras/tomcat-juli-adapters.jar" target="_blank" rel="noopener">tomcat-juli.jar</a> 和<a href="https://mvnrepository.com/artifact/log4j/log4j" target="_blank" rel="noopener">log4j.jar</a></p>
+<p>将tomcat-juli-adapters.jar和log4j.jar拷贝到 tomcat目录\lib下</p>
+<p>将tomcat-juli.jar放到 tomcat目录\bin下</p>
+<p>删除tomcat/conf下的logging.properties</p>
+<p>在tomcat/lib下创建log4j.properties文件(多节点情况下请把${catalina.base}改为实际的tomcat目录)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">log4j.rootLogger &#x3D; INFO, CATALINA</span><br><span class="line"> </span><br><span class="line"># Define all the appenders</span><br><span class="line">#log4j.appender.CATALINA &#x3D; org.apache.log4j.DailyRollingFileAppender</span><br><span class="line">log4j.appender.CATALINA &#x3D; org.apache.log4j.RollingFileAppender</span><br><span class="line">log4j.appender.CATALINA.File &#x3D; $&#123;catalina.base&#125;&#x2F;logs&#x2F;catalina.out</span><br><span class="line">log4j.appender.CATALINA.Append &#x3D; true</span><br><span class="line">log4j.appender.RollingFile.ImmediateFlush&#x3D;true</span><br><span class="line">log4j.appender.CATALINA.Encoding &#x3D; UTF-8</span><br><span class="line"># Roll-over the log once per day</span><br><span class="line">#log4j.appender.CATALINA.DatePattern &#x3D; &#39;.&#39;yyyy-MM-dd&#39;.log&#39;</span><br><span class="line">log4j.appender.CATALINA.MaxFileSize&#x3D;1MB</span><br><span class="line">log4j.appender.CATALINA.MaxBackupIndex&#x3D;10</span><br><span class="line">log4j.appender.CATALINA.layout &#x3D; org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.CATALINA.layout.ConversionPattern &#x3D; %d [%t] %-5p %c- %m%n</span><br><span class="line"> </span><br><span class="line">log4j.appender.LOCALHOST &#x3D; org.apache.log4j.DailyRollingFileAppender</span><br><span class="line">log4j.appender.LOCALHOST.File &#x3D; $&#123;catalina.base&#125;&#x2F;logs&#x2F;localhost</span><br><span class="line">log4j.appender.LOCALHOST.Append &#x3D; true</span><br><span class="line">log4j.appender.LOCALHOST.Encoding &#x3D; UTF-8</span><br><span class="line">log4j.appender.LOCALHOST.DatePattern &#x3D; &#39;.&#39;yyyy-MM-dd&#39;.log&#39;</span><br><span class="line">log4j.appender.LOCALHOST.layout &#x3D; org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.LOCALHOST.layout.ConversionPattern &#x3D; %d [%t] %-5p %c- %m%n</span><br><span class="line"> </span><br><span class="line">log4j.appender.MANAGER &#x3D; org.apache.log4j.DailyRollingFileAppender</span><br><span class="line">log4j.appender.MANAGER.File &#x3D; $&#123;catalina.base&#125;&#x2F;logs&#x2F;manager</span><br><span class="line">log4j.appender.MANAGER.Append &#x3D; true</span><br><span class="line">log4j.appender.MANAGER.Encoding &#x3D; UTF-8</span><br><span class="line">log4j.appender.MANAGER.DatePattern &#x3D; &#39;.&#39;yyyy-MM-dd&#39;.log&#39;</span><br><span class="line">log4j.appender.MANAGER.layout &#x3D; org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.MANAGER.layout.ConversionPattern &#x3D; %d [%t] %-5p %c- %m%n</span><br><span class="line"> </span><br><span class="line">log4j.appender.HOST-MANAGER &#x3D; org.apache.log4j.DailyRollingFileAppender</span><br><span class="line">log4j.appender.HOST-MANAGER.File &#x3D; $&#123;catalina.base&#125;&#x2F;logs&#x2F;host-manager</span><br><span class="line">log4j.appender.HOST-MANAGER.Append &#x3D; true</span><br><span class="line">log4j.appender.HOST-MANAGER.Encoding &#x3D; UTF-8</span><br><span class="line">log4j.appender.HOST-MANAGER.DatePattern &#x3D; &#39;.&#39;yyyy-MM-dd&#39;.log&#39;</span><br><span class="line">log4j.appender.HOST-MANAGER.layout &#x3D; org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.HOST-MANAGER.layout.ConversionPattern &#x3D; %d [%t] %-5p %c- %m%n</span><br><span class="line"> </span><br><span class="line">log4j.appender.CONSOLE &#x3D; org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.CONSOLE.Encoding &#x3D; UTF-8</span><br><span class="line">log4j.appender.CONSOLE.layout &#x3D; org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.CONSOLE.layout.ConversionPattern &#x3D; %d [%t] %-5p %c- %m%n</span><br><span class="line"> </span><br><span class="line"># Configure which loggers log to which appenders</span><br><span class="line">log4j.logger.org.apache.catalina.core.ContainerBase.[Catalina].[localhost] &#x3D; DEBUG, LOCALHOST</span><br><span class="line">log4j.logger.org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[&#x2F;manager] &#x3D; DEBUG, MANAGER</span><br><span class="line">log4j.logger.org.apache.catalina.core.ContainerBase.[Catalina].[localhost].[&#x2F;host-manager] &#x3D; DEBUG, HOST-MANAGER</span><br><span class="line">log4j.logger.org.apache.catalina.core &#x3D; DEBUG</span><br><span class="line">log4j.logger.org.apache.catalina.session &#x3D; DEBUG</span><br></pre></td></tr></table></figure>
+
+<p>注释掉catalina.sh的自动生成catalina.out</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if [ -z &quot;$CATALINA_OUT&quot; ] ; then</span><br><span class="line">  #CATALINA_OUT&#x3D;&quot;$CATALINA_BASE&quot;&#x2F;logs&#x2F;catalina.out</span><br><span class="line">  CATALINA_OUT&#x3D;&#x2F;dev&#x2F;null</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h4 id="Tomcat使用定时任务分割"><a href="#Tomcat使用定时任务分割" class="headerlink" title="Tomcat使用定时任务分割"></a>Tomcat使用定时任务分割</h4><p>编写shell脚本,放在tomcat/bin下,在cron中自动执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">cd  &#96;dirname $0&#96;</span><br><span class="line">d&#x3D;&#96;date +%Y%m%d&#96;</span><br><span class="line">d7&#x3D;&#96;date -d&#39;7 day ago&#39; +%Y%m%d&#96;</span><br><span class="line"></span><br><span class="line">cd  ..&#x2F;logs&#x2F;</span><br><span class="line"></span><br><span class="line">cp catalina.out catalina.out.$&#123;d&#125;</span><br><span class="line">echo &quot;&quot; &gt; catalina.out </span><br><span class="line">rm -rf catalina.out.$&#123;d7&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2020/04/07/Tomcat%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/">http://nmk0718.github.io/2020/04/07/Tomcat%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/tomcat/"># tomcat</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/04/02/easyimage/">easyimage</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>

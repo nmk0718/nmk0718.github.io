@@ -200,6 +200,16 @@
 
 </li>
 </ul>
+<details>
+<summary>SVN拓展</summary><pre>
+yum  install httpd httpd-devel mod_dav_svn（svn的一个模块）
+
+<p>vim /etc/httd/conf/httpd.conf</p>
+<p>找到ServerName并修改成  ServerName localhost:80</p>
+<p>查看测试是否安装svn模块</p>
+<p>ls /etc/httpd/modules/ | grep svn</p>
+<p>find / -name *subversion.conf          #查询subversion文件的路径</p>
+<p>vim   /etc/httpd/conf.modules.d/10-subversion.conf<br></pre></details></p>
 
         </div>
 
