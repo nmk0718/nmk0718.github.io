@@ -8,7 +8,7 @@
 
 
 
-<title>nexus | K&#39;s Blog</title>
+<title>mac读写nfts磁盘 | K&#39;s Blog</title>
 
 
 
@@ -170,7 +170,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">nexus</h1>
+            <h1 class="post-title">mac读写nfts磁盘</h1>
             
                 <div class="post-meta">
                     
@@ -179,14 +179,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2020-4-14&nbsp;&nbsp;22:30:00</a>
+                        Date: <a href="#">2020-5-21&nbsp;&nbsp;22:20:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/category/tools/">tools</a>
+                                <a href="/category/OS/">OS</a>
                             
                         </span>
                     
@@ -195,20 +195,26 @@
         </header>
 
         <div class="post-content">
-            <h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>官方下载地址:<a href="https://help.sonatype.com/repomanager3/download/download-archives---repository-manager-3" target="_blank" rel="noopener">https://help.sonatype.com/repomanager3/download/download-archives---repository-manager-3</a></p>
-<p>下载会很慢,请使用vpn下载</p>
-<p>使用CRT或Xshell工具上传到服务器:/usr/local/nexus目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf nexus-3.15.2-01-unix.tar.gz</span><br></pre></td></tr></table></figure>
+            <p>Mac写入Windows(NTFS)</p>
+<h4 id="第一步：查看磁盘设备文件名"><a href="#第一步：查看磁盘设备文件名" class="headerlink" title="第一步：查看磁盘设备文件名"></a>第一步：查看磁盘设备文件名</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diskutil list</span><br></pre></td></tr></table></figure>
 
-<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><p>可以在nexus-default.properties文件中（位于/nexus-3.9.0-01/etc/目录下）修改WEB访问端口等信息，默认为8081端口；防火墙放行8081端口；</p>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;nexus run &amp;</span><br></pre></td></tr></table></figure>
+<p>![image-20200511001716133](/Users/uniquek/Library/Application Support/typora-user-images/image-20200511001716133.png)</p>
+<p>可以看到移动硬盘被挂载了disk2的位置上，其中Windows磁盘<strong>设备文件名</strong>为<strong>disk2s1</strong></p>
+<h4 id="第二步：新建挂载点"><a href="#第二步：新建挂载点" class="headerlink" title="第二步：新建挂载点"></a>第二步：新建挂载点</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~&#x2F;Desktop&#x2F;Windows</span><br></pre></td></tr></table></figure>
 
-<h3 id="检验是否安装成功"><a href="#检验是否安装成功" class="headerlink" title="检验是否安装成功"></a>检验是否安装成功</h3><p>打开浏览器，访问：<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fip" target="_blank" rel="noopener">http://ip</a>地址:8081/<br>默认用户名 admin 默认密码 admin123</p>
-<h3 id="仓库迁移"><a href="#仓库迁移" class="headerlink" title="仓库迁移"></a>仓库迁移</h3><p>Nexus的构件仓库都保存在sonatype-work目录中，该目录的位置由bin/nexus.vmoptions配置文件指定（Dkaraf.data）。<br>仓库迁移需要两个过程：备份和还原</p>
-<p>备份仓库</p>
-<p>将sonatype-work文件夹整体备份即可。</p>
-<p>还原仓库</p>
-<p>将备份好的sonatype-work文件拷贝到新的服务器中。然后修改bin/nexus.vmoptions配置文件，重新指定仓库的目录。</p>
+<h4 id="第三步：推出磁盘（重新挂载）"><a href="#第三步：推出磁盘（重新挂载）" class="headerlink" title="第三步：推出磁盘（重新挂载）"></a>第三步：推出磁盘（重新挂载）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo umount &#x2F;dev&#x2F;disk2s1</span><br></pre></td></tr></table></figure>
+
+<h4 id="第四步：重新挂载"><a href="#第四步：重新挂载" class="headerlink" title="第四步：重新挂载"></a>第四步：重新挂载</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount_ntfs -o rw,nobrowse &#x2F;dev&#x2F;disk2s1 ~&#x2F;Desktop&#x2F;Windows</span><br></pre></td></tr></table></figure>
+
+<p>磁盘可以正常读写了！！！</p>
+<p>或者</p>
+<p>更新fstab文件，此步骤需要输入密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano &#x2F;etc&#x2F;fstab</span><br></pre></td></tr></table></figure>
+
+<p>在fstab文件中写入一下内容(movie替换为你自己的Volume Name，建议用英文命名)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LABEL&#x3D;K none ntfs rw,auto,nobrowse</span><br></pre></td></tr></table></figure>
+
+<p>CTRL + X保存，选择 Y，然后按回车键。</p>
 
         </div>
 
@@ -223,7 +229,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2020/04/14/Nexus/">http://nmk0718.github.io/2020/04/14/Nexus/</a></span>
+                        <span><a href="http://nmk0718.github.io/2020/05/21/Mac%E5%86%99%E5%85%A5Windows%E6%A0%BC%E5%BC%8F(NTFS)%E7%A3%81%E7%9B%98%E9%97%AE%E9%A2%98/">http://nmk0718.github.io/2020/05/21/Mac%E5%86%99%E5%85%A5Windows%E6%A0%BC%E5%BC%8F(NTFS)%E7%A3%81%E7%9B%98%E9%97%AE%E9%A2%98/</a></span>
                     </p>
                 
                 
@@ -242,7 +248,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tag/nexus/"># nexus</a>
+                        <a href="/tag/macOS/"># macOS</a>
                     
                         
                 </span>
@@ -255,10 +261,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/05/21/zookeeper/">zookeeper</a>
+                <a class="prev" rel="prev" href="/2020/05/21/https%E4%B8%A2%E5%A4%B1/">https转发时丢失</a>
             
             
-            <a class="next" rel="next" href="/2020/04/09/mysql/">mysql</a>
+            <a class="next" rel="next" href="/2020/05/21/zookeeper/">zookeeper</a>
             
         </section>
 

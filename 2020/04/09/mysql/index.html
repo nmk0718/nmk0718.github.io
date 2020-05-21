@@ -308,6 +308,30 @@
 <p>进入mysql,查看binlog日志的状态</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;  show variables like &#39;%log_bin%&#39;;</span><br><span class="line">+---------------------------------+--------------------------------+</span><br><span class="line">| Variable_name                   | Value                          |</span><br><span class="line">+---------------------------------+--------------------------------+</span><br><span class="line">| log_bin                         | ON                             |</span><br><span class="line">| log_bin_basename                | &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql-bin       |</span><br><span class="line">| log_bin_index                   | &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;mysql-bin.index |</span><br><span class="line">| log_bin_trust_function_creators | OFF                            |</span><br><span class="line">| log_bin_use_v1_row_events       | OFF                            |</span><br><span class="line">| sql_log_bin                     | ON                             |</span><br><span class="line">+---------------------------------+--------------------------------+</span><br><span class="line">6 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
 
+<p><strong>MySQL数据库 Too many connections</strong><br>从官方文档知道Linux上面编译安装的mysql默认的连接为100个</p>
+<p>文档：<a href="http://dev.mysql.com/doc/refman/5.0/en/too-many-connections.html" target="_blank" rel="noopener">http://dev.mysql.com/doc/refman/5.0/en/too-many-connections.html</a></p>
+<p>mysql官方告诉我们需要修改max_connections的值,那么我们怎么去修改呢？有两种方法</p>
+<p><strong>1、修改配置文件文件</strong></p>
+<p>修改/etc/my.cnf这个文件，在[mysqld] 中新增max_connections=N，如果你没有这个文件请从编译源码中的support-files文件夹中复制你所需要的*.cnf文件为到 /etc/my.cnf。我使用的是my-medium.cnf,中型服务器配置。例如我的[mysqld]的内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]&#96; &#96;port &#x3D; 3306&#96; &#96;socket &#x3D; &#96;&#96;&#x2F;tmp&#x2F;mysql&#96;&#96;.sock&#96; &#96;skip-locking&#96; &#96;key_buffer &#x3D; 160M&#96; &#96;max_allowed_packet &#x3D; 1M&#96; &#96;table_cache &#x3D; 64&#96; &#96;sort_buffer_size &#x3D; 512K&#96; &#96;net_buffer_length &#x3D; 8K&#96; &#96;read_buffer_size &#x3D; 256K&#96; &#96;read_rnd_buffer_size &#x3D; 512K&#96; &#96;myisam_sort_buffer_size &#x3D; 8M&#96; &#96;max_connections&#x3D;1000</span><br></pre></td></tr></table></figure>
+
+<p>由于对mysql还不是很熟悉，所以很多参数没有修改。哈哈。。</p>
+<p><strong>2、非使用mysqld脚本自动启动的用户。</strong></p>
+<p>修改MYSQLHOME/bin/mysqldsafe文件例如：/usr/local/mysql/bin/mysqldsafe这个文件grep−n‘maxconnection′</p>
+<p>MYSQLHOME/bin/mysqldsafe文件例如：/usr/local/mysql/bin/mysqldsafe这个文件grep−n‘maxconnection′MYSQL_HOME/bin/mysqld_safe</p>
+<p>修改对应行号的max_connections参数值</p>
+<p><strong>3、服务器登录mysql ： mysql -u root -p</strong></p>
+<p>百分之九十进不去，进不去的执行重启命令 ：/etc/init.d/mysql restart（centos系统）</p>
+<p>此时重启mysql就能连接mysql了，如果还有时间，可以继续下一步，治病要治本</p>
+<p>打开配置文件 添加一下配置 vi /etc/my.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wait_timeout &#x3D; 600&#96; &#96;interactive_timeout &#x3D; 600</span><br></pre></td></tr></table></figure>
+
+<p>再次重启mysql即可</p>
+<p><strong>原理解答</strong></p>
+<p>mysql 默认100 连接数，超过则连不上，实际工作的连接数远远没有100，大部分在sleep</p>
+<p>所以要么增大连接数，要么杀掉无用连接，推荐后者。</p>
+<p>使用Navicat工具连接&gt;服务器监控&gt;查看进程数,杀掉进程数到100以内即可</p>
+
         </div>
 
         
