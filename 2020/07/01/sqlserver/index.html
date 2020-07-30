@@ -8,7 +8,7 @@
 
 
 
-<title>nexus | K&#39;s Blog</title>
+<title>sqlserver | K&#39;s Blog</title>
 
 
 
@@ -170,7 +170,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">nexus</h1>
+            <h1 class="post-title">sqlserver</h1>
             
                 <div class="post-meta">
                     
@@ -179,36 +179,32 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2020-4-14&nbsp;&nbsp;22:30:00</a>
+                        Date: <a href="#">2020-7-1&nbsp;&nbsp;22:16:49</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/category/tools/">tools</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>官方下载地址:<a href="https://help.sonatype.com/repomanager3/download/download-archives---repository-manager-3" target="_blank" rel="noopener">https://help.sonatype.com/repomanager3/download/download-archives---repository-manager-3</a></p>
-<p>下载会很慢,请使用vpn下载</p>
-<p>使用CRT或Xshell工具上传到服务器:/usr/local/nexus目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf nexus-3.15.2-01-unix.tar.gz</span><br></pre></td></tr></table></figure>
+            <h3 id="windows任务计划定时备份sqlserver数据库"><a href="#windows任务计划定时备份sqlserver数据库" class="headerlink" title="windows任务计划定时备份sqlserver数据库"></a>windows任务计划定时备份sqlserver数据库</h3><p>一、在E盘下新建文件夹DBbackup，在DBbackup下创建一个sql的备份脚本，文件命名为dbback.sql</p>
+<p>sql脚本如下:(DBname就是你所需要备份的数据库名)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GO</span><br><span class="line"></span><br><span class="line">DECLARE</span><br><span class="line"></span><br><span class="line">@backuptime varchar(20)</span><br><span class="line"></span><br><span class="line">DECLARE</span><br><span class="line"></span><br><span class="line">@filename varchar(100)</span><br><span class="line"></span><br><span class="line">select @backuptime&#x3D;(convert(varchar(8),getdate(),112)+replace(convert(varchar(5),getdate(),114),&#39;:&#39;,&#39; &#39;))</span><br><span class="line"></span><br><span class="line">select @filename&#x3D;&#39;E:\DBbackup\db_&#39;+@backuptime+&#39;.bak&#39;</span><br><span class="line"></span><br><span class="line">backup database DBname to disk&#x3D;@filename</span><br></pre></td></tr></table></figure>
 
-<h3 id="修改配置"><a href="#修改配置" class="headerlink" title="修改配置"></a>修改配置</h3><p>可以在nexus-default.properties文件中（位于/nexus-3.9.0-01/etc/目录下）修改WEB访问端口等信息，默认为8081端口；防火墙放行8081端口；</p>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;nexus run &amp;</span><br></pre></td></tr></table></figure>
+<p>二、   写一个批处理文件执行sql语句：</p>
+<p>例如：backup_database.bat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.bat文件内容为：sqlcmd -S . -i E:\DBbackup\dbback.sql</span><br></pre></td></tr></table></figure>
 
-<h3 id="检验是否安装成功"><a href="#检验是否安装成功" class="headerlink" title="检验是否安装成功"></a>检验是否安装成功</h3><p>打开浏览器，访问：<a href="http://localhost:8081/" target="_blank" rel="noopener">http://localhost:8081/</a><br>默认用户名 admin 默认密码 admin123</p>
-<h3 id="仓库迁移"><a href="#仓库迁移" class="headerlink" title="仓库迁移"></a>仓库迁移</h3><p>Nexus的构件仓库都保存在sonatype-work目录中，该目录的位置由bin/nexus.vmoptions配置文件指定（Dkaraf.data）。<br>仓库迁移需要两个过程：备份和还原</p>
-<p>备份仓库</p>
-<p>将sonatype-work文件夹整体备份即可。</p>
-<p>还原仓库</p>
-<p>将备份好的sonatype-work文件拷贝到新的服务器中。然后修改bin/nexus.vmoptions配置文件，重新指定仓库的目录。</p>
+<p>.bat文件内的语句可以在cmd控制台执行测试是否正确；</p>
+<p>可以使用winrar加入环境变量进行压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set date_str&#x3D;%date:~,4%%date:~5,2%%date:~8,2%</span><br><span class="line">set time_hh&#x3D;%time:~0,2%</span><br><span class="line">if &#x2F;i %time_hh% LSS 10 (set time_hh&#x3D;0%time:~1,1%)</span><br><span class="line">set data_time_str&#x3D;%date:~,4%%date:~5,2%%date:~8,2%_%time_hh%%time:~3,2%%time:~6,2%</span><br><span class="line">rar a db_%data_time_str%.rar -m5 -s -r *.bak</span><br></pre></td></tr></table></figure>
+
+<p>三、   在windows-控制面板-管理工具下，打开任务计划，创建基本任务，输入任务名称描述、设置备份时间、选择启动程序。需要注意的是在起始于选项里输入程序执行路径，完成。</p>
+<img src="\image\bat.png" alt="bat" style="zoom: 50%;" />
+
+<p>删除大于7天的备份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">delete.bat</span><br><span class="line"></span><br><span class="line">@echo off&amp;setlocal enabledelayedexpansion</span><br><span class="line">pushd E:\DBbackup</span><br><span class="line">set n&#x3D;0</span><br><span class="line">for &#x2F;f &quot;delims&#x3D;&quot; %%a in (&#39;dir &#x2F;a-d-h &#x2F;b &#x2F;o-d shop_lepeng*.rar&#39;) do (</span><br><span class="line">if !n! geq 7  del &quot;%%~a&quot;</span><br><span class="line">set &#x2F;a n+&#x3D;1 </span><br><span class="line">)</span><br><span class="line">popd</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -223,7 +219,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2020/04/14/Nexus/">http://nmk0718.github.io/2020/04/14/Nexus/</a></span>
+                        <span><a href="http://nmk0718.github.io/2020/07/01/sqlserver/">http://nmk0718.github.io/2020/07/01/sqlserver/</a></span>
                     </p>
                 
                 
@@ -241,10 +237,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tag/nexus/"># nexus</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -255,10 +247,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/05/21/Mac%E5%86%99%E5%85%A5Windows%E6%A0%BC%E5%BC%8F(NTFS)%E7%A3%81%E7%9B%98%E9%97%AE%E9%A2%98/">mac读写nfts磁盘</a>
+                <a class="prev" rel="prev" href="/2020/07/01/Rocketchat/">Rocketchat</a>
             
             
-            <a class="next" rel="next" href="/2020/04/09/mysql/">mysql</a>
+            <a class="next" rel="next" href="/2020/07/01/lftp/">lftp</a>
             
         </section>
 
