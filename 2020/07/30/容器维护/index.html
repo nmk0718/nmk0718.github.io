@@ -199,40 +199,40 @@
 <p>图中有三个集群,集群区域为华北2 状态运行中,节点数为每个集群的worker数.<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0e9d826971d.png" alt=""></p>
 <details>
 <summary>集群扩容</summary>
-选择 更多>集群扩容 来为集群扩容节点
-也可选择 更多>添加已有节点 来扩容(把ecs添加到集群)
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0e9e447e472.png)
-选择 专有网络和交换机 付费方式
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0e9ecc9358f.png)
-选择扩容节点数和规格(规格>内存型>ecs.r5.xlarge)  设置密码提交即可
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0ea01d29a2e.png)</details>
+选择 更多>集群扩容 来为集群扩容节点<br>
+也可选择 更多>添加已有节点 来扩容(把ecs添加到集群)<br>
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0e9e447e472.png" alt=""><br>
+选择 专有网络和交换机 付费方式<br>
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0e9ecc9358f.png" alt=""><br>
+选择扩容节点数和规格(规格>内存型>ecs.r5.xlarge)  设置密码提交即可<br>
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-15/5f0ea01d29a2e.png" alt=""></details>
 
 <h4 id="节点详情"><a href="#节点详情" class="headerlink" title="节点详情"></a>节点详情</h4><p>图中test集群有两个worker节点,可查看对应的ip地址 计费方式 内存大小 到期时间 内存CPU使用<br>如需更细微的监控,请点击右边的监控可查看负载网络等情况<br>移除worker节点：更多&gt;移除 即可,如需批量移除,请勾选worker节点的选项,点击批量移除即可<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fb71a27871.png" alt=""></p>
 <h4 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h4><p>可查看应用数量,容器数量显示应用的节点数和状态<br>🌰举例:1/1代表1个节点启动成功.0/1代表1个节点但启动失败.1/2代表2个节点但只有一个启动成功<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fb998b34c9.png" alt=""></p>
 <details>
   <summary>💁🏻<font color="blue">详情</font></summary>
-查看应用名称,应用的来源(镜像仓库地址),应用的状态,pod的ip,pod所在worker的ip 创建时间![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbb19e1c65.png)
+查看应用名称,应用的来源(镜像仓库地址),应用的状态,pod的ip,pod所在worker的ip 创建时间<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbb19e1c65.png" alt="">
 🔎<font color="blue">详情</font>
 查看该应用所在pod的资源情况
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbc63e18cb.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbc63e18cb.png" alt="">
 📋<font color="blue">日志</font>
 选择显示的行数,是否自动刷新日志,可下载日志文件
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbcb40601f.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbcb40601f.png" alt="">
 ⚙️<font color="blue">更多</font>
 编辑可查看该应用的yaml文件 终端可连接到pod里进行操作 删除可删除当前的pod,但会自动再创建一个
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbd389d876.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbd389d876.png" alt="">
 🚪访问方式
 可查看和编辑 服务代表pod对外映射的端口 路由代表进来的域名地址转发到pod里的应用地址
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbfd4236f2.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbfd4236f2.png" alt="">
 🎛容器水平伸缩器
 可按照规则进行自动的扩容和减少节点数 最小副本决定该应用的最小节点数
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbfe8106a7.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fbfe8106a7.png" alt="">
 📷历史版本
 出现问题时可使用进行回滚(运维配置该回滚有点问题,请勿使用)
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc088499a1.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc088499a1.png" alt="">
 🧭触发器
 与容器镜像服务的触发器相对应,检测到镜像变化则更新应用
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc154cd697.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc154cd697.png" alt="">
 </details>
 
 
@@ -243,30 +243,30 @@
 **总是拉取镜像**: 当出现删除或扩容时拉取镜像
 **所需资源**: 定义的pod内存和cpu
 **资源限制**: pod共享的内存和cpu (此为pod的最大内存和cpu值)
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc613da038.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc613da038.png" alt="">
 存活检查
 就绪检查
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc70509928.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc70509928.png" alt="">
 挂载目录到worker节点(当pod重启时,对应目录的数据会保留)
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc7d588040.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc7d588040.png" alt="">
 </details>
 
 <details>
     <summary>💁🏻<font color="blue">伸缩</font></summary>
 可增加和减少当前应用的节点数(⚠️<font color="red">当配置容器伸缩水平时,当前此配置无效</font>)
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc3fe369c2.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc3fe369c2.png" alt="">
 </details>
 
 <details>
     <summary>💁🏻<font color="blue">监控</font></summary>
 可查看应用所在容器的监控,<font color="red">分组</font>为整个组的资源使用,<font color="red">实例</font>可查看单个节点的资源使用
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc3a3b9692.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc3a3b9692.png" alt="">
 </details>
 
 <details>
     <summary>💁🏻<font color="blue">更多</font></summary>
 可查看yaml文件,重新部署应用,回滚到相应版本,删除应用
-![](http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc33ab80b4.png)
+<img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fc33ab80b4.png" alt="">
 </details>
 
 <h4 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h4><p><strong>名称</strong>: 自定义(应用名即可)<br><strong>关联</strong>: 应用的的无状态名称<br><strong>端口映射</strong>: 需要外放的端口<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-16/5f0fee1759024.png" alt=""></p>
