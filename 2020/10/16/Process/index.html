@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Process | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Process</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-10-16&nbsp;&nbsp;11:35:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/OS/">OS</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><h4 id="windows下杀掉指定应用"><a href="#windows下杀掉指定应用" class="headerlink" title="windows下杀掉指定应用"></a>windows下杀掉指定应用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">taskkill &#x2F;im nginx.exe &#x2F;f</span><br><span class="line">#&#x2F;im  立即  &#x2F;f   强制结束进程</span><br><span class="line">#任务管理器&gt;详细信息&gt;内存&gt;查看应用的pid</span><br></pre></td></tr></table></figure>
+
+<h4 id="windows下杀掉指定端口的进程"><a href="#windows下杀掉指定端口的进程" class="headerlink" title="windows下杀掉指定端口的进程"></a>windows下杀掉指定端口的进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for &#x2F;f &quot;tokens&#x3D;5&quot; %%i in (&#39;netstat -aon ^| findstr &quot;:9091&quot;&#39;) do (set j&#x3D;%%i)</span><br><span class="line">taskkill &#x2F;t &#x2F;f &#x2F;pid %j% </span><br><span class="line">#netstat -aon | findstr &quot;:port&quot; 查找端口对应的pid</span><br><span class="line">#taskkill &#x2F;t &#x2F;f &#x2F;pid 杀掉pid对应的进程</span><br></pre></td></tr></table></figure>
+
+<h4 id="如有遇到删除文件-提示正在被使用"><a href="#如有遇到删除文件-提示正在被使用" class="headerlink" title="如有遇到删除文件,提示正在被使用"></a>如有遇到删除文件,提示正在被使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">任务管理器&gt;性能&gt;打开资源监视器&gt;CPU&gt;关联的句柄</span><br><span class="line">搜索需要删除的文件夹名称或文件名称</span><br></pre></td></tr></table></figure>
+
+<h4 id="如有遇到某进程占用内存过大-并不清楚应用情况下"><a href="#如有遇到某进程占用内存过大-并不清楚应用情况下" class="headerlink" title="如有遇到某进程占用内存过大,并不清楚应用情况下"></a>如有遇到某进程占用内存过大,并不清楚应用情况下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">任务管理器&gt;详细信息&gt;内存&gt;查看应用的pid</span><br><span class="line">任务管理器&gt;&gt;性能&gt;打开资源监视器&gt;概述&gt;磁盘&gt;按pid排序</span><br><span class="line">即可看到pid对应的启动文件和目录</span><br></pre></td></tr></table></figure>
+
+<h4 id="如有遇到使用windows远程-不可复制粘贴情况"><a href="#如有遇到使用windows远程-不可复制粘贴情况" class="headerlink" title="如有遇到使用windows远程,不可复制粘贴情况"></a>如有遇到使用windows远程,不可复制粘贴情况</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">任务管理器&gt;用户&gt;nmk&gt;RDP剪贴板监视程序</span><br><span class="line">结束掉RDP,使用windows+R运行rdpclip.exe即可</span><br></pre></td></tr></table></figure>
+
+<h4 id="如有遇到windows黑屏或任务栏不见等情况"><a href="#如有遇到windows黑屏或任务栏不见等情况" class="headerlink" title="如有遇到windows黑屏或任务栏不见等情况"></a>如有遇到windows黑屏或任务栏不见等情况</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">任务管理器&gt;用户&gt;nmk&gt;windows资源管理器</span><br><span class="line">结束掉windows资源管理器,使用windows+R运行explorer.exe即可</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h3><h4 id="linux下杀掉指定端口进程"><a href="#linux下杀掉指定端口进程" class="headerlink" title="linux下杀掉指定端口进程"></a>linux下杀掉指定端口进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">port&#x3D;48094</span><br><span class="line">#根据端口号查询对应的pid</span><br><span class="line">pid&#x3D;$(netstat -nlp | grep :$port | awk &#39;&#123;print $7&#125;&#39; | awk -F&quot;&#x2F;&quot; &#39;&#123; print $1 &#125;&#39;);</span><br><span class="line"></span><br><span class="line">#杀掉对应的进程，如果pid不存在，则不执行</span><br><span class="line">if [  -n  &quot;$pid&quot;  ];  then</span><br><span class="line">    kill  -9  $pid;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<h4 id="linux查看应用进程"><a href="#linux查看应用进程" class="headerlink" title="linux查看应用进程"></a>linux查看应用进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep java</span><br><span class="line">#grep为过滤 java为启动的应用</span><br><span class="line">#输出结果java后的数字为pid,如需结束,使用kill -9 pid</span><br><span class="line">netstat -lntp</span><br><span class="line">#查看当前应用使用的端口和pid</span><br></pre></td></tr></table></figure>
+
+<h4 id="linux查看文件有多少行"><a href="#linux查看文件有多少行" class="headerlink" title="linux查看文件有多少行"></a>linux查看文件有多少行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wc -l filename		#输出filename的行数</span><br><span class="line">wc -c filename		#输出filename的字节数</span><br><span class="line">wc -m filename		#输出filename的字符数</span><br><span class="line">wc -w filename		#输出filename的字数</span><br></pre></td></tr></table></figure>
+
+<h4 id="linux查找文件"><a href="#linux查找文件" class="headerlink" title="linux查找文件"></a>linux查找文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">在使用linux时，经常需要进行文件查找。其中查找的命令主要有find和grep。两个命令是有区别的。</span><br><span class="line">(1)find命令是根据文件的属性进行查找，如文件名，文件大小，所有者，所属组，是否为空，访问时间，修改时间等。 </span><br><span class="line">(2)grep是根据文件的内容进行查找，会对文件的每一行按照给定的模式(patter)进行匹配查找。</span><br><span class="line"></span><br><span class="line">　　一.find命令</span><br><span class="line"></span><br><span class="line">　　　　基本格式：find  path expression</span><br><span class="line"></span><br><span class="line">　　　　1.按照文件名查找</span><br><span class="line"></span><br><span class="line">　　　　(1)find &#x2F; -name httpd.conf　　#在根目录下查找文件httpd.conf，表示在整个硬盘查找</span><br><span class="line">　　　　(2)find &#x2F;etc -name httpd.conf　　#在&#x2F;etc目录下文件httpd.conf</span><br><span class="line">　　　　(3)find &#x2F;etc -name &#39;*srm*&#39;　　#使用通配符*(0或者任意多个)。表示在&#x2F;etc目录下查找文件名中含有字符串‘srm’的文件</span><br><span class="line">　　　　(4)find . -name &#39;srm*&#39; 　　#表示当前目录下查找文件名开头是字符串‘srm’的文件</span><br><span class="line"></span><br><span class="line">　　　　2.按照文件特征查找 　　　　</span><br><span class="line"></span><br><span class="line">　　　　(1)find &#x2F; -amin -10 　　# 查找在系统中最后10分钟访问的文件(access time)</span><br><span class="line">　　　　(2)find &#x2F; -atime -2　　 # 查找在系统中最后48小时访问的文件</span><br><span class="line">　　　　(3)find &#x2F; -empty 　　# 查找在系统中为空的文件或者文件夹</span><br><span class="line">　　　　(4)find &#x2F; -group cat 　　# 查找在系统中属于 group为cat的文件</span><br><span class="line">　　　　(5)find &#x2F; -mmin -5 　　# 查找在系统中最后5分钟里修改过的文件(modify time)</span><br><span class="line">　　　　(6)find &#x2F; -mtime -1 　　#查找在系统中最后24小时里修改过的文件</span><br><span class="line">　　　　(7)find &#x2F; -user fred 　　#查找在系统中属于fred这个用户的文件</span><br><span class="line">　　　　(8)find &#x2F; -size +10000c　　#查找出大于10000000字节的文件(c:字节，w:双字，k:KB，M:MB，G:GB)</span><br><span class="line">　　　　(9)find &#x2F; -size -1000k 　　#查找出小于1000KB的文件</span><br><span class="line"></span><br><span class="line">　　　　3.使用混合查找方式查找文件</span><br><span class="line"></span><br><span class="line">　　　　参数有： ！，-and(-a)，-or(-o)。</span><br><span class="line"></span><br><span class="line">　　　　(1)find &#x2F;tmp -size +10000c -and -mtime +2 　　#在&#x2F;tmp目录下查找大于10000字节并在最后2分钟内修改的文件</span><br><span class="line">   　　    (2)find &#x2F; -user fred -or -user george 　　#在&#x2F;目录下查找用户是fred或者george的文件文件</span><br><span class="line">   　　    (3)find &#x2F;tmp ! -user panda　　#在&#x2F;tmp目录中查找所有不属于panda用户的文件</span><br><span class="line">    　　  </span><br><span class="line"></span><br><span class="line">　　二、grep命令</span><br><span class="line"></span><br><span class="line">　　　  基本格式：find  expression</span><br><span class="line"></span><br><span class="line"> 　　　 1.主要参数</span><br><span class="line"></span><br><span class="line">　　　　[options]主要参数：</span><br><span class="line">　　　　－c：只输出匹配行的计数。</span><br><span class="line">　　　　－i：不区分大小写</span><br><span class="line">　　　　－h：查询多文件时不显示文件名。</span><br><span class="line">　　　　－l：查询多文件时只输出包含匹配字符的文件名。</span><br><span class="line">　　　　－n：显示匹配行及行号。</span><br><span class="line">　　　　－s：不显示不存在或无匹配文本的错误信息。</span><br><span class="line">　　　　－v：显示不包含匹配文本的所有行。</span><br><span class="line"></span><br><span class="line">　　　　pattern正则表达式主要参数：</span><br><span class="line">　　　　\： 忽略正则表达式中特殊字符的原有含义。</span><br><span class="line">　　　　^：匹配正则表达式的开始行。</span><br><span class="line">　　　　$: 匹配正则表达式的结束行。</span><br><span class="line">　　　　\&lt;：从匹配正则表达 式的行开始。</span><br><span class="line">　　　　\&gt;：到匹配正则表达式的行结束。</span><br><span class="line">　　　　[ ]：单个字符，如[A]即A符合要求 。</span><br><span class="line">　　　　[ - ]：范围，如[A-Z]，即A、B、C一直到Z都符合要求 。</span><br><span class="line">　　　　.：所有的单个字符。</span><br><span class="line"></span><br><span class="line">   * ：有字符，长度可以为0。</span><br><span class="line"></span><br><span class="line">　　　　2.实例　 </span><br><span class="line"></span><br><span class="line">　　(1)grep &#39;test&#39; d*　　#显示所有以d开头的文件中包含 test的行</span><br><span class="line">　　(2)grep ‘test’ aa bb cc 　　 #显示在aa，bb，cc文件中包含test的行</span><br><span class="line">　　(3)grep ‘[a-z]\&#123;5\&#125;’ aa 　　#显示所有包含每行字符串至少有5个连续小写字符的字符串的行</span><br><span class="line">　　(4)grep magic &#x2F;usr&#x2F;src　　#显示&#x2F;usr&#x2F;src目录下的文件(不含子目录)包含magic的行</span><br><span class="line">　　(5)grep -r magic &#x2F;usr&#x2F;src　　#显示&#x2F;usr&#x2F;src目录下的文件(包含子目录)包含magic的行</span><br><span class="line"></span><br><span class="line">　　(6)grep -w pattern files ：只匹配整个单词，而不是字符串的一部分(如匹配’magic’，而不是’magical’)，</span><br><span class="line"></span><br><span class="line">如果你想在当前目录下 查找&quot;hello,world!&quot;字符串,可以这样:</span><br><span class="line"></span><br><span class="line">grep -rn &quot;hello,world!&quot; *</span><br><span class="line"></span><br><span class="line">* : 表示当前目录所有文件，也可以是某个文件名</span><br><span class="line"></span><br><span class="line">-r 是递归查找（如果不加-r表示只查找当前目录，不会递归的查找子目录）</span><br><span class="line"></span><br><span class="line">-n 是显示行号</span><br><span class="line"></span><br><span class="line">-R 查找所有文件包含子目录</span><br><span class="line"></span><br><span class="line">-i 忽略大小写</span><br><span class="line"></span><br><span class="line">下面是一些有意思的命令行参数：</span><br><span class="line"></span><br><span class="line">grep -i pattern files ：不区分大小写地搜索。默认情况区分大小写， </span><br><span class="line"></span><br><span class="line">grep -l pattern files ：只列出匹配的文件名， </span><br><span class="line"></span><br><span class="line">grep -L pattern files ：列出不匹配的文件名， </span><br><span class="line"></span><br><span class="line">grep -w pattern files ：只匹配整个单词，而不是字符串的一部分（如匹配‘magic’，而不是‘magical’）， </span><br><span class="line"></span><br><span class="line">grep -C number pattern files ：匹配的上下文分别显示[number]行， </span><br><span class="line"></span><br><span class="line">grep pattern1 | pattern2 files ：显示匹配 pattern1 或 pattern2 的行， </span><br><span class="line"></span><br><span class="line">grep pattern1 files | grep pattern2 ：显示既匹配 pattern1 又匹配 pattern2 的行。</span><br></pre></td></tr></table></figure>
+<p>查看应用所占内存</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ps -u postgres o pid,rss:8,cmd | awk &#39;NR&gt;1 &#123;A+&#x3D;$2&#125; &#123;print&#125; END&#123;print &quot;Total RSS: &quot; A&#125;&#39;</span><br><span class="line">  PID      RSS CMD</span><br><span class="line"> 3314    47100 &#x2F;usr&#x2F;pgsql-12&#x2F;bin&#x2F;postmaster -D &#x2F;home&#x2F;pgsql12&#x2F;data&#x2F;</span><br><span class="line"> 3318      544 postgres: logger   </span><br><span class="line"> 3320    76952 postgres: checkpointer   </span><br><span class="line"> 3321    57716 postgres: background writer   </span><br><span class="line"> 3322    16980 postgres: walwriter   </span><br><span class="line"> 3323     1664 postgres: autovacuum launcher   </span><br><span class="line"> 3324     1248 postgres: stats collector   </span><br><span class="line"> 3325      920 postgres: logical replication launcher   </span><br><span class="line">34905    23572 postgres: dbuser qiyewechat 192.168.138.1(59622) idle</span><br><span class="line">39446     9936 postgres: dbuser qiyewechat 192.168.138.1(49408) idle</span><br><span class="line">39449    16132 postgres: dbuser qiyewechat 192.168.138.1(49412) idle</span><br><span class="line">42193    32336 postgres: dbuser ymall_test 192.168.138.1(52546) idle</span><br><span class="line">42194    15376 postgres: dbuser ymall_test 192.168.138.1(52547) idle</span><br><span class="line">42996     4492 postgres: dbuser ymall_test 192.168.138.1(54459) idle</span><br><span class="line">43002     8260 postgres: dbuser ymall 192.168.138.1(54498) idle</span><br><span class="line">43489     6604 postgres: dbuser ymall 192.168.138.1(55454) idle</span><br><span class="line">43490     6612 postgres: dbuser ymall 192.168.138.1(55461) idle</span><br><span class="line">43885     4496 postgres: dbuser ymall 192.168.138.1(56158) idle</span><br><span class="line">43886     4496 postgres: dbuser ymall 192.168.138.1(56160) idle</span><br><span class="line">43887    18624 postgres: dbuser ymall 192.168.138.1(56163) idle</span><br><span class="line">43888    25448 postgres: dbuser ymall 192.168.138.1(56165) idle</span><br><span class="line">43889    26704 postgres: dbuser ymall 192.168.138.1(56167) idle</span><br><span class="line">44302    10696 postgres: dbuser qiyewechat 192.168.138.1(57075) idle</span><br><span class="line">44369    14456 postgres: dbuser qiyewechat 192.168.138.1(57083) idle</span><br><span class="line">44370     6028 postgres: dbuser qiyewechat 192.168.138.1(57084) idle</span><br><span class="line">44478     4496 postgres: dbuser ymall_test 192.168.138.1(57323) idle</span><br><span class="line">45814     8460 postgres: dbuser qiyewechat 192.168.138.1(59407) idle</span><br><span class="line">45900    13064 postgres: dbuser qiyewechat 192.168.138.1(59474) idle</span><br><span class="line">45907     5776 postgres: dbuser qiyewechat 192.168.138.1(59514) idle</span><br><span class="line">45992     6344 postgres: dbuser ymall_test 192.168.138.1(59703) idle</span><br><span class="line">46565    17660 postgres: dbuser ymall 192.168.138.1(60717) idle</span><br><span class="line">46573    14536 postgres: dbuser ymall 192.168.138.1(60758) idle</span><br><span class="line">46574     6048 postgres: dbuser ymall 192.168.138.1(60759) idle</span><br><span class="line">47215     4504 postgres: dbuser ymall_test 192.168.138.1(61764) idle</span><br><span class="line">47879     9428 postgres: dbuser ymall_test 192.168.138.1(63113) idle</span><br><span class="line">47880    15380 postgres: dbuser ymall_test 192.168.138.1(63114) idle</span><br><span class="line">48631     4496 postgres: dbuser ymall_test 192.168.138.1(64278) idle</span><br><span class="line">49247     6076 postgres: dbuser postgres 192.168.138.1(65312) idle</span><br><span class="line">49890    18168 postgres: dbuser ymall 192.168.138.1(50169) idle</span><br><span class="line">49893    14576 postgres: dbuser ymall 192.168.138.1(50175) idle</span><br><span class="line">49894     5816 postgres: dbuser ymall 192.168.138.1(50176) idle</span><br><span class="line">50162     4492 postgres: dbuser ymall_test 192.168.138.1(50486) idle</span><br><span class="line">50710    10560 postgres: dbuser ymall 192.168.138.1(51809) idle</span><br><span class="line">50711    14512 postgres: dbuser ymall 192.168.138.1(51810) idle</span><br><span class="line">50717    14816 postgres: dbuser ymall 192.168.138.1(51826) idle</span><br><span class="line">50718     7660 postgres: dbuser ymall 192.168.138.1(51827) idle</span><br><span class="line">50719     5824 postgres: dbuser postgres 192.168.138.1(51828) idle</span><br><span class="line">50723     6064 postgres: dbuser ymall 192.168.138.1(51833) idle</span><br><span class="line">51657     4500 postgres: dbuser ymall_test 192.168.138.1(53646) idle</span><br><span class="line">53083     4504 postgres: dbuser ymall_test 192.168.138.1(56425) idle</span><br><span class="line">53091     8468 postgres: dbuser ymall 192.168.138.1(56449) idle</span><br><span class="line">53092    14500 postgres: dbuser ymall 192.168.138.1(56450) idle</span><br><span class="line">53093     6048 postgres: dbuser ymall 192.168.138.1(56451) idle</span><br><span class="line">62156     4228 postgres: dbuser ymall 192.168.138.1(57632) idle</span><br><span class="line">Total RSS: 698396</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@prod-ghospital ~]#  ps -u mysql o pid,rss:8,cmd | awk &#39;NR&gt;1 &#123;A+&#x3D;$2&#125; &#123;print&#125; END&#123;print &quot;Total RSS: &quot; A&#125;&#39;</span><br><span class="line">  PID      RSS CMD</span><br><span class="line"> 3057  1496720 &#x2F;usr&#x2F;sbin&#x2F;mysqld --daemonize --pid-file&#x3D;&#x2F;var&#x2F;run&#x2F;mysqld&#x2F;mysqld.pid</span><br><span class="line">Total RSS: 1496720</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2020/10/16/Process/">http://nmk0718.github.io/2020/10/16/Process/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Process/"># Process</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/10/17/Kunbernetes%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2/">Kunbernetes自动化部署</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/16/Loki/">Loki</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>
