@@ -243,7 +243,10 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl start  promtail.service</span><br><span class="line">systemctl status  promtail.service</span><br><span class="line">systemctl restart  promtail.service</span><br><span class="line">systemctl stop  promtail.service</span><br></pre></td></tr></table></figure>
 
-<h5 id="Promtail页面"><a href="#Promtail页面" class="headerlink" title="Promtail页面"></a>Promtail页面</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013173438546.png" alt="image-20201013173438546"></p>
+<h5 id="Promtail页面"><a href="#Promtail页面" class="headerlink" title="Promtail页面"></a>Promtail页面</h5><img src="20201013173438546](E:\nginx\file\image\image-20201013173438546.png" />
+
+
+
 <h4 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h4><h5 id="下载-2"><a href="#下载-2" class="headerlink" title="下载"></a>下载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dl.grafana.com&#x2F;oss&#x2F;release&#x2F;grafana-7.2.0-1.x86_64.rpm</span><br><span class="line">sudo yum install grafana-7.2.0-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
 
 <h5 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;share&#x2F;grafana &amp;&amp; grafana-server web</span><br></pre></td></tr></table></figure>
@@ -252,15 +255,20 @@
 <h5 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h5><p>执行成功进入到grafana登录页面。</p>
 <p>默认账号密码都是admin</p>
 <p>首次进入会提示修改密码。看清楚输入框。</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013173155583.png" alt="image-20201013173155583"></p>
+<img src="\image\image-20201013173155583.png" />
+
 <p> 创建一个data sources</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013173306785.png" alt="image-20201013173306785"></p>
+<img src="\image\image-20201013173306785.png" />
+
 <p>这里填写的是loki的链接，这个链接可以访问，正常是返回数据，但有时候也可能返回404。目前没发现影响使用的地方</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013173222709.png" alt="image-20201013173222709"></p>
+<img src="\image\image-20201013173222709.png" />
+
 <p> 保存成功的提示是两个绿色的弹窗success </p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013173818989.png" alt="image-20201013173818989"></p>
+<img src="\image\image-20201013173818989.png" />
+
 <p>然后直接去查看explore</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013174000884.png" alt="image-20201013174000884"></p>
+<img src="\image\image-20201013174000884.png" />
+
 <h5 id="LogQL-语法"><a href="#LogQL-语法" class="headerlink" title="LogQL 语法"></a>LogQL 语法</h5><h5 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h5><p>对于查询表达式的标签部分，将放在{}中，多个标签表达式用逗号分隔：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;app&#x3D;&quot;mysql&quot;,name&#x3D;&quot;mysql-backup&quot;&#125;</span><br></pre></td></tr></table></figure>
 
@@ -284,7 +292,8 @@
 </ul>
 <p>Loki语法  查询是ERROR的日志 |=”ERROR” 查询不是ERROR的日志 !=”ERROR”<br>查询含有4187的日志 又不是INFO级别的日志<br>{filename=”/home/app/logs/nHospitalService/app.2020-10-27.0.log”}!=”INFO” |=”4187”</p>
 <h5 id="查看更多"><a href="#查看更多" class="headerlink" title="查看更多"></a>查看更多</h5><p>在查询出来的结果行后面有一个show context （查看上下文）,点击这个按钮，默认展示结果行前10行和后10行。</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5C8RI0zT.png" alt="8RI0zT"></p>
+<img src="\image\8RI0zT.png" />
+
 <h4 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h4><h5 id="promtail打如基础镜像"><a href="#promtail打如基础镜像" class="headerlink" title="promtail打如基础镜像"></a>promtail打如基础镜像</h5><p>拉取基础镜像</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull 192.168.229.8:8551&#x2F;centos:latest</span><br></pre></td></tr></table></figure>
 
@@ -303,7 +312,8 @@
 <h5 id="更改启动文件"><a href="#更改启动文件" class="headerlink" title="更改启动文件"></a>更改启动文件</h5><p>配置promtail开机启动,并建立本机ip的目录做日志区分</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;promtail&#x2F;</span><br><span class="line">nohup .&#x2F;promtail -config.file&#x3D;promtail-local-config.yaml &gt;&gt; &#x2F;usr&#x2F;local&#x2F;promtail.log 2&gt;&amp;1 &amp;</span><br><span class="line">JARFILE&#x3D;&#x2F;home&#x2F;App.jar</span><br><span class="line">ip&#x3D;&#96;hostname -I&#96;</span><br><span class="line">mkdir -p &#x2F;var&#x2F;log&#x2F;$ip</span><br><span class="line">cd &#x2F;var&#x2F;log&#x2F;$ip</span><br><span class="line"></span><br><span class="line">java -jar -Xms512M -Xmx1024M -Djava.security.egd&#x3D;file:&#x2F;dev&#x2F;.&#x2F;urandom $JARFILE &gt;&gt; app.log &amp;</span><br><span class="line"></span><br><span class="line">tail  -50f app.log</span><br></pre></td></tr></table></figure>
 
-<h5 id="查看Grafana中是否区分"><a href="#查看Grafana中是否区分" class="headerlink" title="查看Grafana中是否区分"></a>查看Grafana中是否区分</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201016111119852.png" alt="image-20201016111119852"></p>
+<h5 id="查看Grafana中是否区分"><a href="#查看Grafana中是否区分" class="headerlink" title="查看Grafana中是否区分"></a>查看Grafana中是否区分</h5><img src="\image\image-20201016111119852.png" />
+
 <p>注:Grafana中不论区间大小,单次查询条数最大为5000,建议通过精确时间查询</p>
 <h4 id="采集性能"><a href="#采集性能" class="headerlink" title="采集性能"></a>采集性能</h4><p>promtail在容器中,一秒钟采集1w行数据时,cpu为4-10%之间,内存无明显变化</p>
 <p>loki收到promtail采集的数据时间内,cpu为3%左右,内存无明显变化</p>

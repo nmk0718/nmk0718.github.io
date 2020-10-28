@@ -203,37 +203,45 @@
 
 <h5 id="查看是否运行成功"><a href="#查看是否运行成功" class="headerlink" title="查看是否运行成功"></a>查看是否运行成功</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@public-service ~]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE                         COMMAND                  CREATED             STATUS              PORTS                                          NAMES</span><br><span class="line">2317dd952a84        docker.io&#x2F;gogs&#x2F;gogs:0.11.29   &quot;&#x2F;app&#x2F;gogs&#x2F;docker&#x2F;...&quot;   4 hours ago         Up 53 minutes       0.0.0.0:8022-&gt;22&#x2F;tcp, 0.0.0.0:8030-&gt;3000&#x2F;tcp   gogs</span><br></pre></td></tr></table></figure>
 
-<p>安装完成后,访问<a href="http://8.129.126.156:8030" target="_blank" rel="noopener">http://8.129.126.156:8030</a></p>
+<p>安装完成后,访问<a href="http://192.168.1.1:8030" target="_blank" rel="noopener">http://192.168.1.1:8030</a></p>
 <p>数据库设置，这里我们直接使用内置的 数据库即可,使用其他的需要自行搭建数据库；</p>
-<img src="\images\922993672-889e9757631ec0c2_articlex.png" />
+<img src="\image\922993672-889e9757631ec0c2_articlex.png" />
 
 
 
 <p>应用基本设置，主要修改域名、SSH端口号和应用URL即可。</p>
-<img src="\images\3165017497-1e7f737f53650d12_articlex.png" style="zoom: 50%;" />
+<img src="\image\3165017497-1e7f737f53650d12_articlex.png" style="zoom: 50%;" />
 #### Gogs使用
 
-<p>外网访问路径为:<a href="http://8.129.126.156:8030/" target="_blank" rel="noopener">http://8.129.126.156:8030/</a></p>
+<p>外网访问路径为:<a href="http://192.168.1.1:8030/" target="_blank" rel="noopener">http://192.168.1.1:8030/</a></p>
 <h5 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h5><p>使用各自的名称全拼登录,例如(倪明坤,用户名为nimingkun,密码为nimingkun)</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013143334338.png" alt="image-20201013143334338"></p>
+<p>&lt;img src=”\image\image-20201013143334338.png)</p>
 <p>登录之后点击头像右侧的按钮,进入用户设置,修改密码</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013143605181.png" alt="image-20201013143605181"></p>
-<h5 id="查看账户对应的仓库"><a href="#查看账户对应的仓库" class="headerlink" title="查看账户对应的仓库"></a>查看账户对应的仓库</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013144342105.png" alt="image-20201013144342105"></p>
-<h5 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013145515110.png" alt="image-20201013145515110"></p>
-<h5 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013145545961.png" alt="image-20201013145545961"></p>
+<img src="\image\image-20201013143605181.png" />
+
+<h5 id="查看账户对应的仓库"><a href="#查看账户对应的仓库" class="headerlink" title="查看账户对应的仓库"></a>查看账户对应的仓库</h5><img src="\image\image-20201013144342105.png" />
+
+<h5 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h5><img src="\image\image-20201013145515110.png" />
+
+<h5 id="用户授权"><a href="#用户授权" class="headerlink" title="用户授权"></a>用户授权</h5><img src="\image\image-20201013145545961.png" />
+
 <h5 id="创建组织"><a href="#创建组织" class="headerlink" title="创建组织"></a>创建组织</h5><p>注意:需要把仓库建立再组织下</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013145623214.png" alt="image-20201013145623214"></p>
-<h5 id="查看账户对应的组织"><a href="#查看账户对应的组织" class="headerlink" title="查看账户对应的组织"></a>查看账户对应的组织</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013144427973.png" alt="image-20201013144427973"></p>
+<img src="\image\image-20201013145623214.png" />
+
+<h5 id="查看账户对应的组织"><a href="#查看账户对应的组织" class="headerlink" title="查看账户对应的组织"></a>查看账户对应的组织</h5><img src="\image\image-20201013144427973.png" />
+
 <h5 id="创建新的仓库"><a href="#创建新的仓库" class="headerlink" title="创建新的仓库"></a>创建新的仓库</h5><p>注意拥有者应设置为<strong>组织名</strong>,禁止设置为自己的用户</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013143251028.png" alt="image-20201013143251028"></p>
+<img src="\image\image-20201013143251028.png" />
+
 <p>创建后可根据命令进行拉取或工具拉取</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013144846374.png" alt="image-20201013144846374"></p>
+<img src="\image\image-20201013144846374.png" />
+
 <h5 id="HTTP方式拉取"><a href="#HTTP方式拉取" class="headerlink" title="HTTP方式拉取"></a>HTTP方式拉取</h5><p>开发需要在本地配置</p>
 <p>示例:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;nimingkun&quot;</span><br><span class="line">git config --global user.email nimingkun@liangjian.com</span><br></pre></td></tr></table></figure>
 
 <p>配置后即可拉取git代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@public ~]# git clone http:&#x2F;&#x2F;8.129.126.156:8030&#x2F;hospWeb&#x2F;bridge.git</span><br><span class="line">正克隆到 &#39;bridge&#39;...</span><br><span class="line">Username for &#39;http:&#x2F;&#x2F;8.129.126.156:8030&#39;: nimingkun</span><br><span class="line">Password for &#39;http:&#x2F;&#x2F;nimingkun@8.129.126.156:8030&#39;: </span><br><span class="line">remote: Counting objects: 1966, done.</span><br><span class="line">remote: Compressing objects: 100% (777&#x2F;777), done.</span><br><span class="line">remote: Total 1966 (delta 1093), reused 1966 (delta 1093)</span><br><span class="line">接收对象中: 100% (1966&#x2F;1966), 773.85 KiB | 0 bytes&#x2F;s, done.</span><br><span class="line">处理 delta 中: 100% (1093&#x2F;1093), done.</span><br><span class="line">[root@public code]# ls</span><br><span class="line">bridge</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@public ~]# git clone http:&#x2F;&#x2F;192.168.1.1:8030&#x2F;hospWeb&#x2F;bridge.git</span><br><span class="line">正克隆到 &#39;bridge&#39;...</span><br><span class="line">Username for &#39;http:&#x2F;&#x2F;192.168.1.1:8030&#39;: nimingkun</span><br><span class="line">Password for &#39;http:&#x2F;&#x2F;nimingkun@192.168.1.1:8030&#39;: </span><br><span class="line">remote: Counting objects: 1966, done.</span><br><span class="line">remote: Compressing objects: 100% (777&#x2F;777), done.</span><br><span class="line">remote: Total 1966 (delta 1093), reused 1966 (delta 1093)</span><br><span class="line">接收对象中: 100% (1966&#x2F;1966), 773.85 KiB | 0 bytes&#x2F;s, done.</span><br><span class="line">处理 delta 中: 100% (1093&#x2F;1093), done.</span><br><span class="line">[root@public code]# ls</span><br><span class="line">bridge</span><br></pre></td></tr></table></figure>
 
 <h5 id="SSH方式拉取"><a href="#SSH方式拉取" class="headerlink" title="SSH方式拉取"></a>SSH方式拉取</h5><p>开发需要在本地配置</p>
 <p>示例:</p>
@@ -249,15 +257,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@public code]# cat ~&#x2F;.ssh&#x2F;id_rsa.pub</span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGyFIujsLkRzIVmfZJC2W7scE+JXljm54r98Od9LgTSsJosClHd9AmMNENtr1pX1s&#x2F;yfp1UQVGk+BUJav+PrbboGJqE&#x2F;PUQgQ3PaYhgl0YoVImLF3XvALJI3SgMTddRy4SOMkdqfzQnZRYY1R6YIpv+JNRY7W4HrbNRqP1x+HwFPP+fD&#x2F;5tmF+rSKgHdJR6ygMxMf5y16V2FHjmf4s3iPAba10yvE&#x2F;WW66&#x2F;KV8s&#x2F;FOnyjFNMYYS&#x2F;aBsI73ilvE6sg9zLnZYxLIqMKIaQWak&#x2F;p9iXTfRkJSI5d3sWx2c4tPyQsFJM895vsp0n+bKU02u&#x2F;ekvaAZTEzHZ&#x2F;5AjPK6IX91 nimingkun@liangjian.com</span><br></pre></td></tr></table></figure>
 
 <p>在页面中添加公钥</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013152656686.png" alt="image-20201013152656686"></p>
+<img src="\image\image-20201013152656686.png" />
+
 <p>使用ssh链接进行克隆项目</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@public code]# git clone ssh:&#x2F;&#x2F;git@8.129.126.156:8022&#x2F;hospWeb&#x2F;video.git</span><br><span class="line">正克隆到 &#39;video&#39;...</span><br><span class="line">The authenticity of host &#39;[8.129.126.156]:8022 ([8.129.126.156]:8022)&#39; can&#39;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:3ZXSjpz9luXRVT9coc+57HwVSmaSdi7pL4pvetgHEpk.</span><br><span class="line">ECDSA key fingerprint is MD5:40:ca:ae:87:91:7b:f2:85:35:a3:7e:61:33:59:ce:95.</span><br><span class="line">Are you sure you want to continue connecting (yes&#x2F;no)? yes</span><br><span class="line">Warning: Permanently added &#39;[8.129.126.156]:8022&#39; (ECDSA) to the list of known hosts.</span><br><span class="line">remote: Counting objects: 428, done.</span><br><span class="line">remote: Compressing objects: 100% (371&#x2F;371), done.</span><br><span class="line">remote: Total 428 (delta 48), reused 428 (delta 48)</span><br><span class="line">接收对象中: 100% (428&#x2F;428), 951.64 KiB | 1.36 MiB&#x2F;s, done.</span><br><span class="line">处理 delta 中: 100% (48&#x2F;48), done.</span><br><span class="line">[root@public code]# ls</span><br><span class="line">bridge  video</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@public code]# git clone ssh:&#x2F;&#x2F;git@192.168.1.1:8022&#x2F;hospWeb&#x2F;video.git</span><br><span class="line">正克隆到 &#39;video&#39;...</span><br><span class="line">The authenticity of host &#39;[192.168.1.1]:8022 ([192.168.1.1]:8022)&#39; can&#39;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:3ZXSjpz9luXRVT9coc+57HwVSmaSdi7pL4pvetgHEpk.</span><br><span class="line">ECDSA key fingerprint is MD5:40:ca:ae:87:91:7b:f2:85:35:a3:7e:61:33:59:ce:95.</span><br><span class="line">Are you sure you want to continue connecting (yes&#x2F;no)? yes</span><br><span class="line">Warning: Permanently added &#39;[192.168.1.1]:8022&#39; (ECDSA) to the list of known hosts.</span><br><span class="line">remote: Counting objects: 428, done.</span><br><span class="line">remote: Compressing objects: 100% (371&#x2F;371), done.</span><br><span class="line">remote: Total 428 (delta 48), reused 428 (delta 48)</span><br><span class="line">接收对象中: 100% (428&#x2F;428), 951.64 KiB | 1.36 MiB&#x2F;s, done.</span><br><span class="line">处理 delta 中: 100% (48&#x2F;48), done.</span><br><span class="line">[root@public code]# ls</span><br><span class="line">bridge  video</span><br></pre></td></tr></table></figure>
 
-<h5 id="查看项目提交历史和分支"><a href="#查看项目提交历史和分支" class="headerlink" title="查看项目提交历史和分支"></a>查看项目提交历史和分支</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013145142683.png" alt="image-20201013145142683"></p>
-<h5 id="搜索仓库-用户-组织"><a href="#搜索仓库-用户-组织" class="headerlink" title="搜索仓库,用户.组织"></a>搜索仓库,用户.组织</h5><p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013144513505.png" alt="image-20201013144513505"></p>
+<h5 id="查看项目提交历史和分支"><a href="#查看项目提交历史和分支" class="headerlink" title="查看项目提交历史和分支"></a>查看项目提交历史和分支</h5><img src="\image\image-20201013145142683.png" />
+
+<h5 id="搜索仓库-用户-组织"><a href="#搜索仓库-用户-组织" class="headerlink" title="搜索仓库,用户.组织"></a>搜索仓库,用户.组织</h5><img src="image\image-20201013144513505.png" />
+
 <h5 id="迁移外部仓库"><a href="#迁移外部仓库" class="headerlink" title="迁移外部仓库"></a>迁移外部仓库</h5><p>填入需要克隆的地址和git用户名密码,即可</p>
-<p><img src="E:%5Cnginx%5Cfile%5Cimages%5Cimage-20201013145727136.png" alt="image-20201013145727136"></p>
-
+<img src="\image\image-20201013145727136.png" />
         </div>
 
         

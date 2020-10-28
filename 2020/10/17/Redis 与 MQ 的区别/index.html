@@ -228,19 +228,19 @@
 <li>AOF 同步写快照备份有个缺点，就是会丢失一部分数据。比如在新的快照文件生成之前，系统发生了问题，那么最近一次快照之后的数据将丢失。 Redis 为了解决这个问题，提出了 AOF 解决方案。所谓的 AOF 就是将每次写入数据的命令都以追加的方式记录到文件中。这样在系统出问题的时候，只要将这个文件中的命令全部重放一下就OK了。这样就可以做到不丢数了。</li>
 </ol>
 <p>但是如果数据写入操作太多的话，会造成 AOF 文件过大，为了解决这个问题 Redis 提供了 AOF 自动压缩功能，以及去重功能，这样可以达到对文件体积大小进行优化的目的。</p>
-<p><img src="https://p1-tt.byteimg.com/origin/dfic-imagehandler/361414f0-7aa1-4e4a-8154-860a804633bd?from=pc" alt="在高可用这条路上你知道Redis有多努力吗"></p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p1-tt.byteimg.com/origin/dfic-imagehandler/361414f0-7aa1-4e4a-8154-860a804633bd?from=pc&quot;" target="_blank" rel="noopener">https://p1-tt.byteimg.com/origin/dfic-imagehandler/361414f0-7aa1-4e4a-8154-860a804633bd?from=pc&quot;</a> /&gt;</p>
 <h5 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h5><p>上面的两种持久化方案，对于单节点 Redis 来说，基本已经够用了。但是我们的系统总是越做越大，要求越来越多。有的时候单节点 Redis 往往撑不住系统的访问量。这种情况下 Redis 提供了主从模式。</p>
 <p>所谓的主从模式就是一个主节点，负责读和写，一个从节点，负责将主节点的数据同步到从节点，这样主从节点信息就是一致的。</p>
 <p>注意：从节点不支持写操作，但是可以支持读操作。当其中任意一个点挂掉之后，数据不会损失。而且可以将读的压力分散到多个节点，支持更大的访问量。</p>
-<p><img src="https://p1-tt.byteimg.com/origin/dfic-imagehandler/8a165be2-6ee2-4f78-ad94-4adfa63df06e?from=pc" alt="在高可用这条路上你知道Redis有多努力吗"></p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p1-tt.byteimg.com/origin/dfic-imagehandler/8a165be2-6ee2-4f78-ad94-4adfa63df06e?from=pc&quot;" target="_blank" rel="noopener">https://p1-tt.byteimg.com/origin/dfic-imagehandler/8a165be2-6ee2-4f78-ad94-4adfa63df06e?from=pc&quot;</a> /&gt;</p>
 <h5 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h5><p>对于主从模式，这里有个最大的痛点。当主节点挂掉后，从节点是不会自动升级为主节点的。也就是负责往 Redis 写入的程序会报错，但是读操作不会有问题。这一点不太符合高可用的要求。为了解决发生故障，主节点自动切换的问题， Redis 又给大家提供了哨兵模式。</p>
 <p>所谓的哨兵模式就是，提供三个哨兵节点（同样是 Redis 实例，只不过不存储数据），来监控主从模式下的所有 Redis 节点（真正存储数据的节点）。客户端程序通过哨兵节点获取主节点信息。当主节点挂掉后，哨兵节点会自动将其中一个从节点升级为主节点，提供给客户端程序执行写入操作。当发生故障的主节点恢复后，会自动变为新的主节点的从节点。</p>
-<p><img src="https://p1-tt.byteimg.com/origin/dfic-imagehandler/c9979631-d064-4d1a-b351-1186927e555d?from=pc" alt="在高可用这条路上你知道Redis有多努力吗"></p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p1-tt.byteimg.com/origin/dfic-imagehandler/c9979631-d064-4d1a-b351-1186927e555d?from=pc&quot;" target="_blank" rel="noopener">https://p1-tt.byteimg.com/origin/dfic-imagehandler/c9979631-d064-4d1a-b351-1186927e555d?from=pc&quot;</a> /&gt;</p>
 <h5 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式"></a>集群模式</h5><p>大家可能发现了，无论是主从复制模式，还是哨兵模式都没有解决分布式写的问题，也就是说到目前为止，所有的方案都只能往一个节点写数据，数据存储能力受单节点限制。哨兵模式仅仅解决了主从复制模式下，发生故障后不能自动切换的问题。</p>
 <p>为了解决分布式写的问题， Redis 提供了集群功能。</p>
 <p>Redis 集群可以实现分布式写。集群中的节点分为主节点和从节点。主节点负责数据的读写以及集群信息的维护，从节点负责同步主节点的信息。</p>
 <p>Redis 集群利用数据分片的概念，将要操作的 Key 进行哈希计算，根据得到的结果决定这个 Key 应该存储到那个主节点。这样就可以利用多个主节点进行分布式写操作。进行读操作的时候也会先计算 Key 的哈希值，然后找到对应的主节点。</p>
-<p><img src="https://p6-tt.byteimg.com/origin/dfic-imagehandler/d4ad50a3-4fb2-4ad1-942a-cc81e6d5a014?from=pc" alt="在高可用这条路上你知道Redis有多努力吗"></p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p6-tt.byteimg.com/origin/dfic-imagehandler/d4ad50a3-4fb2-4ad1-942a-cc81e6d5a014?from=pc&quot;" target="_blank" rel="noopener">https://p6-tt.byteimg.com/origin/dfic-imagehandler/d4ad50a3-4fb2-4ad1-942a-cc81e6d5a014?from=pc&quot;</a> /&gt;</p>
 <p>很遗憾的是，集群模式也不是百分百完美，比如 key 的批量操作会受限制，只有当操作的 key都位于一个槽位时才能进行操作。 还有 Keys 操作，只能在任一节点发生，不能 跨 节点。 其实这些所有缺点，都是因为分布式写造成的，因为你把数据分别存到了不同的 Redis 节点</p>
 <h3 id="RabbitMQ的高可用"><a href="#RabbitMQ的高可用" class="headerlink" title="RabbitMQ的高可用"></a>RabbitMQ的高可用</h3><p>rabbitmq有三种模式：<strong>单机模式，普通集群模式，镜像集群模式</strong></p>
 <ul>
