@@ -196,7 +196,8 @@
 
         <div class="post-content">
             <h1 id="Kunbernetes自动化部署"><a href="#Kunbernetes自动化部署" class="headerlink" title="Kunbernetes自动化部署"></a>Kunbernetes自动化部署</h1><p>部署流程如下图</p>
-<p><img src="%5Cimage%5C1.png" alt=""></p>
+<img src="\image\1.png" />
+
 <h3 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h3><p>此文档为安装 Kubernetes 单Master节点</p>
 <h4 id="配置要求"><a href="#配置要求" class="headerlink" title="配置要求"></a>配置要求</h4><ul>
 <li>至少2台<strong>2核4G</strong>的服务器</li>
@@ -271,8 +272,10 @@
 <p><strong>gitlab如使用单台服务器可使用默认配置,若跟别的服务放一起会出现gitlab占用内存过多问题</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;file&#x2F;gitlab&#x2F;config&#x2F;gitlab.rb</span><br><span class="line"></span><br><span class="line">#去掉下面的注释</span><br><span class="line"></span><br><span class="line">unicorn[&#39;worker_processes&#39;] &#x3D; 2</span><br><span class="line"></span><br><span class="line">#之后执行</span><br><span class="line"></span><br><span class="line">docker exec -it gitlab gitlab-ctl reconfigure</span><br><span class="line"></span><br><span class="line">docker exec -it gitlab gitlab-ctl restart</span><br></pre></td></tr></table></figure>
 
-<h5 id="创建项目组"><a href="#创建项目组" class="headerlink" title="创建项目组"></a>创建项目组</h5><p><img src="%5Cimage%5Cimage-20200929152933319.png" alt="image-20200929152933319"></p>
-<h5 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h5><p><img src="%5Cimage%5Cimage-20200929153011476.png" alt="image-20200929153011476"></p>
+<h5 id="创建项目组"><a href="#创建项目组" class="headerlink" title="创建项目组"></a>创建项目组</h5><img src="\image\image-20200929152933319.png" />
+
+<h5 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h5><img src="\image\image-20200929153011476.png" />
+
 <h5 id="配置本地Git环境"><a href="#配置本地Git环境" class="headerlink" title="配置本地Git环境"></a>配置本地Git环境</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Administrator&quot;</span><br><span class="line">git config --global user.email &quot;admin@example.com&quot;</span><br></pre></td></tr></table></figure>
 
 <h3 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h3><h5 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h5><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf jdk-8u181-linux-x64.tar.gz</span><br><span class="line">mv jdk1.8.0_181/ java</span><br><span class="line">mv java /usr/<span class="built_in">local</span>/</span><br><span class="line"></span><br><span class="line"><span class="comment">#加入环境变量</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/java</span><br><span class="line">CLASSPATH=<span class="variable">$CLASSPATH</span>:<span class="variable">$JAVA_HOME</span>/lib/</span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment">#查看版本号</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
@@ -302,13 +305,18 @@
 
 <h5 id="安装NPM"><a href="#安装NPM" class="headerlink" title="安装NPM"></a>安装NPM</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#下载node,解压</span><br><span class="line">[root@public home]# wget https:&#x2F;&#x2F;nodejs.org&#x2F;dist&#x2F;v12.19.0&#x2F;node-v12.19.0-linux-x64.tar.xz</span><br><span class="line">[root@public home]# tar xf  node-v12.19.0-linux-x64.tar.xz </span><br><span class="line">[root@public home]# cd node-v12.19.0-linux-x64</span><br><span class="line">#软链接</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# ln -s &#x2F;home&#x2F;node-v12.19.0-linux-x64&#x2F;bin&#x2F;npm   &#x2F;usr&#x2F;local&#x2F;bin&#x2F; </span><br><span class="line">[root@public node-v12.19.0-linux-x64]# ln -s &#x2F;home&#x2F;node-v12.19.0-linux-x64&#x2F;bin&#x2F;node   &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</span><br><span class="line">#查看版本号验证</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# node -v</span><br><span class="line">v12.19.0</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# npm -v</span><br><span class="line">6.14.8</span><br><span class="line">#安装依赖</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# npm install</span><br></pre></td></tr></table></figure>
 
-<h5 id="创建构建"><a href="#创建构建" class="headerlink" title="创建构建"></a>创建构建</h5><p><img src="%5Cimage%5Cimage-20201009095212341.png" alt="image-20201009095212341"></p>
-<h5 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h5><p><img src="%5Cimage%5Cimage-20201009095313048.png" alt="image-20201009095313048"></p>
-<h5 id="配置打包构建"><a href="#配置打包构建" class="headerlink" title="配置打包构建"></a>配置打包构建</h5><p><img src="%5Cimage%5Cimage-20200929153431712.png" alt="image-20200929153431712"></p>
+<h5 id="创建构建"><a href="#创建构建" class="headerlink" title="创建构建"></a>创建构建</h5><img src="\image\image-20201009095212341.png" />
+
+<h5 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h5><img src="\image\image-20201009095313048.png" />
+
+<h5 id="配置打包构建"><a href="#配置打包构建" class="headerlink" title="配置打包构建"></a>配置打包构建</h5><img src="\image\image-20200929153431712.png" />
+
 <p>通过git clone 拉取代码.mvn clean install进行打包.通过dockerfile上传到镜像仓库</p>
-<h5 id="发布到k8s"><a href="#发布到k8s" class="headerlink" title="发布到k8s"></a>发布到k8s</h5><p><img src="%5Cimage%5Cimage-20200929154250350.png" alt="image-20201009094340499"></p>
-<p>通过ssh插件发送yaml文件到k8s-master</p>
-<h5 id="删除打包文件"><a href="#删除打包文件" class="headerlink" title="删除打包文件"></a>删除打包文件</h5><p><img src="%5Cimage%5Cimage-20200929154426301.png" alt="image-20200929154426301.png"></p>
+<h5 id="发布到k8s"><a href="#发布到k8s" class="headerlink" title="发布到k8s"></a>发布到k8s</h5><img src="\image\image-20200929154250350.png" />
+通过ssh插件发送yaml文件到k8s-master
+
+<h5 id="删除打包文件"><a href="#删除打包文件" class="headerlink" title="删除打包文件"></a>删除打包文件</h5><img src="\image\image-20200929154426301.png" />
+
 <h5 id="dockerfile文件"><a href="#dockerfile文件" class="headerlink" title="dockerfile文件"></a>dockerfile文件</h5><p>Dockerfile</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM  192.168.229.8:8551&#x2F;centos:latest</span><br><span class="line">MAINTAINER nmk</span><br><span class="line"></span><br><span class="line">COPY  *.jar &#x2F;home&#x2F;App.jar</span><br><span class="line">COPY  start.sh &#x2F;home&#x2F;start.sh</span><br><span class="line">RUN chmod +x &#x2F;home&#x2F;start.sh</span><br><span class="line">ENV JAVA_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;java</span><br><span class="line">ENV PATH $JAVA_HOME&#x2F;bin:$PATH</span><br><span class="line">ENV CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">ENV LC_ALL&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">ENV LANG&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">EXPOSE appport</span><br><span class="line">CMD [&quot;&#x2F;home&#x2F;start.sh&quot;]</span><br></pre></td></tr></table></figure>
 
@@ -337,29 +345,35 @@
 <li>授予build.sh执行权限,传递appname和build_number进行打包镜像</li>
 <li>替换yaml文件的配置</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010152902659.png" alt="image-20201010152902659"></p>
+<img src="\image\image-20201010152902659.png" />
+
 <ul>
 <li>通过ssh插件发送yaml文件到k8s-master</li>
 <li>通过yaml文件创建应用和应用需要的service</li>
 <li>删除yaml文件</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010153404229.png" alt="image-20201010153404229"></p>
+<img src="\image\image-20201010153404229.png" />
+
 <ul>
 <li>手动更新ingress进行路径转发</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010153550656.png" alt="image-20201010153550656"></p>
+<img src="\image\image-20201010153550656.png" />
+
 <ul>
 <li>通过插件在发布完清空工作空间的残留</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010153710024.png" alt="image-20201010153710024"></p>
+<img src="\image\image-20201010153710024.png" />
+
 <ul>
 <li>查看应用是service是否创建成功</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010154554549.png" alt="image-20201010154554549"></p>
+<img src="\image\image-20201010154554549.png" />
+
 <ul>
 <li>访问域名查看是否成功</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010155028976.png" alt="image-20201010155028976"></p>
+<img src="\image\image-20201010155028976.png" />
+
 <h5 id="打包后端项目"><a href="#打包后端项目" class="headerlink" title="打包后端项目"></a>打包后端项目</h5><ul>
 <li>拉取后端代码和dockerfile</li>
 <li>进入项目目录进行打包构建</li>
@@ -367,29 +381,35 @@
 <li>进入dockerfile文件夹 替换参数到docker和yaml</li>
 <li>授予build.sh执行权限 执行build.sh并传递参数</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010155626966.png" alt="image-20201010155626966"></p>
+<img src="\image\image-20201010155626966.png" />
+
 <ul>
 <li>通过ssh插件发送yaml文件到k8s-master</li>
 <li>通过yaml文件创建应用和应用需要的service</li>
 <li>删除yaml文件</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010155815880.png" alt="image-20201010155815880"></p>
+<img src="\image\image-20201010155815880.png" />
+
 <ul>
 <li>手动更新ingress进行路径转发</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010155910502.png" alt="image-20201010155910502"></p>
+<img src="\image\image-20201010155910502.png" />
+
 <ul>
 <li>通过插件在发布完清空工作空间的残留</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010153710024.png" alt="image-20201010153710024"></p>
+<img src="\image\image-20201010153710024.png" />
+
 <ul>
 <li>查看应用是service是否创建成功</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010154554549.png" alt="image-20201010154554549"></p>
+<img src="\image\image-20201010154554549.png" />
+
 <ul>
 <li>访问域名查看是否成功</li>
 </ul>
-<p><img src="%5Cimage%5Cimage-20201010160221404.png" alt="image-20201010160221404"></p>
+<img src="\image\image-20201010160221404.png" />
+
 <h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><h5 id="打包基础镜像供项目使用"><a href="#打包基础镜像供项目使用" class="headerlink" title="打包基础镜像供项目使用"></a>打包基础镜像供项目使用</h5><p>拉取centos镜像</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@public bin]# docker pull centos:7.8.2003</span><br><span class="line">7.8.2003: Pulling from library&#x2F;centos</span><br><span class="line">9b4ebb48de8d: Already exists </span><br><span class="line">Digest: sha256:8540a199ad51c6b7b51492fa9fee27549fd11b3bb913e888ab2ccf77cbb72cc1</span><br><span class="line">Status: Downloaded newer image for centos:7.8.2003</span><br><span class="line">docker.io&#x2F;library&#x2F;centos:7.8.2003</span><br></pre></td></tr></table></figure>
 
@@ -413,11 +433,13 @@
 
 <p><strong>1、配置Blob Stores</strong></p>
 <p>点击 管理 -&gt;Repository -&gt;Blob Stores-&gt; Create blob stores</p>
-<p><img src="%5Cimage%5Cimage-20200923150230710.png" alt="image-20200923150230710"></p>
+<img src="\image\image-20200923150230710.png" />
+
 <p>一旦创建了blob store，就不可修改类型和名称。而且，该blob store被仓库或者仓库组使用后，都不可以被删除。一个仓库只可以使用一个Blob Store，一个Blob Store可以对应多个仓库。Blob store的大小为Path对应的文件夹的大小。</p>
 <p><strong>2.创建<code>hosted repository*</code></strong></p>
 <p>点击 管理 -&gt; Repository -&gt; Repositories -&gt; Create Repository -&gt; Docker(hosted)</p>
-<p><img src="%5Cimage%5Cimage-20200923150844177.png" alt="image-20200923150844177"></p>
+<img src="\image\image-20200923150844177.png" />
+
 <p>这样就创建好了一个私有仓库。访问地址即 为192.168.229.8:8551</p>
 <h5 id="查看私有镜像仓库的列表"><a href="#查看私有镜像仓库的列表" class="headerlink" title="查看私有镜像仓库的列表"></a>查看私有镜像仓库的列表</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@public ~]#  curl -X GET -u admin:nmk0718 http:&#x2F;&#x2F;192.168.229.8:8551&#x2F;v2&#x2F;_catalog</span><br><span class="line">&#123;&quot;repositories&quot;:[&quot;bosybox&quot;,&quot;centos&quot;,&quot;nmk0718&quot;,&quot;nmktest&quot;]&#125;</span><br></pre></td></tr></table></figure>
 
@@ -443,7 +465,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push 192.168.229.8:8551&#x2F;centos:v1.1</span><br></pre></td></tr></table></figure>
 
 <p>查看上传的镜像</p>
-<p><img src="%5Cimage%5C3.png" alt="image-20200923140011271">E</p>
+<img src="\image\3.png" />
+
 <p>拉取上传到私服仓库的镜像</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@public bin]# docker pull 192.168.229.8:8551&#x2F;centos:v1.1</span><br><span class="line">v1.1: Pulling from centos</span><br><span class="line">9b4ebb48de8d: Already exists </span><br><span class="line">72bf021082cd: Pull complete </span><br><span class="line">7f669da652be: Pull complete </span><br><span class="line">b64a50fe3bd5: Pull complete </span><br><span class="line">3e3a9f68a07c: Pull complete </span><br><span class="line">Digest: sha256:7c78a495de5556ab53b14c017bc20c1c4ce682d1e9d4c6aefde2c908d65ef80c</span><br><span class="line">Status: Downloaded newer image for 192.168.229.8:8551&#x2F;centos:v1.1</span><br><span class="line">192.168.229.8:8551&#x2F;centos:v1.1</span><br></pre></td></tr></table></figure>
 
@@ -512,7 +535,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@k8s-node2 ~]# vi &#x2F;etc&#x2F;docker&#x2F;daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https:&#x2F;&#x2F;registry.cn-hangzhou.aliyuncs.com&quot;],</span><br><span class="line">  &quot;exec-opts&quot;: [&quot;native.cgroupdriver&#x3D;systemd&quot;],</span><br><span class="line">  &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">  &quot;log-opts&quot;: &#123;</span><br><span class="line">    &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;storage-driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">  &quot;storage-opts&quot;: [</span><br><span class="line">    &quot;overlay2.override_kernel_check&#x3D;true&quot;</span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">    &quot;insecure-registries&quot;: [</span><br><span class="line">       &quot;192.168.229.8:8551&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">[root@k8s-node2 ~]# systemctl restart docker</span><br></pre></td></tr></table></figure>
 
 <p>Error response from daemon: login attempt to <a href="http://xx.xx.xx.xx:2020/v2/" target="_blank" rel="noopener">http://xx.xx.xx.xx:2020/v2/</a> failed with status: 401 Unauthorized</p>
-<p><img src="%5Cimage%5C2.png" alt="image-20200923093723797"></p>
+<img src="\image\2.png" />
+
 <p>添加<code>Docker Bearer Token Realm</code>到Active即可</p>
 <h5 id="Kubernetes-pod状态出现ImagePullBackOff的原因"><a href="#Kubernetes-pod状态出现ImagePullBackOff的原因" class="headerlink" title="Kubernetes pod状态出现ImagePullBackOff的原因"></a>Kubernetes pod状态出现ImagePullBackOff的原因</h5><p>查看这个Pod的状态，发现状态为 ErrImagePull 或者 ImagePullBackOff：</p>
 <p>[root@k8s-node1 ~]#  kubectl get pods<br>NAME          READY   STATUS    RESTARTS   AGE<br>failpod   1/1     ImagePullBackOff   1          14h</p>
