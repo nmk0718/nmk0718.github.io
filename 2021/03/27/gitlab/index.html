@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>GitLab | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">GitLab</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2021-3-27&nbsp;&nbsp;15:23:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/deployment/">deployment</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>备份gitlab</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2zeaxvb40ng4w24tpogoZ file]# crontab -l</span><br><span class="line">0 0 *&#x2F;3 * * sh &#x2F;file&#x2F;backup.sh</span><br><span class="line"></span><br><span class="line">[root@iZ2zeaxvb40ng4w24tpogoZ file]# cat &#x2F;file&#x2F;gitlab&#x2F;push_aliyun.sh   </span><br><span class="line">docker commit -m &quot;gitlab&quot; 5f36554b62b3 registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng&#x2F;gitlab:&#96;date +%F&#96;</span><br><span class="line">docker push registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng&#x2F;gitlab:&#96;date +%F&#96;</span><br><span class="line"></span><br><span class="line">[root@iZ2zeaxvb40ng4w24tpogoZ file]# cat &#x2F;file&#x2F;backup.sh</span><br><span class="line">cd &#x2F;file&#x2F;</span><br><span class="line">tar zcvf gitlabconfig&#96;date +%F&#96;.tar config</span><br><span class="line">tar zcvf gitlabdata&#96;date +%F&#96;.tar data</span><br><span class="line">mv *.tar &#x2F;data1&#x2F;gitlab&#x2F;backup&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>gitlab配置ldap</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;file&#x2F;config&#x2F;gitlab.rb</span><br><span class="line">gitlab_rails[&#39;ldap_enabled&#39;] &#x3D; true</span><br><span class="line">gitlab_rails[&#39;ldap_servers&#39;] &#x3D; YAML.load &lt;&lt;-&#39;EOS&#39;</span><br><span class="line">   main: # &#39;main&#39; is the GitLab &#39;provider ID&#39; of this LDAP server</span><br><span class="line">     label: &#39;LDAP&#39;</span><br><span class="line">     host: &#39;39.107.142.154&#39;</span><br><span class="line">     port: 389</span><br><span class="line">     uid: &#39;cn&#39;</span><br><span class="line">     bind_dn: &#39;cn&#x3D;admin,dc&#x3D;gzlplink,dc&#x3D;com&#39;</span><br><span class="line">     password: &#39;Lpldap123456&#39;</span><br><span class="line">     encryption: &#39;plain&#39; # &quot;start_tls&quot; or &quot;simple_tls&quot; or &quot;plain&quot;</span><br><span class="line">     verify_certificates: true</span><br><span class="line">     active_directory: true</span><br><span class="line">     #邮箱 用户名均可登录</span><br><span class="line">     allow_username_or_email_login: true</span><br><span class="line">     lowercase_usernames: false</span><br><span class="line">     #不允许用户注册</span><br><span class="line">     block_auto_created_users: false</span><br><span class="line">     base: &#39;ou&#x3D;研发部,cn&#x3D;admin,dc&#x3D;gzlplink,dc&#x3D;com&#39;</span><br><span class="line">     user_filter: &#39;&#39;</span><br><span class="line">     attributes:</span><br><span class="line">       username: [&#39;cn&#39;]</span><br><span class="line">       email:    [&#39;mail&#39;]</span><br><span class="line">       name:     &#39;description&#39;</span><br><span class="line">       first_name: &#39;givenName&#39;</span><br><span class="line">       last_name:  &#39;sn&#39;</span><br><span class="line">EOS</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>host</code> 和 <code>port</code> 是 LDAP 服务的主机地址及端口</li>
+<li><code>bind_dn</code> 和 <code>password</code> 是一个管理 LDAP 的 dn 及密码</li>
+<li><code>base</code> 表示 LDAP 将以该 dn 为 节点，向下查找用户</li>
+<li><code>user_filter</code> 表示以某种过滤条件筛选用户，比如假设我们只希望所属组为 Developers 的用户来访问 GitLab，则可以在这里设置 <code>(memberOf=cn=Developers,cn=Groups,dc=xinhua,dc=org)</code></li>
+<li><code>attributes</code> 表示 GitLab 中的字段与 LDAP 中哪些字段可以相互对应，比如可以用 LDAP 中的 <code>uid</code> 来作为 GitLab 用户名</li>
+</ul>
+<p>配置修改完成之后，运行下面命令重启 GitLab 服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<img src="\image\20180726164123668.png" />
+
+
+<h2 id="开启-HTTPS"><a href="#开启-HTTPS" class="headerlink" title="开启 HTTPS"></a>开启 HTTPS</h2><p>GitLab 默认没有开启 HTTPS，如果需要开启的话，需要按照下面的步骤执行：</p>
+<p>首先，在配置文件 <code>/etc/gitlab/gitlab.rb</code> 中将下面一行中的协议由 HTTP 改成 HTTPS，并设置从 HTTP 到 HTTPS 的重定向：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">external_url &quot;https:&#x2F;&#x2F;gitlab.example.com&quot;</span><br><span class="line"></span><br><span class="line"># Redirect HTTP requests to HTTPS</span><br><span class="line">nginx[&#39;redirect_http_to_https&#39;] &#x3D; true</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个 SSL 目录，并将网站证书导入进去：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># mkdir -p &#x2F;etc&#x2F;gitlab&#x2F;ssl</span><br><span class="line"># chmod 700 &#x2F;etc&#x2F;gitlab&#x2F;ssl</span><br><span class="line"># cp gitlab.xinhua.io.key gitlab.xinhua.io.crt &#x2F;etc&#x2F;gitlab&#x2F;ssl&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>注意上面的证书必须以配置中的域名（如本文中的 <code>gitlab.xinhua.io</code>）为其文件名。</p>
+<p>最后再执行 <code>gitlab-ctl reconfigure</code> 命令，即可通过 HTTPS 方式访问 GitLab 了</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2021/03/27/gitlab/">http://nmk0718.github.io/2021/03/27/gitlab/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/GitLab/"># GitLab</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/03/27/skywalking/">Skywalking</a>
+            
+            
+            <a class="next" rel="next" href="/2021/03/27/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">数据库备份与恢复</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>

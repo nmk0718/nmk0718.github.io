@@ -227,6 +227,8 @@
 
 <h4 id="删除Exited状态的容器"><a href="#删除Exited状态的容器" class="headerlink" title="删除Exited状态的容器"></a>删除Exited状态的容器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm &#96;docker ps -a|grep Exited|awk &#39;&#123;print $1&#125;&#39;&#96;</span><br></pre></td></tr></table></figure>
 
+<h4 id="根据镜像名删除镜像"><a href="#根据镜像名删除镜像" class="headerlink" title="根据镜像名删除镜像"></a>根据镜像名删除镜像</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images | grep wecloud | awk &#39;&#123;print $1&quot;:&quot;$2&#125;&#39; | xargs docker rmi</span><br></pre></td></tr></table></figure>
+
 <h4 id="创建dockerfile"><a href="#创建dockerfile" class="headerlink" title="创建dockerfile"></a>创建dockerfile</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from tomcat #tomcat的镜像</span><br><span class="line">MAINTAINER nmk #作者</span><br><span class="line">RUN rm -rf &#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;webapps&#x2F;*  #运行的命令</span><br><span class="line">COPY nmk.war &#x2F;usr&#x2F;local&#x2F;tomcat&#x2F;webapps #复制war包到tomcat的webapps目录下</span><br><span class="line">EXPOSE 8080  #开放端口</span><br></pre></td></tr></table></figure>
 
 <h4 id="镜像构建"><a href="#镜像构建" class="headerlink" title="镜像构建"></a>镜像构建</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker build -f &#x2F;data&#x2F;docker&#x2F;dockerfile -t mytomcat:1.1</span><br><span class="line">#-f :指定要使用的Dockerfile路径；</span><br><span class="line">#--tag, -t: 镜像的名字及标签，通常 name:tag 或者 name 格式；</span><br></pre></td></tr></table></figure>
@@ -303,7 +305,7 @@
                 <a class="prev" rel="prev" href="/2020/04/02/easyimage/">easyimage</a>
             
             
-            <a class="next" rel="next" href="/2020/03/08/photoshop/">photoshop</a>
+            <a class="next" rel="next" href="/2020/03/27/shadowsocks/">shadowsocks</a>
             
         </section>
 
