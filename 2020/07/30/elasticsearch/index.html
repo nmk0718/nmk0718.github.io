@@ -236,7 +236,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;sysctl.conf</span><br></pre></td></tr></table></figure>
 
 <p>添加配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count&#x3D;262144</span><br></pre></td></tr></table></figure>
 
 <p>执行命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
@@ -355,8 +355,44 @@
 <p>在bin目录下启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;logstash -f jdbc.conf</span><br></pre></td></tr></table></figure>
 
-<h6 id="遇到的报错-1"><a href="#遇到的报错-1" class="headerlink" title="遇到的报错"></a>遇到的报错</h6><p>Error: Bad file descriptor - Bad file descriptor Exception错误</p>
+<h5 id="遇到的报错-1"><a href="#遇到的报错-1" class="headerlink" title="遇到的报错"></a>遇到的报错</h5><p>Error: Bad file descriptor - Bad file descriptor Exception错误</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">查看data下的是否有.lock文件</span><br><span class="line">[root@es-1 ~]# ls -all &#x2F;opt&#x2F;logstash-7.8.0&#x2F;data&#x2F;</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x.  4  631  503  69 Nov 13 12:58 .</span><br><span class="line">drwxr-xr-x. 12  631  503 253 Nov 12 17:31 ..</span><br><span class="line">drwxr-xr-x.  2 root root   6 Nov 12 17:31 dead_letter_queue</span><br><span class="line">-rw-r--r--.  1 root root   0 Nov 13 12:58 .lock</span><br><span class="line">drwxr-xr-x.  2 root root   6 Nov 12 17:31 queue</span><br><span class="line">-rw-r--r--.  1 root root  36 Nov 12 17:31 uuid</span><br><span class="line"></span><br><span class="line">删除.lock文件重新启动即可</span><br></pre></td></tr></table></figure>
+
+<p>日志出现报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[logstash.outputs.elasticsearch] retrying failed action with response code: 403 (&#123;&quot;type&quot;&#x3D;&gt;&quot;cluster_block_exception&quot;, &quot;reason&quot;&#x3D;&gt;&quot;blocked by: [FORBIDDEN&#x2F;12&#x2F;index read-only &#x2F; allow delete (api)];&quot;&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>ES说明文档:当ES数据所在目录磁盘空间使用率超过90%后，ES将修改为只读状态，所以初步判断是磁盘空间不足导致ES不允许写入。</p>
+<p>解决:</p>
+<p>服务器磁盘空间导致,清理服务器磁盘空间还是出现该报错问题</p>
+<p>怀疑为es索引导致的不能同步数据</p>
+<p><strong>解决办法1 在kibana开发控制台执行下面语句即可</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">PUT _settings</span><br><span class="line">    &#123;</span><br><span class="line">    &quot;index&quot;: &#123;</span><br><span class="line">    &quot;blocks&quot;: &#123;</span><br><span class="line">    &quot;read_only_allow_delete&quot;: &quot;false&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>解决方法2</strong></p>
+<p>如果kibana无法执行命令，可以使用下面命令解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT -H &quot;Content-Type: application&#x2F;json&quot; http:&#x2F;&#x2F;localhost:9200&#x2F;_all&#x2F;_settings -d &#39;&#123;&quot;index.blocks.read_only_allow_delete&quot;: null&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>查看索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl http:&#x2F;&#x2F;192.168.50.70:9200&#x2F;_cat&#x2F;indices?v</span><br><span class="line">health status index                uuid                   pri rep docs.count docs.deleted store.size pri.store.size</span><br><span class="line">yellow open   h_hospital_outer     N4hbdo5TQnSazNx58_a5Qg   5   1     433934       126728    161.3mb        161.3mb</span><br><span class="line">yellow open   m_medicine_info      swwieAn-TNG3FTTvpOlxwg   5   1      36556         1699     41.3mb         41.3mb</span><br><span class="line">green  open   .kibana_1            OQh5HFwsRDSG0QAPKasZyg   1   0          1            0      3.7kb          3.7kb</span><br><span class="line">yellow open   recommend_doctor_rsp vpIMBifjSySYU6h0j9nM-A   5   1        609            1    983.8kb        983.8kb</span><br></pre></td></tr></table></figure>
+
+<p>删除索引</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -XDELETE localhost:9200&#x2F;索引名</span><br><span class="line">例如:</span><br><span class="line">curl -XDELETE http:&#x2F;&#x2F;192.168.50.70:9200&#x2F;m_medicine_info</span><br><span class="line">curl -XDELETE http:&#x2F;&#x2F;192.168.50.70:9200&#x2F;h_hospital_outer</span><br><span class="line">curl -XDELETE http:&#x2F;&#x2F;192.168.50.70:9200&#x2F;recommend_doctor_rsp</span><br><span class="line">curl -XDELETE http:&#x2F;&#x2F;192.168.50.70:9200&#x2F;.kibana_1</span><br></pre></td></tr></table></figure>
+
+<p>再次启动logstash,无报错,跟生产索引进行对比发现,有缺少,使用接口进行触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">es服务</span><br><span class="line">医生模板生成接口：&#x2F;api&#x2F;es&#x2F;doctor&#x2F;refreshIndexAndDate</span><br><span class="line">视频&#x2F;文章模板生成接口：&#x2F;app&#x2F;video&#x2F;article&#x2F;refreshIndexAndDate</span><br><span class="line">视频模板生成接口(已未使用):&#x2F;app&#x2F;video&#x2F;refreshIndexAndDate</span><br><span class="line"></span><br><span class="line">请求示例:</span><br><span class="line">curl http:&#x2F;&#x2F;127.0.0.1:8908&#x2F;app&#x2F;video&#x2F;article&#x2F;refreshIndexAndDate</span><br><span class="line"></span><br><span class="line">job服务</span><br><span class="line">医生es全量同步:&#x2F;job&#x2F;doctor&#x2F;synAllDoctorDates</span><br><span class="line">视频&#x2F;文章全量同步:&#x2F;job&#x2F;video&#x2F;article&#x2F;synAll</span><br><span class="line">视频全量同步: &#x2F;job&#x2F;ljVideo&#x2F;synAllVideo</span><br><span class="line"></span><br><span class="line">请求示例:</span><br><span class="line">curl http:&#x2F;&#x2F;127.0.0.1:8092&#x2F;job&#x2F;doctor&#x2F;synAllDoctorDates</span><br></pre></td></tr></table></figure>
+
+<p>在容器的终端进行触发时,出现错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Elasticsearch：None of the configured nodes are available:[&#123;#transport#-1&#125;</span><br></pre></td></tr></table></figure>
+
+<p>排查问题发现,通过nginx外放的端口映射为192.168.50.70:9200.</p>
+<p>9200 是ES节点与外部通讯使用的端口。它是http协议的RESTful接口,各种CRUD操作都是走的该端口</p>
+<p>9300是ES节点之间通讯使用的端口。它是tcp通讯端口，集群间和TCPclient都走的它。java程序中使用ES时，在配置文件中要配置该端口</p>
+<p>更改nginx的端口映射为9300</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">stream &#123;</span><br><span class="line">    upstream es &#123;</span><br><span class="line">       server 192.168.50.70:9300 weight&#x3D;1 max_fails&#x3D;2 fail_timeout&#x3D;120s;</span><br><span class="line">    &#125;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen  3304;</span><br><span class="line">        proxy_connect_timeout 10s;</span><br><span class="line">        proxy_timeout 300s;#设置客户端和代理服务之间的超时时间，如果5分钟内没操作将自动断开。</span><br><span class="line">        proxy_pass es;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后端再次请求接口同步数据正常</p>
+<p>再次查看索引,索引都已经正常创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@monitor ~]# curl http:&#x2F;&#x2F;192.168.50.70:9200&#x2F;_cat&#x2F;indices?v</span><br><span class="line">health status index                uuid                   pri rep docs.count docs.deleted store.size pri.store.size</span><br><span class="line">yellow open   app_video_article    -tQTMGs4SCKoLtNMJf-Aqw   5   1       2282            0      2.2mb          2.2mb</span><br><span class="line">yellow open   h_hospital_outer     N4hbdo5TQnSazNx58_a5Qg   5   1     433934       126728    161.3mb        161.3mb</span><br><span class="line">yellow open   m_medicine_info      swwieAn-TNG3FTTvpOlxwg   5   1      36556         1699     41.3mb         41.3mb</span><br><span class="line">green  open   .kibana_1            OQh5HFwsRDSG0QAPKasZyg   1   0          1            0      3.7kb          3.7kb</span><br><span class="line">yellow open   recommend_doctor_rsp vpIMBifjSySYU6h0j9nM-A   5   1        609            1    983.8kb        983.8kb</span><br><span class="line">yellow open   mini_doctor_list     q0DGDN1_SZeIXyAeTNu8Dw   5   1          0            0      1.2kb          1.2kb</span><br></pre></td></tr></table></figure>
 
 <h4 id="filebeat"><a href="#filebeat" class="headerlink" title="filebeat"></a>filebeat</h4><h5 id="下载-4"><a href="#下载-4" class="headerlink" title="下载"></a>下载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;mirrors.huaweicloud.com&#x2F;filebeat&#x2F;7.8.0&#x2F;filebeat-7.8.0-x86_64.rpm</span><br></pre></td></tr></table></figure>
 
@@ -430,7 +466,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/07/30/%E5%AE%B9%E5%99%A8%E7%BB%B4%E6%8A%A4/">容器维护</a>
+                <a class="prev" rel="prev" href="/2020/07/30/%E9%A2%84%E7%94%9F%E4%BA%A7%E8%BF%90%E7%BB%B4%E6%9E%B6%E6%9E%84/">预生产运维架构</a>
             
             
             <a class="next" rel="next" href="/2020/07/16/nginx/">nginx</a>
