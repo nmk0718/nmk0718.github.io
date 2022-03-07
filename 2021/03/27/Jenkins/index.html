@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Jenkins | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Jenkins</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2021-3-27&nbsp;&nbsp;15:03:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/deployment/">deployment</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="Jenkins是什么？"><a href="#Jenkins是什么？" class="headerlink" title="Jenkins是什么？"></a>Jenkins是什么？</h4><p>Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具，起源于Hudson（Hudson是商用的），主要用于持续、自动的构建/测试软件项目、监控外部任务的运行（这个比较抽象，暂且写上，不做解释）。Jenkins用Java语言编写，可在Tomcat等流行的servlet容器中运行，也可独立运行。通常与版本管理工具(SCM)、构建工具结合使用。常用的版本控制工具有SVN、GIT，构建工具有Maven、Ant、Gradle。</p>
+<h4 id="CI-CD是什么"><a href="#CI-CD是什么" class="headerlink" title="CI/CD是什么?"></a>CI/CD是什么?</h4><p>CI(Continuous integration，中文意思是持续集成)是一种软件开发时间。持续集成强调开发人员提交了新代码之后，立刻进行构建、（单元）测试。根据测试结果，我们可以确定新代码和原有代码能否正确地集成在一起。借用网络图片对CI加以理解。<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a6ec3fdcc.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a6ec3fdcc.png&quot;</a> /&gt;<br>CD(Continuous Delivery， 中文意思持续交付)是在持续集成的基础上，将集成后的代码部署到更贴近真实运行环境(类生产环境)中。比如，我们完成单元测试后，可以把代码部署到连接数据库的Staging环境中更多的测试。如果代码没有问题，可以继续手动部署到生产环境。下图反应的是CI/CD 的大概工作模式。<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a6f001677.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a6f001677.png&quot;</a> /&gt;</p>
+<h4 id="Jenkins安装及配置"><a href="#Jenkins安装及配置" class="headerlink" title="Jenkins安装及配置"></a>Jenkins安装及配置</h4><ul>
+<li><p>前置要求<br>操作系统为可以Linux或Windows，JDK 1.8或以上。</p>
+</li>
+<li><p>安装<br>到官网下载 <a href="https://jenkins.io/download/" target="_blank" rel="noopener">https://jenkins.io/download/</a> ，这里下载的war包文件，<br>执行以下命令启动jenkins:<br>java -Dfile.encoding=GBK -jar jenkins.war —httpPort=8080</p>
+<p>进入Jenkins初始化页面，第一次启动时间可能有点长，耐心等待。进入成功后会看到如下画面，按提示路径打开密码文件，输入密码：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a734c2714.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a734c2714.png&quot;</a> /&gt;<br>解锁后又是一长段时间等待，此后可能出现如下图所示界面：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a73e4c064.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a73e4c064.png&quot;</a> /&gt;</p>
+<p>表示无法下载Jenkins插件，可能是因为防火墙导致，而Jenkins插件的安装非常重要，建议翻墙。如无法翻墙，则选择Skip Plugin Installations跳过插件安装。进入以下页面，设置登陆用户<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7464192f.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7464192f.png&quot;</a> /&gt;</p>
+<p>设置成功后即进入Jenkins主界面：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a74c410bd.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a74c410bd.png&quot;</a> /&gt;</p>
+<h5 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h5><p>在正式创建部署项目前，需要配置常用构建工具如Ant， Maven ， JDK等 。点击“系统管理”=》“全局工具配置”，进入配置界面：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7756835e.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7756835e.png&quot;</a> /&gt;</p>
+</li>
+</ul>
+<ol>
+<li>JDK配置<br>配置构建项目需要JDK，在Linux系统下安装好JDK后，在Jenkins的配置相关的安装路径：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a779d2ea5.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a779d2ea5.png&quot;</a> /&gt;</li>
+<li>Maven配置<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a787caeb7.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a787caeb7.png&quot;</a> /&gt;</li>
+<li>Ant配置<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a78ecb195.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a78ecb195.png&quot;</a> /&gt;</li>
+</ol>
+<ul>
+<li>常用插件<br>点击“系统管理”=》“插件管理”，进入插件配置界面：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7943ba46.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7943ba46.png&quot;</a> /&gt;<br>以下是建议安装列表(黑色选中的为可选插件):<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a79abe902.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a79abe902.png&quot;</a> /&gt;<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a79ee84e5.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a79ee84e5.png&quot;</a> /&gt;<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7a3f3637.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7a3f3637.png&quot;</a> /&gt;<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7a8be55c.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7a8be55c.png&quot;</a> /&gt;</li>
+<li>Publish Over FTP插件配置<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7b1145af.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7b1145af.png&quot;</a> /&gt;</li>
+<li>Publish over SSH插件配置<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7b826bb4.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7b826bb4.png&quot;</a> /&gt;<br>配置SSH,如使用ssh key 可在Passphrase使用私钥。如使用密码请删除Passphrase的密码,点击高级<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7c0ed1b3.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7c0ed1b3.png&quot;</a> /&gt;<br>点击Test configuration测试, Success表示成功</li>
+<li>项目构建</li>
+</ul>
+<ol>
+<li>Ant 项目构建<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7c5cc0f6.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7c5cc0f6.png&quot;</a> /&gt;</li>
+</ol>
+<p>填写描述<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7e526664.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7e526664.png&quot;</a> /&gt;<br>源码管理输和SVN地址，账号和密码：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7ea14e34.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7ea14e34.png&quot;</a> /&gt;</p>
+<p>构建环境选择“Invoke Ant”<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7eedaa9d.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7eedaa9d.png&quot;</a> /&gt;<br>设置ant构建文件<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7f32e43f.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7f32e43f.png&quot;</a> /&gt;<br>构建后选择“Send build artifacts over FTP”<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7ff8f204.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a7ff8f204.png&quot;</a> /&gt;<br>文件复制参数设置如下：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a804a75a7.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a804a75a7.png&quot;</a> /&gt;<br>项目保存后，点“立即构建”开始项目的构建：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a80b4393c.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a80b4393c.png&quot;</a> /&gt;</p>
+<p>项目构建完成，可以在目标的FTP目录找到构建后的文件：<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a8105dfb5.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a8105dfb5.png&quot;</a> /&gt;</p>
+<ul>
+<li><p>项目使用<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a82b84ca3.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a82b84ca3.png&quot;</a> /&gt;</p>
+<h5 id="源码配置"><a href="#源码配置" class="headerlink" title="源码配置"></a>源码配置</h5></li>
+<li><p>选择SVN<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a83121a8e.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a83121a8e.png&quot;</a> /&gt;<br>URL为项目路径 Credentials为用户身份,添加<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a868d30f8.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a868d30f8.png&quot;</a> /&gt;<br>常用类型1.username with password(用户名密码)2.SSH username with private key(ssh公私钥)<br>选择1输入用户名 密码添加即可 选择2在Private Key输入私钥<br>如需在控制台输出里显示代码更新 Quiet check-out取消勾选即可</p>
+</li>
+<li><p>选择Git<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a86fd75b5.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a86fd75b5.png&quot;</a> /&gt;<br>URL项目库,Credentials用户名密码 Branch为分支名例如master,qa</p>
+</li>
+<li><p>项目打包编译<br>![img](<a href="http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a874c79c5.png&quot;" target="_blank" rel="noopener">http://showdoc.gzlplink.com/Public/Uploads/2020-08-12/5f33a874c79c5.png&quot;</a> /&gt;</p>
+</li>
+</ul>
+<h5 id="jenkins通过ssh启动服务失败"><a href="#jenkins通过ssh启动服务失败" class="headerlink" title="jenkins通过ssh启动服务失败"></a>jenkins通过ssh启动服务失败</h5><p>查看tomcat启动日志发现报错:war包拒绝访问</p>
+<p>因jenkins配置的ssh对应的windows账号不是administrator会出现没权限问题</p>
+<p>方案1.更改jenkins的ssh用户为administrator</p>
+<p>方案2.给需要权限的文件夹或文件授权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">windows命令给用户授权</span><br><span class="line">cacls E:\tomcat &#x2F;t &#x2F;e &#x2F;c &#x2F;r nmk   拒绝</span><br><span class="line">Cacls E:\tomcat &#x2F;t &#x2F;e &#x2F;c &#x2F;g nmk:F   允许</span><br><span class="line"></span><br><span class="line">多用户情况下可以给everyone</span><br><span class="line">Cacls E:\SFTP\sftp\nmk.war &#x2F;t &#x2F;e &#x2F;c &#x2F;g everyone:F</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动部署脚本"><a href="#自动部署脚本" class="headerlink" title="自动部署脚本"></a>自动部署脚本</h4><h5 id="windows自动部署war包脚本"><a href="#windows自动部署war包脚本" class="headerlink" title="windows自动部署war包脚本"></a>windows自动部署war包脚本</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for &#x2F;f &quot;tokens&#x3D;5&quot; %%e in (&#39;netstat -aon ^| findstr &quot;:9021&quot;&#39;) do (set f&#x3D;%%e)</span><br><span class="line">taskkill &#x2F;t &#x2F;f &#x2F;pid %f% </span><br><span class="line"></span><br><span class="line">rd &#x2F;s &#x2F;q &quot;E:\tomcat-9021\webapps\cmpay&quot;</span><br><span class="line">del &quot;E:\tomcat-9021\webapps\cmpay.war&quot;</span><br><span class="line">move cmpay.war &quot;E:\tomcat-9021\webapps\&quot;</span><br><span class="line">net start tomcat9021</span><br></pre></td></tr></table></figure>
+
+<p>因windows启动tomcat会被jenkins杀掉,所以要把tomcat做成服务</p>
+<h5 id="windows自动部署jar包脚本"><a href="#windows自动部署jar包脚本" class="headerlink" title="windows自动部署jar包脚本"></a>windows自动部署jar包脚本</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for &#x2F;f &quot;tokens&#x3D;5&quot; %%i in (&#39;netstat -aon ^| findstr &quot;:8081&quot;&#39;) do (set j&#x3D;%%i)</span><br><span class="line">taskkill &#x2F;t &#x2F;f &#x2F;pid %j% </span><br><span class="line"></span><br><span class="line">del E:\gzlp_red_package\lepeng-red-package-coupon.jar</span><br><span class="line">move lepeng-red-package-coupon-1.0-SNAPSHOT.jar &quot;E:\gzlp_red_package\lepeng-red-package-coupon.jar&quot;</span><br><span class="line">javaw -Xms256m -Xmx512m -jar &quot;E:\gzlp_red_package\lepeng-red-package-coupon.jar&quot; --spring.profiles.active&#x3D;dev</span><br></pre></td></tr></table></figure>
+
+<h5 id="linux自动部署war包脚本"><a href="#linux自动部署war包脚本" class="headerlink" title="linux自动部署war包脚本"></a>linux自动部署war包脚本</h5><p>jenkins配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh &#x2F;home&#x2F;tomcat&#x2F;upload&#x2F;omall.sh</span><br></pre></td></tr></table></figure>
+
+<p>omall.sh脚本如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#Java Env</span><br><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java</span><br><span class="line">export CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin</span><br><span class="line"></span><br><span class="line">port&#x3D;19181</span><br><span class="line">#根据端口号查询对应的pid</span><br><span class="line">pid&#x3D;$(netstat -nlp | grep :$port | awk &#39;&#123;print $7&#125;&#39; | awk -F&quot;&#x2F;&quot; &#39;&#123; print $1 &#125;&#39;);</span><br><span class="line"></span><br><span class="line">#杀掉对应的进程，如果pid不存在，则不执行</span><br><span class="line">if [  -n  &quot;$pid&quot;  ];  then</span><br><span class="line">    kill  -9  $pid;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">rm -rf &#x2F;home&#x2F;tomcat&#x2F;omall&#x2F;webapps&#x2F;omall.war</span><br><span class="line">rm -rf &#x2F;home&#x2F;tomcat&#x2F;omall&#x2F;webapps&#x2F;omall</span><br><span class="line">mv &#x2F;home&#x2F;tomcat&#x2F;upload&#x2F;omall.war &#x2F;home&#x2F;tomcat&#x2F;omall&#x2F;webapps</span><br><span class="line">cd &#x2F;home&#x2F;tomcat&#x2F;omall&#x2F;bin</span><br><span class="line">.&#x2F;startup.sh</span><br></pre></td></tr></table></figure>
+
+<h5 id="linux自动部署jar包脚本"><a href="#linux自动部署jar包脚本" class="headerlink" title="linux自动部署jar包脚本"></a>linux自动部署jar包脚本</h5><p>jenkins配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;home&#x2F;tomcat&#x2F;app&#x2F;admin-core</span><br><span class="line">nohup sh &#x2F;home&#x2F;tomcat&#x2F;upload&#x2F;admin-core.sh &gt;&gt; catalina.out 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<p>admin-core.sh脚本如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#Java Env</span><br><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java</span><br><span class="line">export CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">export PATH&#x3D;$PATH:$JAVA_HOME&#x2F;bin</span><br><span class="line"></span><br><span class="line">port&#x3D;48094</span><br><span class="line">#根据端口号查询对应的pid</span><br><span class="line">pid&#x3D;$(netstat -nlp | grep :$port | awk &#39;&#123;print $7&#125;&#39; | awk -F&quot;&#x2F;&quot; &#39;&#123; print $1 &#125;&#39;);</span><br><span class="line"></span><br><span class="line">#杀掉对应的进程，如果pid不存在，则不执行</span><br><span class="line">if [  -n  &quot;$pid&quot;  ];  then</span><br><span class="line">    kill  -9  $pid;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">rm -r &#x2F;home&#x2F;tomcat&#x2F;app&#x2F;admin-core&#x2F;admin-core-0.0.1-SNAPSHOT.jar</span><br><span class="line">mv &#x2F;home&#x2F;tomcat&#x2F;upload&#x2F;admin-core-0.0.1-SNAPSHOT.jar &#x2F;home&#x2F;tomcat&#x2F;app&#x2F;admin-core</span><br><span class="line">cd &#x2F;home&#x2F;tomcat&#x2F;app&#x2F;admin-core</span><br><span class="line">java -Xms256m -Xmx512m -jar &#x2F;home&#x2F;tomcat&#x2F;app&#x2F;admin-core&#x2F;admin-core-0.0.1-SNAPSHOT.jar --spring.profiles.active&#x3D;dev  &amp;</span><br></pre></td></tr></table></figure>
+
+<h5 id="k8s自动部署后端脚本"><a href="#k8s自动部署后端脚本" class="headerlink" title="k8s自动部署后端脚本"></a>k8s自动部署后端脚本</h5><p><strong>执行shell</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd admin-core</span><br><span class="line">chmod +x .&#x2F;build.sh</span><br><span class="line">.&#x2F;build.sh prod $BUILD_NUMBER</span><br></pre></td></tr></table></figure>
+
+<p><strong>gitlab配置</strong></p>
+<p>build.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">#构建有版本号的镜像，以防需要回滚，而且是从镜像创建服务</span><br><span class="line">docker build -t registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;admin-core-$1:$2     . -f Dockerfile_$1</span><br><span class="line">docker push     registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;admin-core-$1:$2</span><br><span class="line">#构建latest版本，用于自动部署</span><br><span class="line">docker build -t registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;admin-core-$1:latest . -f Dockerfile_$1</span><br><span class="line">docker push     registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;admin-core-$1:latest</span><br></pre></td></tr></table></figure>
+
+<p>start.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">JARFILE&#x3D;&#x2F;home&#x2F;App.jar</span><br><span class="line">LOGPATH&#x3D;&#x2F;home&#x2F;logs</span><br><span class="line">LOG&#x3D;&#x2F;home&#x2F;logs&#x2F;App.log</span><br><span class="line"></span><br><span class="line">#日志挂载</span><br><span class="line">ip&#x3D;&#96;ip addr |grep inet |grep eth0|awk &#39;&#123;print $2&#125;&#39; |awk -F &quot;&#x2F;&quot; &#39;&#123;print $1&#125;&#39;&#96;</span><br><span class="line">mkdir -p &#x2F;home&#x2F;log&#x2F;gzlp_equity&#x2F;$ip</span><br><span class="line">cd &#x2F;var&#x2F;log</span><br><span class="line">ln -s  &#x2F;home&#x2F;log&#x2F;gzlp_equity&#x2F;$ip java</span><br><span class="line"></span><br><span class="line">if [ ! -d $LOGPATH ];then</span><br><span class="line">   mkdir -p $LOGPATH</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">java -jar -Xms512m -Xmx1024m -Dskywalking.agent.namespace&#x3D;prod -Dskywalking.agent.service_name&#x3D;prod-admin-core -javaagent:&#x2F;home&#x2F;skywalking-agent-plugins&#x2F;agent-prod-bj&#x2F;skywalking-agent.jar $JARFILE -Djava.security.egd&#x3D;file:&#x2F;dev&#x2F;.&#x2F;urandom --spring.profiles.active&#x3D;$ACTIVE  &gt;&gt; $LOG &amp;</span><br><span class="line"></span><br><span class="line">tail  -100f $LOG</span><br></pre></td></tr></table></figure>
+
+<p>Dockerfile_prod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">FROM   registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng&#x2F;centos:latest</span><br><span class="line">MAINTAINER nmk</span><br><span class="line"></span><br><span class="line">COPY  target&#x2F;admin-core-0.0.1-SNAPSHOT.jar &#x2F;home&#x2F;App.jar</span><br><span class="line">COPY  start.sh &#x2F;home&#x2F;start.sh</span><br><span class="line">RUN  mkdir &#x2F;home&#x2F;tomcat&#x2F;</span><br><span class="line">RUN chmod +x &#x2F;home&#x2F;start.sh</span><br><span class="line">ENV  JAVA_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;java</span><br><span class="line">ENV  PATH $JAVA_HOME&#x2F;bin:$PATH</span><br><span class="line">ENV  CLASSPATH&#x3D;.:$JAVA_HOME&#x2F;lib&#x2F;dt.jar:$JAVA_HOME&#x2F;lib&#x2F;tools.jar</span><br><span class="line">ENV LC_ALL&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">ENV LANG&#x3D;&quot;en_US.UTF-8&quot;</span><br><span class="line">ENV ACTIVE&#x3D;prod</span><br><span class="line"></span><br><span class="line">EXPOSE 48094</span><br><span class="line">CMD [&quot;&#x2F;home&#x2F;start.sh&quot;]</span><br></pre></td></tr></table></figure>
+
+<h5 id="k8s自动部署前端脚本"><a href="#k8s自动部署前端脚本" class="headerlink" title="k8s自动部署前端脚本"></a>k8s自动部署前端脚本</h5><p><strong>执行shell</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ..</span><br><span class="line">tar zcvf mps-admin-ui.tar mps-admin-ui_tdev</span><br><span class="line">mv mps-admin-ui.tar mps-admin-ui_tdev&#x2F;docker&#x2F;</span><br><span class="line">cd mps-admin-ui_tdev&#x2F;docker&#x2F;</span><br><span class="line">chmod +x .&#x2F;build.sh</span><br><span class="line">.&#x2F;build.sh test $BUILD_NUMBER</span><br></pre></td></tr></table></figure>
+
+<p><strong>gitlab配置</strong></p>
+<p>Dockerfile_test</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">FROM   registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng&#x2F;nginx:latest</span><br><span class="line">MAINTAINER nmk</span><br><span class="line"></span><br><span class="line">COPY mps-admin-ui.tar &#x2F;home&#x2F;mps-admin-ui.tar</span><br><span class="line">RUN mv &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf.default</span><br><span class="line">RUN tar zxvf &#x2F;home&#x2F;mps-admin-ui.tar -C &#x2F;home&#x2F;</span><br><span class="line">RUN mv &#x2F;home&#x2F;mps-admin-ui_tdev&#x2F;docker&#x2F;nginx.conf &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br><span class="line">COPY start.sh &#x2F;home&#x2F;start.sh</span><br><span class="line">RUN chmod +x &#x2F;home&#x2F;start.sh</span><br><span class="line"></span><br><span class="line">EXPOSE 80</span><br><span class="line">CMD [&quot;&#x2F;home&#x2F;start.sh&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>build.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">#构建有版本号的镜像，以防需要回滚，而且是从镜像创建服务</span><br><span class="line">docker build -t registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;mps-admin-ui-$1:$2     . -f Dockerfile_$1</span><br><span class="line">docker push     registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;mps-admin-ui-$1:$2</span><br><span class="line">#构建latest版本，用于自动部署</span><br><span class="line">docker build -t registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;mps-admin-ui-$1:latest . -f Dockerfile_$1</span><br><span class="line">docker push     registry-vpc.cn-beijing.aliyuncs.com&#x2F;lepeng-$1&#x2F;mps-admin-ui-$1:latest</span><br></pre></td></tr></table></figure>
+
+<p>start.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">mv &#x2F;home&#x2F;mps-admin-ui_tdev &#x2F;home&#x2F;mps-admin-ui</span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx</span><br><span class="line">.&#x2F;sbin&#x2F;nginx</span><br><span class="line">.&#x2F;sbin&#x2F;nginx -t</span><br><span class="line">echo &quot;nginx Start successfully&quot; &gt;&gt; nginx.log</span><br><span class="line">tail -10f nginx.log</span><br></pre></td></tr></table></figure>
+
+<p>nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">user nginx nginx;</span><br><span class="line">worker_processes  8;</span><br><span class="line">error_log   logs&#x2F;error_log;</span><br><span class="line">#error_log  logs&#x2F;error.log  notice;</span><br><span class="line">#error_log  logs&#x2F;error.log  info;</span><br><span class="line">pid         &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 51200;</span><br><span class="line">events &#123;</span><br><span class="line">    use epoll;</span><br><span class="line">    worker_connections  51200;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line">         server_names_hash_bucket_size 512;</span><br><span class="line">         client_header_buffer_size 512k;</span><br><span class="line">         large_client_header_buffers 4 256k;</span><br><span class="line">         client_max_body_size             100m;</span><br><span class="line">         client_body_buffer_size        10m;</span><br><span class="line">         client_header_timeout     3m;</span><br><span class="line">         client_body_timeout 3m;</span><br><span class="line">         send_timeout             3m;</span><br><span class="line"> server_tokens off;</span><br><span class="line">    sendfile        on;</span><br><span class="line">      #tcp_nopush     on;</span><br><span class="line">      keepalive_timeout 120;</span><br><span class="line">      tcp_nodelay on;</span><br><span class="line">        proxy_buffering on;</span><br><span class="line">    # 开启gzip</span><br><span class="line">    gzip on;</span><br><span class="line">    # 启用gzip压缩的最小文件，小于设置值的文件将不会压缩</span><br><span class="line">    gzip_min_length 1k;</span><br><span class="line">    # gzip 压缩级别，1-10，数字越大压缩的越好，也越占用CPU时间。一般设置1和2</span><br><span class="line">    gzip_comp_level 2;</span><br><span class="line">    gzip_buffers 4 8k;</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line">    # 进行压缩的文件类型。javascript有多种形式。其中的值可以在 mime.types 文件中找到。</span><br><span class="line">    gzip_types text&#x2F;plain application&#x2F;javascript application&#x2F;x-javascript text&#x2F;css application&#x2F;xml text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png;</span><br><span class="line">    # 是否在http header中添加Vary: Accept-Encoding，建议开启</span><br><span class="line">    gzip_vary on;</span><br><span class="line">    # 禁用IE 6 gzip</span><br><span class="line">    gzip_disable &quot;MSIE [1-6]\.&quot;;</span><br><span class="line">    #设置缓存路径并且使用一块最大100M的共享内存，用于硬盘上的文件索引，包括文件名和请求次数，每个文件在1天内若不活跃（无请求）则从硬盘上淘汰，硬盘缓存最大10G，满了则根据LRU算法自动清除缓存。</span><br><span class="line">    proxy_connect_timeout 10;</span><br><span class="line">    proxy_read_timeout 180;</span><br><span class="line">    proxy_send_timeout 5;</span><br><span class="line">    proxy_buffer_size 16k;</span><br><span class="line">    proxy_buffers 4 32k;</span><br><span class="line">    proxy_busy_buffers_size 96k;</span><br><span class="line">    proxy_temp_file_write_size 96k;</span><br><span class="line">    proxy_temp_path &#x2F;tmp&#x2F;temp_dir;</span><br><span class="line">    #proxy_cache_path &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;cache levels&#x3D;1:2 keys_zone&#x3D;imgcache:100m inactive&#x3D;1d max_size&#x3D;10g;</span><br><span class="line">log_format  main  &#39;[$remote_addr] - [$remote_user] [$time_local] [$request] [$status] [$body_bytes_sent] [$http_referer] [$http_user_agent] [$http_x_forwarded_for] [$request_time] [$upstream_response_time] [$upstream_addr] [$upstream_status]&#39;;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  tdev.gzlplink.com;</span><br><span class="line">                add_header backendIP $upstream_addr;   #把后端具体的 upstream 返回给前端 header</span><br><span class="line">                add_header backendCode $upstream_status;</span><br><span class="line">                include proxy.conf;</span><br><span class="line">                access_log &#x2F;data1&#x2F;logs&#x2F;nginx&#x2F;tdev.gzlplink.com-access_log main;</span><br><span class="line">                error_log &#x2F;data1&#x2F;logs&#x2F;nginx&#x2F;tdev.gzlplink.com-error_log;</span><br><span class="line">        </span><br><span class="line">        location &#x2F;mps-admin-ui &#123;</span><br><span class="line">                root &#x2F;home&#x2F;;</span><br><span class="line">                index  index.html index.htm;</span><br><span class="line">                if ( -d $request_filename )&#123;</span><br><span class="line">			    rewrite ^&#x2F;(.*)([^&#x2F;])$ $scheme:&#x2F;&#x2F;$host&#x2F;$1$2&#x2F; permanent;</span><br><span class="line">	        	&#125;</span><br><span class="line">                log_not_found off;</span><br><span class="line">                # 关闭日志</span><br><span class="line">                access_log off;</span><br><span class="line">                # 缓存时间7天</span><br><span class="line">                expires 7d;</span><br><span class="line">                # 指定上面设置的缓存区域</span><br><span class="line">                #proxy_cache imgcache;</span><br><span class="line">                # 缓存过期管理</span><br><span class="line">                proxy_cache_valid 200 302 1d;</span><br><span class="line">                proxy_cache_valid 404 10m;</span><br><span class="line">                proxy_cache_valid any 1h;</span><br><span class="line">                proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过jenkins更新生产的nginx"><a href="#通过jenkins更新生产的nginx" class="headerlink" title="通过jenkins更新生产的nginx"></a>通过jenkins更新生产的nginx</h5><img src="\image\image-20200828165059543.png" />
+
+<img src="\image\image-20200824111256188.png" />
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze18q1ojbig8zevjrbuZ nginx]# cat nginx_reload </span><br><span class="line">#&#x2F;bin&#x2F;bash</span><br><span class="line">check_status&#x3D;&quot;&#96;&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -t  2&gt;&amp;1&#96;&quot;</span><br><span class="line"></span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">     #echo &quot;nginx configure file ok&quot;</span><br><span class="line">     echo $check_status</span><br><span class="line">    &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx  -s reload</span><br><span class="line">else</span><br><span class="line">    #echo &quot;nginx configure file failed&quot;</span><br><span class="line">    echo $check_stutus</span><br><span class="line">exit    </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2021/03/27/Jenkins/">http://nmk0718.github.io/2021/03/27/Jenkins/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Jenkins/"># Jenkins</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/03/27/Prometheus/">Prometheus</a>
+            
+            
+            <a class="next" rel="next" href="/2021/03/27/Flutter/">Flutter</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>

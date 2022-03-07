@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>expect | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">expect</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-5-21&nbsp;&nbsp;22:20:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/tools/">tools</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="expect-安装"><a href="#expect-安装" class="headerlink" title="expect 安装"></a>expect 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y expect</span><br></pre></td></tr></table></figure>
+
+<h3 id="expect工作原理"><a href="#expect工作原理" class="headerlink" title="expect工作原理"></a>expect工作原理</h3><p>​    从最简单的层次来说，Expect的工作方式象一个通用化的Chat脚本工具。Chat脚本最早用于UUCP网络内，以用来实现计算机之间需要建立连接时进行特定的登录会话的自动化。</p>
+<p>​    Chat脚本由一系列expect-send对组成：expect等待输出中输出特定的字符，通常是一个提示符，然后发送特定的响应。例如下面的 Chat脚本实现等待标准输出出现Login:字符串，然后发送somebody作为用户名；然后等待Password:提示符，并发出响应 sillyme。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Login: somebody Password: sillyme</span><br></pre></td></tr></table></figure>
+
+<p>Expect最简单的脚本操作模式本质上和Chat脚本工作模式是一样的。</p>
+<h3 id="expect简单例子"><a href="#expect简单例子" class="headerlink" title="expect简单例子"></a>expect简单例子</h3><p>为了更好理解except脚本几个简单参数，我们再举一个简单的例子： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect   </span><br><span class="line">set timeout 30   </span><br><span class="line">spawn ssh -l username 192.168.1.1   </span><br><span class="line">expect &quot;password:&quot;   </span><br><span class="line">send &quot;ispass\r&quot;   </span><br><span class="line">interact</span><br></pre></td></tr></table></figure>
+
+<p>说明:</p>
+<p>1.[#!/usr/bin/expect]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这一行告诉操作系统脚本里的代码使用那一个shell来执行。这里的expect其实和linux下的bash、windows下的cmd是	一类东西。注意：这一行需要在脚本的第一行。</span><br></pre></td></tr></table></figure>
+
+<p>2.[set timeout 30]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">设置超时时间，计时单位是：秒</span><br></pre></td></tr></table></figure>
+
+<p>3.[spawn ssh -l username 192.168.1.1]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spawn是进入expect环境后才可以执行的expect内部命令，如果没有装expect或者直接在默认的SHELL下执行是找不到spawn命令的。所以不要用 “which spawn“之类的命令去找spawn命令。好比windows里的dir就是一个内部命令，这个命令由shell自带，你无法找到一个dir.com 或 dir.exe 的可执行文件。它主要的功能是给ssh运行进程加个壳，用来传递交互指令。</span><br></pre></td></tr></table></figure>
+
+<p>4.[expect “password:”]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">这里的expect也是expect的一个内部命令，有点晕吧，expect的shell命令和内部命令是一样的，但不是一个功能，习惯就好了。这个命令的意思是判断上次输出结果里是否包含“password:”的字符串，如果有则立即返回，否则就等待一段时间后返回，这里等待时长就是前面设置的30秒</span><br></pre></td></tr></table></figure>
+
+<p>5.[send “ispass\r”]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">这里就是执行交互动作，与手工输入密码的动作等效。  </span><br><span class="line">温馨提示： 命令字符串结尾别忘记加上 “\r”，如果出现异常等待的状态可以核查一下。</span><br></pre></td></tr></table></figure>
+
+<p>6.[interact］  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">执行完成后保持交互状态，把控制权交给控制台，这个时候就可以手工操作了。如果没有这一句登录完成后会退出，而不是留在远程终端上。如果你只是登录过去执行一段命令就退出，可改为［expect eof］</span><br></pre></td></tr></table></figure>
+
+<h3 id="expect实用案例"><a href="#expect实用案例" class="headerlink" title="expect实用案例"></a>expect实用案例</h3><h4 id="远程登录到linux-并且执行命令-执行完后并退出"><a href="#远程登录到linux-并且执行命令-执行完后并退出" class="headerlink" title="远程登录到linux,并且执行命令,执行完后并退出"></a>远程登录到linux,并且执行命令,执行完后并退出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect -f </span><br><span class="line">set ip 192.168.1.130 </span><br><span class="line">set password admin </span><br><span class="line">set timeout 10 </span><br><span class="line">spawn ssh root@$ip </span><br><span class="line">expect &#123; </span><br><span class="line">&quot;*yes&#x2F;no&quot; &#123; send &quot;yes\r&quot;; exp_continue&#125; </span><br><span class="line">&quot;*password:&quot; &#123; send &quot;$password\r&quot; &#125; </span><br><span class="line">&#125; </span><br><span class="line">expect &quot;#*&quot; </span><br><span class="line">send &quot;pwd\r&quot; </span><br><span class="line">send &quot;exit\r&quot; </span><br><span class="line">expect eof</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1. root@nmk# .&#x2F;test.exp </span><br><span class="line">2. spawn ssh root@192.168.1.130 </span><br><span class="line">3. root@192.168.1.130&#39;s password: </span><br><span class="line">4. Last login: Fri Sep 7 14:05:07 2012 from 116.246.27.90 </span><br><span class="line">5. [root@localhost ~]# pwd </span><br><span class="line">6. &#x2F;root </span><br><span class="line">7. [root@localhost ~]# exit </span><br><span class="line">8. logout </span><br><span class="line">9. Connection to 192.168.1.130 closed.</span><br></pre></td></tr></table></figure>
+
+<p>linux下匹配 #,windows下匹配 &gt;</p>
+<h4 id="远程登录到ftp-并且下载文件"><a href="#远程登录到ftp-并且下载文件" class="headerlink" title="远程登录到ftp,并且下载文件"></a>远程登录到ftp,并且下载文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">1. \#!&#x2F;usr&#x2F;bin&#x2F;expect -f </span><br><span class="line">2.  set ip [lindex $argv 0 ] </span><br><span class="line">3.  set dir [lindex $argv 1 ] </span><br><span class="line">4.  set file [lindex $argv 2 ] </span><br><span class="line">5.  set timeout 10 </span><br><span class="line">6.  spawn ftp $ip </span><br><span class="line">7.  expect &quot;Name*&quot; </span><br><span class="line">8.  send &quot;zwh\r&quot; </span><br><span class="line">9.  expect &quot;Password:*&quot; </span><br><span class="line">10.  send &quot;zwh\r&quot; </span><br><span class="line">11.  expect &quot;ftp&gt;*&quot; </span><br><span class="line">12.  send &quot;lcd $dir\r&quot; </span><br><span class="line">13.  expect &#123; </span><br><span class="line">14.  &quot;*file&quot; &#123; send_user &quot;local $_dir No such file or directory&quot;;send &quot;quit\r&quot; &#125; </span><br><span class="line">15.  &quot;*now*&quot; &#123; send &quot;get $dir&#x2F;$file $dir&#x2F;$file\r&quot;&#125; </span><br><span class="line">16.  &#125; </span><br><span class="line">17.  expect &#123; </span><br><span class="line">18.  &quot;*Failed&quot; &#123; send_user &quot;remote $file No such file&quot;;send &quot;quit\r&quot; &#125; </span><br><span class="line">19.  &quot;*OK&quot;   &#123; send_user &quot;$file has been download\r&quot;;send &quot;quit\r&quot;&#125; </span><br><span class="line">20.  &#125; </span><br><span class="line">21.  expect eof</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1. root@nmk# .&#x2F;test2.exp 192.168.1.130 &#x2F;var&#x2F;www&#x2F;www aaa.html </span><br><span class="line">2. spawn ftp 192.168.1.130 </span><br><span class="line">3. Connected to 192.168.1.130. </span><br><span class="line">4. 220 (vsFTPd 2.0.5) </span><br><span class="line">5. Name (192.168.1.130:root): zwh </span><br><span class="line">6. 331 Please specify the password. </span><br><span class="line">7. Password: </span><br><span class="line">8. 230 Login successful. </span><br><span class="line">9. Remote system type is UNIX. </span><br><span class="line">10. Using binary mode to transfer files. </span><br><span class="line">11. ftp&gt; lcd &#x2F;var&#x2F;www&#x2F;www </span><br><span class="line">12. Local directory now &#x2F;var&#x2F;www&#x2F;www </span><br><span class="line">13. ftp&gt; get &#x2F;var&#x2F;www&#x2F;www&#x2F;aaa.html &#x2F;var&#x2F;www&#x2F;www&#x2F;aaa.html </span><br><span class="line">14. local: &#x2F;var&#x2F;www&#x2F;www&#x2F;aaa.html remote: &#x2F;var&#x2F;www&#x2F;www&#x2F;aaa.html </span><br><span class="line">15. 200 PORT command successful. Consider using PASV. </span><br><span class="line">16. 150 Opening BINARY mode data connection for &#x2F;var&#x2F;www&#x2F;www&#x2F;aaa.html (66 bytes). </span><br><span class="line">17. 226 File send OK. </span><br><span class="line">18. 66 bytes received in 0.00 secs (515.6 kB&#x2F;s) </span><br><span class="line">19. quit aaa.html has been download </span><br><span class="line">20. 221 Goodbye.</span><br></pre></td></tr></table></figure>
+
+<h4 id="单台服务器scp"><a href="#单台服务器scp" class="headerlink" title="单台服务器scp"></a>单台服务器scp</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect </span><br><span class="line">if &#123;$argc &lt; 2&#125; &#123;</span><br><span class="line">    send_user &quot;usage: $argv0 src_file username ip dest_file password\n&quot;</span><br><span class="line">exit</span><br><span class="line">set timeout 10 </span><br><span class="line">set host [lindex $argv 0] </span><br><span class="line">set username [lindex $argv 1] </span><br><span class="line">set password [lindex $argv 2] </span><br><span class="line">set src_file [lindex $argv 3] </span><br><span class="line">set dest_file [lindex $argv 4] </span><br><span class="line">spawn scp $src_file $username@$host:$dest_file </span><br><span class="line">expect &#123; </span><br><span class="line">&quot;(yes&#x2F;no)?&quot; </span><br><span class="line">&#123; </span><br><span class="line">send &quot;yes\n&quot; </span><br><span class="line">expect &quot;*assword:&quot; &#123; send &quot;$password\n&quot;&#125; </span><br><span class="line">&#125; </span><br><span class="line">&quot;*assword:&quot; </span><br><span class="line">&#123; </span><br><span class="line">send &quot;$password\n&quot; </span><br><span class="line">&#125; </span><br><span class="line">&#125; </span><br><span class="line">expect &quot;100%&quot; </span><br><span class="line">expect eof</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<p>（1）注意代码刚开始的第一行，指定了expect的路径，与shell脚本相同，这一句指定了程序在执行时到哪里去寻找相应的启动程序。代码刚开始还设定了timeout的时间为10秒，如果在执行scp任务时遇到了代码中没有指定的异常，则在等待10秒后该脚本的执行会自动终止。</p>
+<p>（2）这个脚本设置了5个需要手动输入的参数，分别为：目标主机的IP、用户名、密码、本地文件路径、目标主机中的文件路径。如果将以上脚本保存为expect_scp文件，则在shell下执行时需要按以下的规范来输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;expect_scp 192.168.75.130 root 123456 &#x2F;root&#x2F;src_file &#x2F;root&#x2F;dest_file</span><br></pre></td></tr></table></figure>
+
+<p>以上的命令执行后，将把本地/root目录下的src_file文件拷贝到用户名为root，密码为123456的主机192.168.75.130中的/root下，同时还将这个源文件重命名为dest_file。</p>
+<p>（3）spawn代表在本地终端执行的语句，在该语句开始执行后，expect开始捕获终端的输出信息，然后做出对应的操作。expect代码中的捕获的(yes/no)内容用于完成第一次访问目标主机时保存密钥的操作。有了这一句，scp的任务减少了中断的情况。代码结尾的expect eof与spawn对应，表示捕获终端输出信息的终止。</p>
+<h4 id="多台传输脚本"><a href="#多台传输脚本" class="headerlink" title="多台传输脚本"></a><strong>多台传输脚本</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat mainscp.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">host_list&#x3D;&quot;server_list.conf&quot;</span><br><span class="line">cat $host_list | while read line</span><br><span class="line">do</span><br><span class="line"> host_ip&#x3D;&#96;echo $line|awk &#39;&#123;print $1&#125;&#39;&#96;</span><br><span class="line"> username&#x3D;&#96;echo $line|awk &#39;&#123;print $2&#125;&#39;&#96;</span><br><span class="line"> password&#x3D;&#96;echo $line|awk &#39;&#123;print $3&#125;&#39;&#96;</span><br><span class="line"> src_file&#x3D;&#96;echo $line|awk &#39;&#123;print $4&#125;&#39;&#96;</span><br><span class="line"> dest_file&#x3D;&#96;echo $line|awk &#39;&#123;print $5&#125;&#39;&#96;</span><br><span class="line"> ##key&#x3D;&#96;echo $line|awk &#39;&#123;print $6&#125;&#39;&#96;</span><br><span class="line"> ##.&#x2F;allscp.sh $key $src_file $username $host_ip $dest_file $password</span><br><span class="line"> .&#x2F;allscp.sh $src_file $username $host_ip $dest_file $password</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.服务器信息文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat server_list.conf</span><br></pre></td></tr></table></figure>
+
+<p>格式为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip 用户名 密码 源文件 目标文件地址</span><br></pre></td></tr></table></figure>
+
+<p>通过jenkins加expect部署新项目或增加节点</p>
+<p>update.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect</span><br><span class="line"></span><br><span class="line">if &#123;$argc &lt; 3&#125; &#123;</span><br><span class="line">        send_user &quot;请按照格式输入: $argv0 host_ip username password local_file remote_file project port\n&quot;</span><br><span class="line">exit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#接收输入的参数定义为变量</span><br><span class="line">set host_ip [lindex $argv 0]</span><br><span class="line">set username [lindex $argv 1]</span><br><span class="line">set password [lindex $argv 2]</span><br><span class="line">set local_file [lindex $argv 3]</span><br><span class="line">set remote_file [lindex $argv 4]</span><br><span class="line">set project [lindex $argv 5]</span><br><span class="line">set port [lindex $argv 6]</span><br><span class="line"></span><br><span class="line">spawn scp package&#x2F;$project.war $username@$host_ip:$remote_file</span><br><span class="line"></span><br><span class="line">expect &#123;</span><br><span class="line">&quot;*password:&quot;</span><br><span class="line">        &#123;send &quot;$password\r&quot;&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect &quot;100%&quot;</span><br><span class="line">expect eof</span><br><span class="line">spawn ssh $username@$host_ip</span><br><span class="line"></span><br><span class="line">expect &#123; </span><br><span class="line">&quot;(yes&#x2F;no)?&quot;</span><br><span class="line">	&#123;send &quot;yes\r&quot;&#125;</span><br><span class="line">&quot;*password:&quot;</span><br><span class="line">	&#123;send &quot;$password\r&quot;&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;cd $remote_file\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;.&#x2F;killport.sh $port\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;cd &#x2F;home&#x2F;tomcat&#x2F;tomcat_$port&#x2F;webapps\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;tar czvf $project&#96;date +%Y%m%d%H%M%S&#96;.bak.tar $project\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;rm -r $project.war\r&quot;</span><br><span class="line">expect &quot;(yes&#x2F;no)?&quot;</span><br><span class="line">send &quot;yes\r&quot;</span><br><span class="line">send &quot;rm -rf $project\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;mv *.bak.tar backup\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;mv $remote_file&#x2F;$project.war &#x2F;home&#x2F;tomcat&#x2F;tomcat_$port&#x2F;webapps\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;cd &#x2F;home&#x2F;tomcat&#x2F;tomcat_$port&#x2F;bin\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;.&#x2F;startup.sh\r&quot;</span><br><span class="line">expect eof</span><br></pre></td></tr></table></figure>
+
+<p>Release.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">project&#x3D;$2</span><br><span class="line">host_ip&#x3D;$4</span><br><span class="line">port&#x3D;$6</span><br><span class="line"></span><br><span class="line">line1&#x3D;&#96;ls package|grep $project&#96;</span><br><span class="line">if [ &quot;$project.war&quot; !&#x3D; &quot;$line1&quot; ] ; then</span><br><span class="line">    echo -e &quot;请先去jenkins打包,不存在$project的war包.\n请检查拼写格式:\n</span><br><span class="line">        	-P(project name)\n</span><br><span class="line">        	-H(host ip)\n</span><br><span class="line">        	-Port(tomcat port)\n</span><br><span class="line">        	例如:.&#x2F;release.sh -P mfapi -H 192.168.1.1 -Port 8080&quot;</span><br><span class="line">exit</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">line2&#x3D;&#96;cat files&#x2F;server_list.conf|grep $host_ip|awk &#39;&#123;print $1&#125;&#39;&#96;</span><br><span class="line">if [ &quot;$host_ip&quot; !&#x3D; &quot;$line2&quot; ] ; then</span><br><span class="line">    echo -e &quot;服务器列表不存在$host_ip.\n请检查拼写格式:\n</span><br><span class="line">        -P(project name)\n</span><br><span class="line">        -H(host ip)\n</span><br><span class="line">        -Port(tomcat port)\n</span><br><span class="line">        例如:.&#x2F;release.sh -P mfapi -H 192.168.1.1 -Port 8080&quot;</span><br><span class="line">exit</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">#line3&#x3D;&#96;ls tomcat&#x2F;conf|grep $port&#96;</span><br><span class="line">if [ ! -n &quot;$port&quot; ] ; then</span><br><span class="line">    echo -e &quot;tomcat中不存在端口为$port的配置,如有需要请添加.\n请检查拼写格式:\n</span><br><span class="line">        -P(project name)\n</span><br><span class="line">        -H(host ip)\n</span><br><span class="line">        -Port(tomcat port)\n</span><br><span class="line">        例如:.&#x2F;release.sh -P mfapi -H 192.168.1.1 -Port 8080&quot;</span><br><span class="line">exit</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">if  [ &quot;$1&quot;a &#x3D;&#x3D; &quot;-P&quot;a ] &amp;&amp; [ &quot;$3&quot;c &#x3D;&#x3D; &quot;-H&quot;c ] &amp;&amp; [ &quot;$5&quot;e &#x3D;&#x3D; &quot;-Port&quot;e ] ; then</span><br><span class="line">	line&#x3D;&#96;cat files&#x2F;server_list.conf |grep $host_ip&#96;</span><br><span class="line">        ip&#x3D;&#96;echo $line|awk &#39;&#123;print $1&#125;&#39;&#96;</span><br><span class="line">	username&#x3D;&#96;echo $line|awk &#39;&#123;print $2&#125;&#39;&#96;</span><br><span class="line">	password&#x3D;&#96;echo $line|awk &#39;&#123;print $3&#125;&#39;&#96;</span><br><span class="line">	local_file&#x3D;&#96;echo $line|awk &#39;&#123;print $4&#125;&#39;&#96;</span><br><span class="line">	remote_file&#x3D;&#96;echo $line|awk &#39;&#123;print $5&#125;&#39;&#96;</span><br><span class="line">  .&#x2F;deploy.sh $host_ip $username $password $local_file $remote_file $project $port</span><br><span class="line">else</span><br><span class="line">    echo -e &quot;请检查拼写格式:\n</span><br><span class="line">        -P(project name)\n</span><br><span class="line">        -H(host ip)\n</span><br><span class="line">        -Port(tomcat port)\n</span><br><span class="line">	例如:.&#x2F;release.sh -P mfapi -H 192.168.1.1 -Port 8080&quot;</span><br><span class="line">exit</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>Deploy.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;expect</span><br><span class="line"></span><br><span class="line">if &#123;$argc &lt; 3&#125; &#123;</span><br><span class="line">        send_user &quot;请按照格式输入: $argv0 host_ip username password local_file remote_file project port\n&quot;</span><br><span class="line">exit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#接收输入的参数定义为变量</span><br><span class="line">set host_ip [lindex $argv 0]</span><br><span class="line">set username [lindex $argv 1]</span><br><span class="line">set password [lindex $argv 2]</span><br><span class="line">set local_file [lindex $argv 3]</span><br><span class="line">set remote_file [lindex $argv 4]</span><br><span class="line">set project [lindex $argv 5]</span><br><span class="line">set port [lindex $argv 6]</span><br><span class="line"></span><br><span class="line">spawn cp files&#x2F;tomcat.tar.gz .</span><br><span class="line">expect eof</span><br><span class="line">spawn tar zvxf tomcat.tar.gz</span><br><span class="line">expect eof</span><br><span class="line"></span><br><span class="line">#判断项目---------------------------</span><br><span class="line">if &#123; &quot;$project&quot; !&#x3D; &quot;&quot; &#125; &#123;</span><br><span class="line">spawn cp &#x2F;home&#x2F;jenkins&#x2F;nmk&#x2F;package&#x2F;$project.war &#x2F;home&#x2F;jenkins&#x2F;nmk&#x2F;tomcat&#x2F;webapps&#x2F;</span><br><span class="line">expect eof</span><br><span class="line">&#125; else &#123;</span><br><span class="line">spawn echo &quot;请输入项目名&quot;</span><br><span class="line">exit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#-----------------------------------</span><br><span class="line"></span><br><span class="line">#判断端口---------------------------</span><br><span class="line"></span><br><span class="line">if &#123; &quot;$port&quot; !&#x3D; &quot;&quot; &#125; &#123;</span><br><span class="line">spawn rm -r &#x2F;home&#x2F;jenkins&#x2F;nmk&#x2F;tomcat&#x2F;conf&#x2F;server.xml</span><br><span class="line">spawn cp &#x2F;home&#x2F;jenkins&#x2F;nmk&#x2F;tomcat&#x2F;conf&#x2F;server_$port.xml &#x2F;home&#x2F;jenkins&#x2F;nmk&#x2F;tomcat&#x2F;conf&#x2F;server.xml</span><br><span class="line">expect eof</span><br><span class="line">&#125; else &#123;</span><br><span class="line">spawn echo &quot;请输入端口&quot;</span><br><span class="line">exit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#-----------------------------------</span><br><span class="line">spawn rm -r tomcat.tar.gz</span><br><span class="line">expect eof</span><br><span class="line">spawn mv tomcat tomcat_$port</span><br><span class="line">expect eof</span><br><span class="line">spawn tar zcvf tomcat_$port.tar.gz tomcat_$port</span><br><span class="line">expect eof</span><br><span class="line">spawn scp $local_file&#x2F;tomcat_$port.tar.gz $username@$host_ip:$remote_file</span><br><span class="line"></span><br><span class="line">expect &#123; </span><br><span class="line">&quot;(yes&#x2F;no)?&quot;</span><br><span class="line">        &#123;send &quot;yes\r&quot;&#125;</span><br><span class="line">&quot;*password:&quot;</span><br><span class="line">        &#123;send &quot;$password\r&quot;&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect &quot;100%&quot;</span><br><span class="line">expect eof</span><br><span class="line">spawn rm -r tomcat_$port.tar.gz</span><br><span class="line">expect eof</span><br><span class="line">spawn rm -r tomcat_$port</span><br><span class="line">expect eof</span><br><span class="line">spawn ssh $username@$host_ip</span><br><span class="line"></span><br><span class="line">expect &#123; </span><br><span class="line">&quot;(yes&#x2F;no)?&quot;</span><br><span class="line">	&#123;send &quot;yes\r&quot;&#125;</span><br><span class="line">&quot;*password:&quot;</span><br><span class="line">	&#123;send &quot;$password\r&quot;&#125;</span><br><span class="line">&#125;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;cd $remote_file\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;tar zvxf tomcat_$port.tar.gz\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;rm -r tomcat_$port.tar.gz\r&quot;</span><br><span class="line">expect &quot;(yes&#x2F;no)?&quot;</span><br><span class="line">send &quot;yes\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;cd tomcat_$port\r&quot;</span><br><span class="line">expect &quot;$&quot;</span><br><span class="line">send &quot;.&#x2F;bin&#x2F;startup.sh\r&quot;</span><br><span class="line">expect eof</span><br></pre></td></tr></table></figure>
+
+<p>Files/server_list.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hostile username password srcfile distfile</span><br></pre></td></tr></table></figure>
+
+<p>更多expect的详细命令</p>
+<p><a href="https://www.cnblogs.com/lixigang/articles/4849527.html" target="_blank" rel="noopener">https://www.cnblogs.com/lixigang/articles/4849527.html</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2020/05/21/expect/">http://nmk0718.github.io/2020/05/21/expect/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/expect/"># expect</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/05/21/https%E4%B8%A2%E5%A4%B1/">https转发时丢失</a>
+            
+            
+            <a class="next" rel="next" href="/2020/05/21/zookeeper/">zookeeper</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>

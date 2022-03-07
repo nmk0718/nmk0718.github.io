@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Loki | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Loki</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-10-16&nbsp;&nbsp;11:18:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/deployment/">deployment</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="Grafana日志聚合工具Loki搭建使用"><a href="#Grafana日志聚合工具Loki搭建使用" class="headerlink" title="Grafana日志聚合工具Loki搭建使用"></a>Grafana日志聚合工具Loki搭建使用</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><p>与其他日志聚合系统相比， Loki具有下面的一些特性：</p>
+<ul>
+<li>不对日志进行全文索引。通过存储压缩非结构化日志和仅索引元数据，Loki 操作起来会更简单，更省成本。</li>
+<li>通过使用与 Prometheus 相同的标签记录流对日志进行索引和分组，这使得日志的扩展和操作效率更高。</li>
+<li>特别适合储存 Kubernetes Pod 日志; 诸如 Pod 标签之类的元数据会被自动删除和编入索引。</li>
+<li>受 Grafana 原生支持。</li>
+</ul>
+<h4 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h4><ul>
+<li>loki是主服务器，负责存储日志和处理查询。</li>
+<li>promtail是代理，负责收集日志并将其发送给 loki。</li>
+<li>Grafana 用于 UI 展示。</li>
+</ul>
+<h4 id="Loki"><a href="#Loki" class="headerlink" title="Loki"></a>Loki</h4><h5 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/grafana/loki/releases/download/v1.6.0/loki-linux-amd64.zip</span><br><span class="line">mkdir /usr/local/loki</span><br><span class="line">unzip loki-linux-amd64.zip</span><br><span class="line">mv loki-linux-amd64 loki</span><br><span class="line">mv loki /usr/local/loki</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;loki</span><br><span class="line">vi loki-local-config.yaml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">auth_enabled: false</span><br><span class="line"></span><br><span class="line">server:</span><br><span class="line">  http_listen_port: 3100</span><br><span class="line"></span><br><span class="line">ingester:</span><br><span class="line">  lifecycler:</span><br><span class="line">    address: 127.0.0.1</span><br><span class="line">    ring:</span><br><span class="line">      kvstore:</span><br><span class="line">        store: inmemory</span><br><span class="line">      replication_factor: 1</span><br><span class="line">    final_sleep: 0s</span><br><span class="line">  chunk_idle_period: 5m</span><br><span class="line">  chunk_retain_period: 30s</span><br><span class="line">  max_transfer_retries: 1</span><br><span class="line"></span><br><span class="line">schema_config:</span><br><span class="line">  configs:</span><br><span class="line">  - from: 2018-04-15</span><br><span class="line">    store: boltdb</span><br><span class="line">    object_store: filesystem</span><br><span class="line">    schema: v9</span><br><span class="line">    index:</span><br><span class="line">      prefix: index_</span><br><span class="line">      period: 168h</span><br><span class="line"></span><br><span class="line">storage_config:</span><br><span class="line">  boltdb:</span><br><span class="line">    directory: &#x2F;tmp&#x2F;loki&#x2F;index</span><br><span class="line"></span><br><span class="line">  filesystem:</span><br><span class="line">    directory: &#x2F;tmp&#x2F;loki&#x2F;chunks</span><br><span class="line"></span><br><span class="line">limits_config:</span><br><span class="line">  enforce_metric_name: false</span><br><span class="line">  reject_old_samples: true</span><br><span class="line">  reject_old_samples_max_age: 168h</span><br><span class="line"></span><br><span class="line">chunk_store_config:</span><br><span class="line">  max_look_back_period: 0</span><br><span class="line"></span><br><span class="line">table_manager:</span><br><span class="line">  chunk_tables_provisioning:</span><br><span class="line">    inactive_read_throughput: 0</span><br><span class="line">    inactive_write_throughput: 0</span><br><span class="line">    provisioned_read_throughput: 0</span><br><span class="line">    provisioned_write_throughput: 0</span><br><span class="line">  index_tables_provisioning:</span><br><span class="line">    inactive_read_throughput: 0</span><br><span class="line">    inactive_write_throughput: 0</span><br><span class="line">    provisioned_read_throughput: 0</span><br><span class="line">    provisioned_write_throughput: 0</span><br><span class="line">  retention_deletes_enabled: false</span><br><span class="line">  retention_period: 0</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;loki</span><br><span class="line">.&#x2F;loki -config.file&#x3D;loki-local-config.yaml</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置系统服务"><a href="#配置系统服务" class="headerlink" title="配置系统服务"></a>配置系统服务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;loki.service</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description&#x3D;loki</span><br><span class="line">Wants&#x3D;network-online.target</span><br><span class="line">After&#x3D;network-online.target</span><br><span class="line">[Service]</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;loki&#x2F;loki --config.file&#x3D;&#x2F;usr&#x2F;local&#x2F;loki&#x2F;loki-local-config.yaml</span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>配置好均需要执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>相关启动，停止命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl start loki.service</span><br><span class="line">systemctl status loki.service</span><br><span class="line">systemctl stop loki.service</span><br><span class="line">systemctl restart loki.service</span><br></pre></td></tr></table></figure>
+
+<h4 id="Promtail"><a href="#Promtail" class="headerlink" title="Promtail"></a>Promtail</h4><h5 id="下载-1"><a href="#下载-1" class="headerlink" title="下载"></a>下载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;grafana&#x2F;loki&#x2F;releases&#x2F;download&#x2F;v1.6.0&#x2F;promtail-linux-amd64.zip</span><br><span class="line">unzip promtail-linux-amd64.zip</span><br><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;promtail</span><br><span class="line">mv promtail-linux-amd64 promtail</span><br><span class="line">mv promtail &#x2F;usr&#x2F;local&#x2F;promtail</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;promtail</span><br><span class="line">vi promtail-local-config.yaml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  http_listen_port: 9080</span><br><span class="line">  grpc_listen_port: 0</span><br><span class="line"></span><br><span class="line">positions:</span><br><span class="line">  filename: &#x2F;tmp&#x2F;positions.yaml</span><br><span class="line"></span><br><span class="line">clients:</span><br><span class="line">  - url: http:&#x2F;&#x2F;localhost:3100&#x2F;loki&#x2F;api&#x2F;v1&#x2F;push</span><br><span class="line"></span><br><span class="line">scrape_configs:</span><br><span class="line">- job_name: system</span><br><span class="line">  static_configs:</span><br><span class="line">  - targets:</span><br><span class="line">      - localhost</span><br><span class="line">    labels:</span><br><span class="line">      job: varlogs</span><br><span class="line">      __path__: &#x2F;var&#x2F;log&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;promtail</span><br><span class="line">.&#x2F;promtail -config.file&#x3D;promtail-local-config.yaml</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置系统服务-1"><a href="#配置系统服务-1" class="headerlink" title="配置系统服务"></a>配置系统服务</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;promtail.service</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description&#x3D;promtail</span><br><span class="line">Wants&#x3D;network-online.target</span><br><span class="line">After&#x3D;network-online.target</span><br><span class="line">[Service]</span><br><span class="line">Restart&#x3D;on-failure</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;promtail&#x2F;promtail --config.file&#x3D;&#x2F;usr&#x2F;local&#x2F;promtail&#x2F;promtail-local-config.yaml</span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>配置好执行以下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>相关启动，停止命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">systemctl start  promtail.service</span><br><span class="line">systemctl status  promtail.service</span><br><span class="line">systemctl restart  promtail.service</span><br><span class="line">systemctl stop  promtail.service</span><br></pre></td></tr></table></figure>
+
+<h5 id="Promtail页面"><a href="#Promtail页面" class="headerlink" title="Promtail页面"></a>Promtail页面</h5><img src="\image\image-20201013173438546.png" />
+
+
+
+<h4 id="Grafana"><a href="#Grafana" class="headerlink" title="Grafana"></a>Grafana</h4><h5 id="下载-2"><a href="#下载-2" class="headerlink" title="下载"></a>下载</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dl.grafana.com&#x2F;oss&#x2F;release&#x2F;grafana-7.2.0-1.x86_64.rpm</span><br><span class="line">sudo yum install grafana-7.2.0-1.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动-2"><a href="#启动-2" class="headerlink" title="启动"></a>启动</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;share&#x2F;grafana &amp;&amp; grafana-server web</span><br></pre></td></tr></table></figure>
+
+<p>访问 <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> </p>
+<h5 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h5><p>执行成功进入到grafana登录页面。</p>
+<p>默认账号密码都是admin</p>
+<p>首次进入会提示修改密码。看清楚输入框。</p>
+<img src="\image\image-20201013173155583.png" />
+
+<p> 创建一个data sources</p>
+<img src="\image\image-20201013173306785.png" />
+
+<p>这里填写的是loki的链接，这个链接可以访问，正常是返回数据，但有时候也可能返回404。目前没发现影响使用的地方</p>
+<img src="\image\image-20201013173222709.png" />
+
+<p> 保存成功的提示是两个绿色的弹窗success </p>
+<img src="\image\image-20201013173818989.png" />
+
+<p>然后直接去查看explore</p>
+<img src="\image\image-20201013174000884.png" />
+
+<h5 id="LogQL-语法"><a href="#LogQL-语法" class="headerlink" title="LogQL 语法"></a>LogQL 语法</h5><h5 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h5><p>对于查询表达式的标签部分，将放在{}中，多个标签表达式用逗号分隔：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;app&#x3D;&quot;mysql&quot;,name&#x3D;&quot;mysql-backup&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>支持的符号有：</p>
+<ul>
+<li>= 完全相同。</li>
+<li>!= 不平等。</li>
+<li>=~ 正则表达式匹配。</li>
+<li>!~ 不要正则表达式匹配。</li>
+</ul>
+<h5 id="过滤表达式"><a href="#过滤表达式" class="headerlink" title="过滤表达式"></a>过滤表达式</h5><p>编写日志流选择器后，您可以通过编写搜索表达式进一步过滤结果。搜索表达式可以文本或正则表达式。 如：</p>
+<ul>
+<li>{job=“mysql”} |= “error”</li>
+<li>{name=“kafka”} |~ “tsdb-ops.*io:2003”</li>
+<li>{instance=~“kafka-[23]”,name=“kafka”} != kafka.server:type=ReplicaManager 支持多个过滤</li>
+<li>{job=“mysql”} |= “error” != “timeout” 目前支持的操作符：</li>
+<li>|= line包含字符串。</li>
+<li>!= line不包含字符串。</li>
+<li>|~ line匹配正则表达式。</li>
+<li>!~ line与正则表达式不匹配。</li>
+</ul>
+<p>Loki语法  查询是ERROR的日志 |=”ERROR” 查询不是ERROR的日志 !=”ERROR”<br>查询含有4187的日志 又不是INFO级别的日志<br>{filename=”/home/app/logs/nHospitalService/app.2020-10-27.0.log”}!=”INFO” |=”4187”</p>
+<h5 id="查看更多"><a href="#查看更多" class="headerlink" title="查看更多"></a>查看更多</h5><p>在查询出来的结果行后面有一个show context （查看上下文）,点击这个按钮，默认展示结果行前10行和后10行。</p>
+<img src="\image\8RI0zT.png" />
+
+<h4 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h4><h5 id="promtail打如基础镜像"><a href="#promtail打如基础镜像" class="headerlink" title="promtail打如基础镜像"></a>promtail打如基础镜像</h5><p>拉取基础镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull 192.168.229.8:8551&#x2F;centos:latest</span><br></pre></td></tr></table></figure>
+
+<p>启动基础镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d 92926cb8d09b tail -f &#x2F;dev&#x2F;null</span><br></pre></td></tr></table></figure>
+
+<p>复制文件到基础镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker exec d8dcd4162411  mkdir &#x2F;usr&#x2F;local&#x2F;promtail</span><br><span class="line">docker cp promtail d8dcd4162411:&#x2F;usr&#x2F;local&#x2F;promtail</span><br><span class="line">docker cp promtail-local-config.yaml d8dcd4162411:&#x2F;usr&#x2F;local&#x2F;promtail</span><br></pre></td></tr></table></figure>
+
+<p>给镜像打标记</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit d8dcd4162411 192.168.229.8:8551&#x2F;centos:latest</span><br></pre></td></tr></table></figure>
+
+<p>推送镜像到镜像仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push 192.168.229.8:8551&#x2F;centos:latest</span><br></pre></td></tr></table></figure>
+
+<h5 id="更改启动文件"><a href="#更改启动文件" class="headerlink" title="更改启动文件"></a>更改启动文件</h5><p>配置promtail开机启动,并建立本机ip的目录做日志区分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;promtail&#x2F;</span><br><span class="line">nohup .&#x2F;promtail -config.file&#x3D;promtail-local-config.yaml &gt;&gt; &#x2F;usr&#x2F;local&#x2F;promtail.log 2&gt;&amp;1 &amp;</span><br><span class="line">JARFILE&#x3D;&#x2F;home&#x2F;App.jar</span><br><span class="line">ip&#x3D;&#96;hostname -I&#96;</span><br><span class="line">mkdir -p &#x2F;var&#x2F;log&#x2F;$ip</span><br><span class="line">cd &#x2F;var&#x2F;log&#x2F;$ip</span><br><span class="line"></span><br><span class="line">java -jar -Xms512M -Xmx1024M -Djava.security.egd&#x3D;file:&#x2F;dev&#x2F;.&#x2F;urandom $JARFILE &gt;&gt; app.log &amp;</span><br><span class="line"></span><br><span class="line">tail  -50f app.log</span><br></pre></td></tr></table></figure>
+
+<h5 id="查看Grafana中是否区分"><a href="#查看Grafana中是否区分" class="headerlink" title="查看Grafana中是否区分"></a>查看Grafana中是否区分</h5><img src="\image\image-20201016111119852.png" />
+
+<p>注:Grafana中不论区间大小,单次查询条数最大为5000,建议通过精确时间查询</p>
+<h4 id="采集性能"><a href="#采集性能" class="headerlink" title="采集性能"></a>采集性能</h4><p>promtail在容器中,一秒钟采集1w行数据时,cpu为4-10%之间,内存无明显变化</p>
+<p>loki收到promtail采集的数据时间内,cpu为3%左右,内存无明显变化</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2020/10/16/Loki/">http://nmk0718.github.io/2020/10/16/Loki/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/log/"># log</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/10/16/Process/">Process</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/13/gogs/">Gogs</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>

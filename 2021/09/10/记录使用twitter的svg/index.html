@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>记录使用twitter的svg | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">记录使用twitter的svg</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2021-9-10&nbsp;&nbsp;16:47:04</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="记录获取twitter的SVG"><a href="#记录获取twitter的SVG" class="headerlink" title="记录获取twitter的SVG"></a>记录获取twitter的SVG</h4><p>想要获取twitter的评论,转发,喜欢,分享4个按钮的图表样式</p>
+<p>通过百度和谷歌搜索关键字 twitter icon 找到的图标,要么没有这四个按钮,要么跟官网图标差距很大,改用别的方式</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910173859433.png" alt="image-20210910173859433"></p>
+<p>通过Iconfont查找评论,转发,喜欢,分享的图表样式,发现没有喜欢的图标</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910173355918.png" alt="image-20210910173355918"></p>
+<p>通过github查找关键字,得到的结果只有twemoji的开源库等 没有表情</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910173501301.png" alt="image-20210910173501301"></p>
+<p>通过下载twitter应用apk进行寻找解压文件中是否有该资源文件,发现该资源文件中的图标样式比较奇怪不太符合</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910171301681.png" alt="image-20210910171301681"></p>
+<p>通过浏览器访问twitter官网.F12可看到twitter使用的是SVG不是图片</p>
+<p>选择想要的按钮,可看到相应的代码</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910165806826.png" alt="image-20210910165806826"></p>
+<p>右键该代码&gt;Copy&gt;Copy element</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910165953737.png" alt="image-20210910165953737"></p>
+<p>使用Sublime Text(或vscode等编辑工具)新建一个空白文件,粘贴,保存为reply.svg</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910170200638.png" alt="image-20210910170200638"></p>
+<p>使用浏览器打开该SVG,结果出现了报错</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910170244578.png" alt="image-20210910170244578"></p>
+<p>goolge搜索该图标的关键字 twitter reply svg 找到help.twitter.com中含有关键字</p>
+<p>f12进行代码审查</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910170501156.png" alt="image-20210910170501156"></p>
+<p>复制该svg对应的代码,再次粘贴到文本中保存</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910170802474.png" alt="image-20210910170802474"></p>
+<p>打开浏览器确认,确实出现了该SVG</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910170840408.png" alt="image-20210910170840408"></p>
+<p>我很高兴终于找到了想要的图标样式,当我搜索转发按钮时却发现help.tiwtter.com中的分享按钮加粗了,心中一万个草泥马狂奔</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910171439471.png" alt="image-20210910171439471"></p>
+<p>只能再想办法,对比官网的SVG代码和help.twitter.com的SVG代码查看十分相似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">官网的svg代码</span><br><span class="line">&lt;svg viewBox&#x3D;&quot;0 0 24 24&quot; aria-hidden&#x3D;&quot;true&quot; class&#x3D;&quot;r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi&quot;&gt;&lt;g&gt;&lt;path d&#x3D;&quot;M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z&quot;&gt;&lt;&#x2F;path&gt;&lt;&#x2F;g&gt;&lt;&#x2F;svg&gt;</span><br><span class="line"></span><br><span class="line">help.twitter.com的svg代码</span><br><span class="line">&lt;svg xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2000&#x2F;svg&quot; width&#x3D;&quot;24&quot; height&#x3D;&quot;24&quot; viewBox&#x3D;&quot;0 0 24 24&quot; aria-hidden&#x3D;&quot;true&quot; focusable&#x3D;&quot;false&quot; class&#x3D;&quot;twtr-rte-icon twtr-rte-icon--reply_stroke&quot;&gt; </span><br><span class="line"> &lt;path opacity&#x3D;&quot;0&quot; d&#x3D;&quot;M0 0h24v24H0z&quot;&gt;&lt;&#x2F;path&gt; </span><br><span class="line"> &lt;path d&#x3D;&quot;M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.004-.005-.008c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z&quot;&gt;&lt;&#x2F;path&gt; </span><br><span class="line">&lt;&#x2F;svg&gt;</span><br></pre></td></tr></table></figure>
+
+<p>直接简单粗暴把官网转发按钮的SVG代码替换到help.tiwtter.com的SVG代码中,替换class=””和<code>&lt;path&gt;</code>标签中的代码,保存打开</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910172127608.png" alt="image-20210910172127608"></p>
+<p>得到没有加粗后的转发按钮,在代码中加入得到的svg进行展示</p>
+<p><img src="E:%5CTypora%5Cimages%5Cimage-20210910172552472.png" alt="image-20210910172552472"></p>
+<p>大功告成</p>
+<p><strong>此帖为记录整个解决问题的思路和过程.以便自己忘记,可方便查找</strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2021/09/10/%E8%AE%B0%E5%BD%95%E4%BD%BF%E7%94%A8twitter%E7%9A%84svg/">http://nmk0718.github.io/2021/09/10/%E8%AE%B0%E5%BD%95%E4%BD%BF%E7%94%A8twitter%E7%9A%84svg/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/10/19/sql%E5%AE%A1%E6%A0%B8/">Archery</a>
+            
+            
+            <a class="next" rel="next" href="/2021/09/08/%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE%E4%BC%98%E5%8C%96/">测试项目优化</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>

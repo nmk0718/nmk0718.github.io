@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Windows软件 | K&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">nimingkun&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Windows软件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">nmk</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-11-30&nbsp;&nbsp;14:35:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/tools/">tools</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h5 id="TreeSize-Free"><a href="#TreeSize-Free" class="headerlink" title="TreeSize Free"></a>TreeSize Free</h5><p>查看目录占用大小和子目录占用大小</p>
+<p>使用:安装后右键目录选择TreeSize Free即可</p>
+<p><a href="https://www.jam-software.com/treesize_free" target="_blank" rel="noopener">https://www.jam-software.com/treesize_free</a></p>
+<img src="\image/image-20210529093933199.png" />
+
+<h5 id="QTTabBar"><a href="#QTTabBar" class="headerlink" title="QTTabBar"></a>QTTabBar</h5><p>多标签页打开资源文件夹</p>
+<p>使用:资源文件夹&gt;查看&gt;选项&gt;QTTabBar 即可使用多标签页</p>
+<p><a href="http://qttabbar.wikidot.com/" target="_blank" rel="noopener">http://qttabbar.wikidot.com/</a></p>
+<img src="\image/image-20210529094609093.png" />
+
+<p>该软件的最新版中文语言包下载不了,如需中文使用可移步到gitee下载国内版</p>
+<p><a href="https://gitee.com/qwop/qttabbar" target="_blank" rel="noopener">https://gitee.com/qwop/qttabbar</a></p>
+<p>（老版本的 QTTabBar 由日本作者 @Quizo 开发，但是这个项目历史久远，其在 Windows10 系统中的问题众多、冲突也多，不免让人诟病。大家殊不知，其实有一个国人开发者 @indiff 二次魔改的中文优化版本，剔除了原版中臃肿而无用的功能（提高了兼容性），并保留其高效生产力的精华部分。）</p>
+<p>右键标签页空白处&gt;选项可进行更多的配置</p>
+<img src="\image/image-20210529105425904.png" />
+
+<img src="\image/image-20210529105602734.png" />
+
+<h5 id="Uninstall-Tool"><a href="#Uninstall-Tool" class="headerlink" title="Uninstall Tool"></a>Uninstall Tool</h5><p>卸载windows软件</p>
+<p>使用:点击卸载软件后,强制删除痕迹,会删除注册表等信息,管理自启动项</p>
+<p><a href="https://crystalidea.com/uninstall-tool" target="_blank" rel="noopener">https://crystalidea.com/uninstall-tool</a></p>
+<img src="\image/image-20210529105721005.png" />
+
+<h5 id="Privacy-Eraser"><a href="#Privacy-Eraser" class="headerlink" title="Privacy Eraser"></a>Privacy Eraser</h5><p>只需点击一下，Privacy Eraser 可以快速擦除互联网缓存，Cookie，浏览历史，地址栏的历史，类型的URL，自动完成形式的历史。此外，它还会擦除浏览器保存的密码和index.<a href="http://www.pc6.com/wenjian/dat/" target="_blank" rel="noopener">dat文件</a>，Windows运行历史记录，搜索历史记录，打开/保存历史记录。</p>
+<p><a href="https://www.cybertronsoft.com/" target="_blank" rel="noopener">https://www.cybertronsoft.com/</a></p>
+<img src="\image/image-20210529110052947.png" />
+
+<h5 id="Wifi-Share"><a href="#Wifi-Share" class="headerlink" title="Wifi Share"></a>Wifi Share</h5><p>共享wifi热点</p>
+<p>使用:启动wifishare 开启热点,开启共享. 关闭窗口为最小化,退出程序为真正退出</p>
+<p><a href="https://github.com/liuqx0717/wifishare" target="_blank" rel="noopener">https://github.com/liuqx0717/wifishare</a></p>
+<img src="\image/image-20210529114310055.png" />
+
+<h5 id="SecureCRT"><a href="#SecureCRT" class="headerlink" title="SecureCRT"></a>SecureCRT</h5><p>连接和传输文件到服务器</p>
+<p>使用:创建新的ssh连接到linux或windows</p>
+<p><a href="https://www.vandyke.com/products/securecrt/index.html" target="_blank" rel="noopener">https://www.vandyke.com/products/securecrt/index.html</a></p>
+<img src="\image/image-20210529140741703.png" />
+
+<h5 id="RedisDesktopManager"><a href="#RedisDesktopManager" class="headerlink" title="RedisDesktopManager"></a>RedisDesktopManager</h5><p>连接Redis</p>
+<p>使用:新建连接,配置redis连接地址端口密码,连接即可,可查看key和使用控制台命令</p>
+<p><a href="https://rdm.dev/" target="_blank" rel="noopener">https://rdm.dev/</a></p>
+<img src="\image/image-20210529141135892.png" />
+
+<h5 id="Everything"><a href="#Everything" class="headerlink" title="Everything"></a>Everything</h5><p>快速搜索文件</p>
+<p>使用:直接搜索文件即可,也可用作查看磁盘下占用大的文件进行清理</p>
+<p><a href="https://www.voidtools.com/zh-cn/" target="_blank" rel="noopener">https://www.voidtools.com/zh-cn/</a></p>
+<img src="\image/image-20210529141859944.png" />
+
+<p>jd-gui</p>
+<p>查看java文件</p>
+<p>使用:把java文件直接拖入到jd-gui即可查看</p>
+<p><a href="http://java-decompiler.github.io/" target="_blank" rel="noopener">http://java-decompiler.github.io/</a></p>
+<img src="\image/image-20210529142910057.png" />
+
+<p>FreeControl</p>
+<p>电脑控制手机</p>
+<p>使用:可通过无线调试或数据线调试,然后通过adb连接,即可控制手机</p>
+<p><a href="https://github.com/pdone/FreeControl" target="_blank" rel="noopener">https://github.com/pdone/FreeControl</a></p>
+<img src="\image/image-20210529145033866.png" />
+
+<h5 id="uTools"><a href="#uTools" class="headerlink" title="uTools"></a>uTools</h5><p>各种小工具合集</p>
+<p>使用:可使用各种插件进行协助工作,鼠标中键可翻译</p>
+<p><a href="https://u.tools/" target="_blank" rel="noopener">https://u.tools/</a></p>
+<img src="\image/image-20210529150153181.png" />
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>nmk</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://nmk0718.github.io/2020/11/30/Windows%E8%BD%AF%E4%BB%B6/">http://nmk0718.github.io/2020/11/30/Windows%E8%BD%AF%E4%BB%B6/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/windows/"># windows</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/03/27/Jmeter/">Jmeter</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/17/Redis%20%E4%B8%8E%20MQ%20%E7%9A%84%E5%8C%BA%E5%88%AB/">消息队列</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+	</div>
+</footer>
+
+    </div>
+</body>
+</html>
