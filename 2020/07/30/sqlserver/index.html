@@ -7,7 +7,7 @@
 
 
 
-<title>Windows软件 | K&#39;s Blog</title>
+<title>K&#39;s Blog</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Windows软件</h1>
+            <h1 class="post-title"></h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2020-11-30&nbsp;&nbsp;14:35:00</a>
+                        Date: <a href="#">2020-7-30&nbsp;&nbsp;21:36:24</a>
                         </span>
                     
                     
@@ -187,69 +187,25 @@
         </header>
 
         <div class="post-content">
-            <h5 id="TreeSize-Free"><a href="#TreeSize-Free" class="headerlink" title="TreeSize Free"></a>TreeSize Free</h5><p>查看目录占用大小和子目录占用大小</p>
-<p>使用:安装后右键目录选择TreeSize Free即可</p>
-<p><a href="https://www.jam-software.com/treesize_free" target="_blank" rel="noopener">https://www.jam-software.com/treesize_free</a></p>
-<img src="\image/image-20210529093933199.png">
+            <h3 id="windows任务计划定时备份sqlserver数据库"><a href="#windows任务计划定时备份sqlserver数据库" class="headerlink" title="windows任务计划定时备份sqlserver数据库"></a>windows任务计划定时备份sqlserver数据库</h3><p>一、在E盘下新建文件夹DBbackup，在DBbackup下创建一个sql的备份脚本，文件命名为dbback.sql</p>
+<p>sql脚本如下:(DBname就是你所需要备份的数据库名)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GO</span><br><span class="line"></span><br><span class="line">DECLARE</span><br><span class="line"></span><br><span class="line">@backuptime varchar(20)</span><br><span class="line"></span><br><span class="line">DECLARE</span><br><span class="line"></span><br><span class="line">@filename varchar(100)</span><br><span class="line"></span><br><span class="line">select @backuptime=(convert(varchar(8),getdate(),112)+replace(convert(varchar(5),getdate(),114),&apos;:&apos;,&apos; &apos;))</span><br><span class="line"></span><br><span class="line">select @filename=&apos;E:\DBbackup\db_&apos;+@backuptime+&apos;.bak&apos;</span><br><span class="line"></span><br><span class="line">backup database DBname to disk=@filename</span><br></pre></td></tr></table></figure>
 
-<h5 id="QTTabBar"><a href="#QTTabBar" class="headerlink" title="QTTabBar"></a>QTTabBar</h5><p>多标签页打开资源文件夹</p>
-<p>使用:资源文件夹&gt;查看&gt;选项&gt;QTTabBar 即可使用多标签页</p>
-<p><a href="http://qttabbar.wikidot.com/" target="_blank" rel="noopener">http://qttabbar.wikidot.com/</a></p>
-<img src="\image/image-20210529094609093.png">
+<p>二、   写一个批处理文件执行sql语句：</p>
+<p>例如：backup_database.bat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.bat文件内容为：sqlcmd -S . -i E:\DBbackup\dbback.sql</span><br></pre></td></tr></table></figure>
 
-<p>该软件的最新版中文语言包下载不了,如需中文使用可移步到gitee下载国内版</p>
-<p><a href="https://gitee.com/qwop/qttabbar" target="_blank" rel="noopener">https://gitee.com/qwop/qttabbar</a></p>
-<p>（老版本的 QTTabBar 由日本作者 @Quizo 开发，但是这个项目历史久远，其在 Windows10 系统中的问题众多、冲突也多，不免让人诟病。大家殊不知，其实有一个国人开发者 @indiff 二次魔改的中文优化版本，剔除了原版中臃肿而无用的功能（提高了兼容性），并保留其高效生产力的精华部分。）</p>
-<p>右键标签页空白处&gt;选项可进行更多的配置</p>
-<img src="\image/image-20210529105425904.png">
+<p>.bat文件内的语句可以在cmd控制台执行测试是否正确；</p>
+<p>可以使用winrar加入环境变量进行压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set date_str=%date:~,4%%date:~5,2%%date:~8,2%</span><br><span class="line">set time_hh=%time:~0,2%</span><br><span class="line">if /i %time_hh% LSS 10 (set time_hh=0%time:~1,1%)</span><br><span class="line">set data_time_str=%date:~,4%%date:~5,2%%date:~8,2%_%time_hh%%time:~3,2%%time:~6,2%</span><br><span class="line">rar a db_%data_time_str%.rar -m5 -s -r *.bak</span><br></pre></td></tr></table></figure>
 
-<img src="\image/image-20210529105602734.png">
+<p>三、   在windows-控制面板-管理工具下，打开任务计划，创建基本任务，输入任务名称描述、设置备份时间、选择启动程序。需要注意的是在起始于选项里输入程序执行路径，完成。</p>
+<img src="\image\bat.png" alt="bat" style="zoom: 50%;">
 
-<h5 id="Uninstall-Tool"><a href="#Uninstall-Tool" class="headerlink" title="Uninstall Tool"></a>Uninstall Tool</h5><p>卸载windows软件</p>
-<p>使用:点击卸载软件后,强制删除痕迹,会删除注册表等信息,管理自启动项</p>
-<p><a href="https://crystalidea.com/uninstall-tool" target="_blank" rel="noopener">https://crystalidea.com/uninstall-tool</a></p>
-<img src="\image/image-20210529105721005.png">
+<p>删除大于7天的备份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">delete.bat</span><br><span class="line"></span><br><span class="line">@echo off&amp;setlocal enabledelayedexpansion</span><br><span class="line">pushd E:\DBbackup</span><br><span class="line">set n=0</span><br><span class="line">for /f &quot;delims=&quot; %%a in (&apos;dir /a-d-h /b /o-d shop_lepeng*.rar&apos;) do (</span><br><span class="line">if !n! geq 7  del &quot;%%~a&quot;</span><br><span class="line">set /a n+=1 </span><br><span class="line">)</span><br><span class="line">popd</span><br></pre></td></tr></table></figure>
 
-<h5 id="Privacy-Eraser"><a href="#Privacy-Eraser" class="headerlink" title="Privacy Eraser"></a>Privacy Eraser</h5><p>只需点击一下，Privacy Eraser 可以快速擦除互联网缓存，Cookie，浏览历史，地址栏的历史，类型的URL，自动完成形式的历史。此外，它还会擦除浏览器保存的密码和index.<a href="http://www.pc6.com/wenjian/dat/" target="_blank" rel="noopener">dat文件</a>，Windows运行历史记录，搜索历史记录，打开/保存历史记录。</p>
-<p><a href="https://www.cybertronsoft.com/" target="_blank" rel="noopener">https://www.cybertronsoft.com/</a></p>
-<img src="\image/image-20210529110052947.png">
 
-<h5 id="Wifi-Share"><a href="#Wifi-Share" class="headerlink" title="Wifi Share"></a>Wifi Share</h5><p>共享wifi热点</p>
-<p>使用:启动wifishare 开启热点,开启共享. 关闭窗口为最小化,退出程序为真正退出</p>
-<p><a href="https://github.com/liuqx0717/wifishare" target="_blank" rel="noopener">https://github.com/liuqx0717/wifishare</a></p>
-<img src="\image/image-20210529114310055.png">
-
-<h5 id="SecureCRT"><a href="#SecureCRT" class="headerlink" title="SecureCRT"></a>SecureCRT</h5><p>连接和传输文件到服务器</p>
-<p>使用:创建新的ssh连接到linux或windows</p>
-<p><a href="https://www.vandyke.com/products/securecrt/index.html" target="_blank" rel="noopener">https://www.vandyke.com/products/securecrt/index.html</a></p>
-<img src="\image/image-20210529140741703.png">
-
-<h5 id="RedisDesktopManager"><a href="#RedisDesktopManager" class="headerlink" title="RedisDesktopManager"></a>RedisDesktopManager</h5><p>连接Redis</p>
-<p>使用:新建连接,配置redis连接地址端口密码,连接即可,可查看key和使用控制台命令</p>
-<p><a href="https://rdm.dev/" target="_blank" rel="noopener">https://rdm.dev/</a></p>
-<img src="\image/image-20210529141135892.png">
-
-<h5 id="Everything"><a href="#Everything" class="headerlink" title="Everything"></a>Everything</h5><p>快速搜索文件</p>
-<p>使用:直接搜索文件即可,也可用作查看磁盘下占用大的文件进行清理</p>
-<p><a href="https://www.voidtools.com/zh-cn/" target="_blank" rel="noopener">https://www.voidtools.com/zh-cn/</a></p>
-<img src="\image/image-20210529141859944.png">
-
-<p>jd-gui</p>
-<p>查看java文件</p>
-<p>使用:把java文件直接拖入到jd-gui即可查看</p>
-<p><a href="http://java-decompiler.github.io/" target="_blank" rel="noopener">http://java-decompiler.github.io/</a></p>
-<img src="\image/image-20210529142910057.png">
-
-<p>FreeControl</p>
-<p>电脑控制手机</p>
-<p>使用:可通过无线调试或数据线调试,然后通过adb连接,即可控制手机</p>
-<p><a href="https://github.com/pdone/FreeControl" target="_blank" rel="noopener">https://github.com/pdone/FreeControl</a></p>
-<img src="\image/image-20210529145033866.png">
-
-<h5 id="uTools"><a href="#uTools" class="headerlink" title="uTools"></a>uTools</h5><p>各种小工具合集</p>
-<p>使用:可使用各种插件进行协助工作,鼠标中键可翻译</p>
-<p><a href="https://u.tools/" target="_blank" rel="noopener">https://u.tools/</a></p>
-<img src="\image/image-20210529150153181.png">
         </div>
 
         
@@ -263,7 +219,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2020/11/30/Windows软件/">http://nmk0718.github.io/2020/11/30/Windows软件/</a></span>
+                        <span><a href="http://nmk0718.github.io/2020/07/30/sqlserver/">http://nmk0718.github.io/2020/07/30/sqlserver/</a></span>
                     </p>
                 
                 
@@ -281,10 +237,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tag/windows/"># windows</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -295,10 +247,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/03/27/LogView/">LogView</a>
+                <a class="prev" rel="prev" href="/2020/07/30/elasticsearch/">elasticsearch</a>
             
             
-            <a class="next" rel="next" href="/2020/10/17/Redis 与 MQ 的区别/">消息队列</a>
+            <a class="next" rel="next" href="/2020/07/16/nginx/">nginx</a>
             
         </section>
 

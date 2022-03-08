@@ -5,12 +5,10 @@
     font-family: 'Microsoft Jhenghei', Lantinghei SC, 'lanting', PingFang SC, Seguo UI, Microsoft Yahei, Arial;
 }
 
-html[theme='Dark'], body {
-    filter: invert(1) hue-rotate(180deg)
+html, body {
     width: 100vw;
     height: 100vh;
     overflow-x: hidden;
-    background: transparent;
 }
 
 .container {
@@ -28,7 +26,7 @@ html[theme='Dark'], body {
 .header {
     display: flex;
     justify-content: space-between;
-    background: #ffffff;
+    background: transparent;
     width: 100%;
     margin: 0 auto;
     padding: 20px;
@@ -38,8 +36,7 @@ html[theme='Dark'], body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
-
+    margin: 0 0 0 20px;
 }
 
 .app-name {
@@ -50,13 +47,17 @@ html[theme='Dark'], body {
     white-space: nowrap;
     font-size: 22px;
     font-weight: normal;
+    margin: 0;
 }
-
+.dark-theme .app-name {
+    color: #a9a9b3;
+}
 .app-package {
-    margin-top: 3px;
     font-size: 14px;
     color: #999;
     line-height: 20px;
+    margin: 3px 0 0 !important;
+
 }
 
 .icon img {
@@ -98,7 +99,7 @@ html[theme='Dark'], body {
 .screen-shot {
     width: 100%;
     padding: 20px;
-    background: #ffffff;
+    background: transparent;
     margin-top: 16px;
 }
 
@@ -129,7 +130,9 @@ html[theme='Dark'], body {
     color: #666;
     margin-bottom: 16px;
 }
-
+.dark-theme .description {
+    color: #a9a9b3;
+}
 .description p {
     margin-bottom: 16px;
 }

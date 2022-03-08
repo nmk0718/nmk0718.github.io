@@ -188,7 +188,7 @@
 
         <div class="post-content">
             <h4 id="测试项目优化"><a href="#测试项目优化" class="headerlink" title="测试项目优化"></a>测试项目优化</h4><p>未优化启动nhospital项目</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar -Xms1024m -Xmx2048m -Dhttp.proxyHostWx&#x3D;219.128.77.86 -Dhttp.proxyPortWx&#x3D;7002 nhospital-service-1.0.0-SNAPSHOT.jar --spring.profiles.active&#x3D;test</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar -Xms1024m -Xmx2048m -Dhttp.proxyHostWx=219.128.77.86 -Dhttp.proxyPortWx=7002 nhospital-service-1.0.0-SNAPSHOT.jar --spring.profiles.active=test</span><br></pre></td></tr></table></figure>
 
 <p>优化前的内存监控,内存使用在1.7G-1.8G左右</p>
 <img src="\image/image-20210908173406276.png">
@@ -202,12 +202,12 @@
 
 
 <p>Graphs区域：内存使用详细介绍</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Compile Time(编译时间)：15365 compiles 表示编译总数，1m29.699s表示编译累计时间。一个脉冲表示一次JIT编译，窄脉冲表示持续时间短，宽脉冲表示持续时间长。</span><br><span class="line"></span><br><span class="line">Class Loader Time(类加载时间): 17201 loaded表示加载类数量, 100 unloaded表示卸载的类数量，18.196s表示类加载花费的时间</span><br><span class="line"></span><br><span class="line">GC Time(GC Time)：67collections表示垃圾收集的总次数，1.118s表示垃圾收集花费的时间，last cause表示最近垃圾收集的原因</span><br><span class="line"></span><br><span class="line">Eden Space(Eden 区)：括号内的681.500M表示最大容量，637.500M表示当前容量，后面的145.561M表示当前使用情况，63collections表示垃圾收集次数，517.821ms表示垃圾收集花费时间</span><br><span class="line"></span><br><span class="line">Survivor 0&#x2F;Survivor 1(S0和S1区)：括号内的227.500M表示最大容量，14.500M表示当前容量，之后的值是当前使用情况</span><br><span class="line"></span><br><span class="line">Old Gen(老年代)：括号内的1.333G表示最大容量，728.000M表示当前容量，之后的150.812M表示当前使用情况，4collections表示垃圾收集次数 ，600.392ms表示垃圾收集花费时间</span><br><span class="line"></span><br><span class="line">Perm Gen(永久代)：括号内的1.086G表示最大容量，106.039M表示当前容量，之后的103.775M表示当前使用情况</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Compile Time(编译时间)：15365 compiles 表示编译总数，1m29.699s表示编译累计时间。一个脉冲表示一次JIT编译，窄脉冲表示持续时间短，宽脉冲表示持续时间长。</span><br><span class="line"></span><br><span class="line">Class Loader Time(类加载时间): 17201 loaded表示加载类数量, 100 unloaded表示卸载的类数量，18.196s表示类加载花费的时间</span><br><span class="line"></span><br><span class="line">GC Time(GC Time)：67collections表示垃圾收集的总次数，1.118s表示垃圾收集花费的时间，last cause表示最近垃圾收集的原因</span><br><span class="line"></span><br><span class="line">Eden Space(Eden 区)：括号内的681.500M表示最大容量，637.500M表示当前容量，后面的145.561M表示当前使用情况，63collections表示垃圾收集次数，517.821ms表示垃圾收集花费时间</span><br><span class="line"></span><br><span class="line">Survivor 0/Survivor 1(S0和S1区)：括号内的227.500M表示最大容量，14.500M表示当前容量，之后的值是当前使用情况</span><br><span class="line"></span><br><span class="line">Old Gen(老年代)：括号内的1.333G表示最大容量，728.000M表示当前容量，之后的150.812M表示当前使用情况，4collections表示垃圾收集次数 ，600.392ms表示垃圾收集花费时间</span><br><span class="line"></span><br><span class="line">Perm Gen(永久代)：括号内的1.086G表示最大容量，106.039M表示当前容量，之后的103.775M表示当前使用情况</span><br></pre></td></tr></table></figure>
 
 <p> 查看得知Spaces空间的Old(老年代)使用内存较大,但Old的最大内存和Eden最大内存很大,无法触发GC垃圾回收,</p>
 <p>设置新生代的最大内存为512M,让新生代更快触发垃圾回收,更快的丢到老年代触发老年代垃圾回收</p>
 <p>使用新配置启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar -Xms1024m -Xmx2048m -Xss256k -Xmn512m -XX:SurvivorRatio&#x3D;6 -Dhttp.proxyHostWx&#x3D;219.128.77.86 -Dhttp.proxyPortWx&#x3D;7002 nhospital-service-1.0.0-SNAPSHOT.jar --spring.profiles.active&#x3D;test</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar -Xms1024m -Xmx2048m -Xss256k -Xmn512m -XX:SurvivorRatio=6 -Dhttp.proxyHostWx=219.128.77.86 -Dhttp.proxyPortWx=7002 nhospital-service-1.0.0-SNAPSHOT.jar --spring.profiles.active=test</span><br></pre></td></tr></table></figure>
 
 <p>启动后可看到监控中的内存使用,平稳在1.07G左右</p>
 <img src="\image/image-20210908173250449.png">
@@ -274,7 +274,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/09/10/记录使用twitter的svg/">记录使用twitter的svg</a>
+                <a class="prev" rel="prev" href="/2021/09/10/记录使用twitter的svg/"></a>
             
             
             <a class="next" rel="next" href="/2021/06/29/jenkins+newman实现接口测试/">接口测试</a>

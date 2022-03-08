@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2022-3-8&nbsp;&nbsp;14:16:17</a>
+                        Date: <a href="#">2022-3-8&nbsp;&nbsp;14:19:14</a>
                         </span>
                     
                     
@@ -193,7 +193,7 @@
 
 </li>
 </ul>
-<h4 id="linux服务器配置全局代理"><a href="#linux服务器配置全局代理" class="headerlink" title="linux服务器配置全局代理"></a>linux服务器配置全局代理</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@centos ~]# vi /etc/profile</span><br><span class="line"><span class="meta">#</span> 在最后面加入以下配置</span><br><span class="line"></span><br><span class="line">http_proxy=192.168.10.117:7002 </span><br><span class="line">https_proxy=192.168.10.117:7002</span><br><span class="line">ftp_proxy=192.168.10.117:7002</span><br><span class="line"><span class="meta">#</span> 指定代理所在的ip和port</span><br><span class="line">export http_proxy https_proxy ftp_proxy no_proxy</span><br><span class="line"><span class="meta">#</span> 分别指定http、https、ftp协议使用的代理服务器地址</span><br><span class="line"></span><br><span class="line">no_proxy=*.abc.com,192.168.20.*,192.168.50.*,*.local,localhost,127.0.0.1  # 访问局域网地址（ip/网段）时不使用代理，可以用逗号分隔多个&gt;地址</span><br><span class="line"></span><br><span class="line">[root@centos ~]# source /etc/profile</span><br></pre></td></tr></table></figure>
+<h4 id="linux服务器配置全局代理"><a href="#linux服务器配置全局代理" class="headerlink" title="linux服务器配置全局代理"></a>linux服务器配置全局代理</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@centos ~]# vi /etc/profile</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在最后面加入以下配置</span></span><br><span class="line"></span><br><span class="line">http_proxy=192.168.10.117:7002 </span><br><span class="line">https_proxy=192.168.10.117:7002</span><br><span class="line">ftp_proxy=192.168.10.117:7002</span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定代理所在的ip和port</span></span><br><span class="line">export http_proxy https_proxy ftp_proxy no_proxy</span><br><span class="line"><span class="meta">#</span><span class="bash"> 分别指定http、https、ftp协议使用的代理服务器地址</span></span><br><span class="line"></span><br><span class="line">no_proxy=*.abc.com,192.168.20.*,192.168.50.*,*.local,localhost,127.0.0.1  # 访问局域网地址（ip/网段）时不使用代理，可以用逗号分隔多个&gt;地址</span><br><span class="line"></span><br><span class="line">[root@centos ~]# source /etc/profile</span><br></pre></td></tr></table></figure>
 
 <p>测试是否走代理</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos ~]# curl https://myip.ipip.net/</span><br><span class="line">当前 IP：119.130.113.243  来自于：中国 广东 广州  电信</span><br></pre></td></tr></table></figure>
@@ -247,10 +247,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/03/08/flutter更新状态无效/">Flutter中使用SetState无效</a>
+                <a class="prev" rel="prev" href="/2022/03/08/flutter自定义Tabbar的问题/">Flutter自定义Tabbar的长度</a>
             
             
-            <a class="next" rel="next" href="/2021/12/21/ADB卸载系统自带软件/">ADB卸载系统自带软件</a>
+            <a class="next" rel="next" href="/2022/01/18/ADB卸载系统自带软件/"></a>
             
         </section>
 

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -39,7 +38,7 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 <body>
     <div class="wrapper">
         <header>
@@ -48,9 +47,9 @@
             <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -74,9 +73,9 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -183,35 +182,28 @@
                         </span>
                     
                     
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/category/tools/">tools</a>
-                            
-                        </span>
-                    
                 </div>
             
         </header>
 
         <div class="post-content">
             <h5 id="安装erlang"><a href="#安装erlang" class="headerlink" title="安装erlang"></a>安装erlang</h5><p>安装erlang的前置脚本文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https:&#x2F;&#x2F;packagecloud.io&#x2F;install&#x2F;repositories&#x2F;rabbitmq&#x2F;erlang&#x2F;script.rpm.sh | sudo bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash</span><br></pre></td></tr></table></figure>
 
 <p>安装erlang</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install erlang</span><br></pre></td></tr></table></figure>
 
 <p>检查版本号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@public-service ~]# erl</span><br><span class="line">Erlang&#x2F;OTP 23 [erts-11.1.1] [source] [64-bit] [smp:2:2] [ds:2:2:10] [async-threads:1] [hipe]</span><br><span class="line"></span><br><span class="line">Eshell V11.1.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@public-service ~]# erl</span><br><span class="line">Erlang/OTP 23 [erts-11.1.1] [source] [64-bit] [smp:2:2] [ds:2:2:10] [async-threads:1] [hipe]</span><br><span class="line"></span><br><span class="line">Eshell V11.1.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br></pre></td></tr></table></figure>
 
 <h5 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h5><p>导入rabbitmq需要的key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https:&#x2F;&#x2F;packagecloud.io&#x2F;rabbitmq&#x2F;rabbitmq-server&#x2F;gpgkey</span><br><span class="line">rpm --import https:&#x2F;&#x2F;packagecloud.io&#x2F;gpg.key</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey</span><br><span class="line">rpm --import https://packagecloud.io/gpg.key</span><br></pre></td></tr></table></figure>
 
 <p>安装rabbitmq的前置脚本文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https:&#x2F;&#x2F;packagecloud.io&#x2F;install&#x2F;repositories&#x2F;rabbitmq&#x2F;rabbitmq-server&#x2F;script.rpm.sh | sudo bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash</span><br></pre></td></tr></table></figure>
 
 <p>导入key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https:&#x2F;&#x2F;www.rabbitmq.com&#x2F;rabbitmq-release-signing-key.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc</span><br></pre></td></tr></table></figure>
 
 <p>安装socat</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install socat</span><br></pre></td></tr></table></figure>
@@ -252,7 +244,7 @@
                 
                     <p class="copyright-item">
                         <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
                     </p>
                 
                 
@@ -278,7 +270,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/06/07/%E6%8E%92%E6%9F%A5%E7%BA%BF%E4%B8%8A%E9%97%AE%E9%A2%98/">线上问题</a>
+                <a class="prev" rel="prev" href="/2021/06/07/排查线上问题/">线上问题</a>
             
             
             <a class="next" rel="next" href="/2021/03/27/skywalking/">Skywalking</a>

@@ -266,16 +266,16 @@
 
 <p>原因是SonarQube 7.9以上版本已不再支持mysql,启动语句需要更改</p>
 <p>以前版本的启动命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --restart&#x3D;always --name sonarqube -p 9000:9000 -p 9092:9092 -e &quot;SONARQUBE_JDBC_USERNAME&#x3D;sonar&quot; -e &quot;SONARQUBE_JDBC_PASSWORD&#x3D;sonar&quot; -e &quot;SONARQUBE_JDBC_URL&#x3D;jdbc:mysql:&#x2F;&#x2F;192.168.50.57:3306&#x2F;sonar?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf8&amp;useSSL&#x3D;false&quot;  -v &#x2F;data&#x2F;sonarqube&#x2F;conf:&#x2F;opt&#x2F;sonarqube&#x2F;conf -v &#x2F;data&#x2F;sonarqube&#x2F;data:&#x2F;opt&#x2F;sonarqube&#x2F;data -v &#x2F;data&#x2F;sonarqube&#x2F;extensions:&#x2F;opt&#x2F;sonarqube&#x2F;extensions -v &#x2F;data&#x2F;sonarqube&#x2F;logs:&#x2F;opt&#x2F;sonarqube&#x2F;logs  sonarqube:7.5-community</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --restart=always --name sonarqube -p 9000:9000 -p 9092:9092 -e &quot;SONARQUBE_JDBC_USERNAME=sonar&quot; -e &quot;SONARQUBE_JDBC_PASSWORD=sonar&quot; -e &quot;SONARQUBE_JDBC_URL=jdbc:mysql://192.168.50.57:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&quot;  -v /data/sonarqube/conf:/opt/sonarqube/conf -v /data/sonarqube/data:/opt/sonarqube/data -v /data/sonarqube/extensions:/opt/sonarqube/extensions -v /data/sonarqube/logs:/opt/sonarqube/logs  sonarqube:7.5-community</span><br></pre></td></tr></table></figure>
 
 <p>现在版本的启动命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name sonarqube --restart&#x3D;always -p 9000:9000 -p 9092:9092 -v &#x2F;data&#x2F;sonarqube&#x2F;data:&#x2F;opt&#x2F;sonarqube&#x2F;data -v &#x2F;data&#x2F;sonarqube&#x2F;extensions:&#x2F;opt&#x2F;sonarqube&#x2F;extensions -v &#x2F;data&#x2F;sonarqube&#x2F;logs:&#x2F;opt&#x2F;sonarqube&#x2F;logs  sonarqube:8.6.1-community</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name sonarqube --restart=always -p 9000:9000 -p 9092:9092 -v /data/sonarqube/data:/opt/sonarqube/data -v /data/sonarqube/extensions:/opt/sonarqube/extensions -v /data/sonarqube/logs:/opt/sonarqube/logs  sonarqube:8.6.1-community</span><br></pre></td></tr></table></figure>
 
 <p>jenkins构建时报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cannot run program &quot;&#x2F;opt&#x2F;sonar-scanner-cli&#x2F;bin&#x2F;sonar-scanner&quot; (in directory &#x2F;root&#x2F;.jenkins&#x2F;workspace&#x2F;ymall&quot;) error&#x3D;13, Permission denied</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cannot run program &quot;/opt/sonar-scanner-cli/bin/sonar-scanner&quot; (in directory /root/.jenkins/workspace/ymall&quot;) error=13, Permission denied</span><br></pre></td></tr></table></figure>
 
 <p>授权sonar-scanner</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777 sonar-scanner-cli&#x2F;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 777 sonar-scanner-cli/</span><br></pre></td></tr></table></figure>
         </div>
 
         
