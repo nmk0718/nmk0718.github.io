@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -39,7 +38,7 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 <body>
     <div class="wrapper">
         <header>
@@ -48,9 +47,9 @@
             <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -74,9 +73,9 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -183,13 +182,6 @@
                         </span>
                     
                     
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/category/deployment/">deployment</a>
-                            
-                        </span>
-                    
                 </div>
             
         </header>
@@ -286,9 +278,9 @@
 <p>nginx.conf</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">user nginx nginx;</span><br><span class="line">worker_processes  8;</span><br><span class="line">error_log   logs&#x2F;error_log;</span><br><span class="line">#error_log  logs&#x2F;error.log  notice;</span><br><span class="line">#error_log  logs&#x2F;error.log  info;</span><br><span class="line">pid         &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;logs&#x2F;nginx.pid;</span><br><span class="line">worker_rlimit_nofile 51200;</span><br><span class="line">events &#123;</span><br><span class="line">    use epoll;</span><br><span class="line">    worker_connections  51200;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application&#x2F;octet-stream;</span><br><span class="line">         server_names_hash_bucket_size 512;</span><br><span class="line">         client_header_buffer_size 512k;</span><br><span class="line">         large_client_header_buffers 4 256k;</span><br><span class="line">         client_max_body_size             100m;</span><br><span class="line">         client_body_buffer_size        10m;</span><br><span class="line">         client_header_timeout     3m;</span><br><span class="line">         client_body_timeout 3m;</span><br><span class="line">         send_timeout             3m;</span><br><span class="line"> server_tokens off;</span><br><span class="line">    sendfile        on;</span><br><span class="line">      #tcp_nopush     on;</span><br><span class="line">      keepalive_timeout 120;</span><br><span class="line">      tcp_nodelay on;</span><br><span class="line">        proxy_buffering on;</span><br><span class="line">    # 开启gzip</span><br><span class="line">    gzip on;</span><br><span class="line">    # 启用gzip压缩的最小文件，小于设置值的文件将不会压缩</span><br><span class="line">    gzip_min_length 1k;</span><br><span class="line">    # gzip 压缩级别，1-10，数字越大压缩的越好，也越占用CPU时间。一般设置1和2</span><br><span class="line">    gzip_comp_level 2;</span><br><span class="line">    gzip_buffers 4 8k;</span><br><span class="line">    gzip_http_version 1.1;</span><br><span class="line">    # 进行压缩的文件类型。javascript有多种形式。其中的值可以在 mime.types 文件中找到。</span><br><span class="line">    gzip_types text&#x2F;plain application&#x2F;javascript application&#x2F;x-javascript text&#x2F;css application&#x2F;xml text&#x2F;javascript application&#x2F;x-httpd-php image&#x2F;jpeg image&#x2F;gif image&#x2F;png;</span><br><span class="line">    # 是否在http header中添加Vary: Accept-Encoding，建议开启</span><br><span class="line">    gzip_vary on;</span><br><span class="line">    # 禁用IE 6 gzip</span><br><span class="line">    gzip_disable &quot;MSIE [1-6]\.&quot;;</span><br><span class="line">    #设置缓存路径并且使用一块最大100M的共享内存，用于硬盘上的文件索引，包括文件名和请求次数，每个文件在1天内若不活跃（无请求）则从硬盘上淘汰，硬盘缓存最大10G，满了则根据LRU算法自动清除缓存。</span><br><span class="line">    proxy_connect_timeout 10;</span><br><span class="line">    proxy_read_timeout 180;</span><br><span class="line">    proxy_send_timeout 5;</span><br><span class="line">    proxy_buffer_size 16k;</span><br><span class="line">    proxy_buffers 4 32k;</span><br><span class="line">    proxy_busy_buffers_size 96k;</span><br><span class="line">    proxy_temp_file_write_size 96k;</span><br><span class="line">    proxy_temp_path &#x2F;tmp&#x2F;temp_dir;</span><br><span class="line">    #proxy_cache_path &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;cache levels&#x3D;1:2 keys_zone&#x3D;imgcache:100m inactive&#x3D;1d max_size&#x3D;10g;</span><br><span class="line">log_format  main  &#39;[$remote_addr] - [$remote_user] [$time_local] [$request] [$status] [$body_bytes_sent] [$http_referer] [$http_user_agent] [$http_x_forwarded_for] [$request_time] [$upstream_response_time] [$upstream_addr] [$upstream_status]&#39;;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  tdev.gzlplink.com;</span><br><span class="line">                add_header backendIP $upstream_addr;   #把后端具体的 upstream 返回给前端 header</span><br><span class="line">                add_header backendCode $upstream_status;</span><br><span class="line">                include proxy.conf;</span><br><span class="line">                access_log &#x2F;data1&#x2F;logs&#x2F;nginx&#x2F;tdev.gzlplink.com-access_log main;</span><br><span class="line">                error_log &#x2F;data1&#x2F;logs&#x2F;nginx&#x2F;tdev.gzlplink.com-error_log;</span><br><span class="line">        </span><br><span class="line">        location &#x2F;mps-admin-ui &#123;</span><br><span class="line">                root &#x2F;home&#x2F;;</span><br><span class="line">                index  index.html index.htm;</span><br><span class="line">                if ( -d $request_filename )&#123;</span><br><span class="line">			    rewrite ^&#x2F;(.*)([^&#x2F;])$ $scheme:&#x2F;&#x2F;$host&#x2F;$1$2&#x2F; permanent;</span><br><span class="line">	        	&#125;</span><br><span class="line">                log_not_found off;</span><br><span class="line">                # 关闭日志</span><br><span class="line">                access_log off;</span><br><span class="line">                # 缓存时间7天</span><br><span class="line">                expires 7d;</span><br><span class="line">                # 指定上面设置的缓存区域</span><br><span class="line">                #proxy_cache imgcache;</span><br><span class="line">                # 缓存过期管理</span><br><span class="line">                proxy_cache_valid 200 302 1d;</span><br><span class="line">                proxy_cache_valid 404 10m;</span><br><span class="line">                proxy_cache_valid any 1h;</span><br><span class="line">                proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h5 id="通过jenkins更新生产的nginx"><a href="#通过jenkins更新生产的nginx" class="headerlink" title="通过jenkins更新生产的nginx"></a>通过jenkins更新生产的nginx</h5><img src="\image\image-20200828165059543.png" />
+<h5 id="通过jenkins更新生产的nginx"><a href="#通过jenkins更新生产的nginx" class="headerlink" title="通过jenkins更新生产的nginx"></a>通过jenkins更新生产的nginx</h5><img src="\image\image-20200828165059543.png">
 
-<img src="\image\image-20200824111256188.png" />
+<img src="\image\image-20200824111256188.png">
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@iZ2ze18q1ojbig8zevjrbuZ nginx]# cat nginx_reload </span><br><span class="line">#&#x2F;bin&#x2F;bash</span><br><span class="line">check_status&#x3D;&quot;&#96;&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -t  2&gt;&amp;1&#96;&quot;</span><br><span class="line"></span><br><span class="line">if [ $? -eq 0 ]; then</span><br><span class="line">     #echo &quot;nginx configure file ok&quot;</span><br><span class="line">     echo $check_status</span><br><span class="line">    &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx  -s reload</span><br><span class="line">else</span><br><span class="line">    #echo &quot;nginx configure file failed&quot;</span><br><span class="line">    echo $check_stutus</span><br><span class="line">exit    </span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 
@@ -312,7 +304,7 @@
                 
                     <p class="copyright-item">
                         <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
                     </p>
                 
                 

@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -39,7 +38,7 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 <body>
     <div class="wrapper">
         <header>
@@ -48,9 +47,9 @@
             <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -74,9 +73,9 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -183,13 +182,6 @@
                         </span>
                     
                     
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/category/deployment/">deployment</a>
-                            
-                        </span>
-                    
                 </div>
             
         </header>
@@ -198,9 +190,9 @@
             <h4 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h4><p>Nginx功能丰富,可作为HTTP服务器,也可作为反向代理服务器,邮件服务器。支持FastCGI、SSL、Virtual Host、URL Rewrite、Gzip等功能。并且支持很多第三方的模块扩展。</p>
 <h4 id="Nginx常用功能"><a href="#Nginx常用功能" class="headerlink" title="Nginx常用功能"></a>Nginx常用功能</h4><p>Nginx在做反向代理时,提供性能稳定,并且能够提供配置灵活的转发功能。Nginx可以根据不同的正则匹配,采取不同的转发策略,比如图片文件结尾的走文件服务器,动态页面走web服务器。并且Nginx对返回结果进行错误页跳转,异常判断等。如果被分发的服务器存在异常,他可以将请求重新转发给另外一台服务器,然后自动去除异常服务器。</p>
 <h4 id="正向代理和反向代理"><a href="#正向代理和反向代理" class="headerlink" title="正向代理和反向代理"></a>正向代理和反向代理</h4><p>反向代理（Reverse Proxy）对应的是正向代理（Forward Proxy）,他们的区别：<br>正向代理： 一般的访问流程是客户端直接向目标服务器发送请求并获取内容,使用正向代理后,客户端改为向代理服务器发送请求,并指定目标服务器（原始服务器）,然后由代理服务器和原始服务器通信,转交请求并获得的内容,再返回给客户端。正向代理隐藏了真实的客户端,为客户端收发请求,使真实客户端对服务器不可见；<br>举个具体的例子 🌰,你的浏览器无法直接访问谷哥,这时候可以通过一个代理服务器来帮助你访问谷哥,那么这个服务器就叫正向代理。<br>反向代理： 与一般访问流程相比,使用反向代理后,直接收到请求的服务器是代理服务器,然后将请求转发给内部网络上真正进行处理的服务器,得到的结果返回给客户端。反向代理隐藏了真实的服务器,为服务器收发请求,使真实服务器对客户端不可见。一般在处理跨域请求的时候比较常用。现在基本上所有的大型网站都设置了反向代理。<br>举个具体的例子 🌰,去饭店吃饭,可以点川菜、粤菜、江浙菜,饭店也分别有三个菜系的厨师 👨‍🍳,但是你作为顾客不用管哪个厨师给你做的菜,只用点菜即可,小二将你菜单中的菜分配给不同的厨师来具体处理,那么这个小二就是反向代理服务器。<br>简单的说,一般给客户端做代理的都是正向代理,给服务器做代理的就是反向代理。</p>
-<p><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-06/5f0297f17c48c.png" alt=""></p>
-<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>请求爆发式增长的情况下,单个机器性能再强劲也无法满足要求了,这个时候集群的概念产生了,单个服务器解决不了的问题,可以使用多个服务器,然后将请求分发到各个服务器上,将负载分发到不同的服务器,这就是负载均衡,核心是「分摊压力」。Nginx 实现负载均衡,一般来说指的是将请求转发给服务器集群。<br>举个具体的例子 🌰,晚高峰乘坐地铁的时候,入站口经常会有地铁工作人员大喇叭“请走 B 口,B 口人少车空….”,这个工作人员的作用就是负载均衡。<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-06/5f02987e7922a.png" alt=""></p>
-<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p>为了加快网站的解析速度,可以把动态页面和静态页面由不同的服务器来解析,加快解析速度,降低原来单个服务器的压力。<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-06/5f0298e628adb.png" alt=""><br>一般来说,都需要将动态资源和静态资源分开,由于 Nginx 的高并发和静态资源缓存等特性,经常将静态资源部署在 Nginx 上。如果请求的是静态资源,直接到静态资源目录获取资源,如果是动态资源的请求,则利用反向代理的原理,把请求转发给对应后台应用去处理,从而实现动静分离。<br>使用前后端分离后,可以很大程度提升静态资源的访问速度,即使动态服务不可用,静态资源的访问也不会受到影响。</p>
+<p><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-06/5f0297f17c48c.png" alt></p>
+<h4 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h4><p>请求爆发式增长的情况下,单个机器性能再强劲也无法满足要求了,这个时候集群的概念产生了,单个服务器解决不了的问题,可以使用多个服务器,然后将请求分发到各个服务器上,将负载分发到不同的服务器,这就是负载均衡,核心是「分摊压力」。Nginx 实现负载均衡,一般来说指的是将请求转发给服务器集群。<br>举个具体的例子 🌰,晚高峰乘坐地铁的时候,入站口经常会有地铁工作人员大喇叭“请走 B 口,B 口人少车空….”,这个工作人员的作用就是负载均衡。<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-06/5f02987e7922a.png" alt></p>
+<h4 id="动静分离"><a href="#动静分离" class="headerlink" title="动静分离"></a>动静分离</h4><p>为了加快网站的解析速度,可以把动态页面和静态页面由不同的服务器来解析,加快解析速度,降低原来单个服务器的压力。<br><img src="http://showdoc.gzlplink.com/server/../Public/Uploads/2020-07-06/5f0298e628adb.png" alt><br>一般来说,都需要将动态资源和静态资源分开,由于 Nginx 的高并发和静态资源缓存等特性,经常将静态资源部署在 Nginx 上。如果请求的是静态资源,直接到静态资源目录获取资源,如果是动态资源的请求,则利用反向代理的原理,把请求转发给对应后台应用去处理,从而实现动静分离。<br>使用前后端分离后,可以很大程度提升静态资源的访问速度,即使动态服务不可用,静态资源的访问也不会受到影响。</p>
 <h4 id="操作命令"><a href="#操作命令" class="headerlink" title="操作命令"></a>操作命令</h4><h5 id="windows下nginx命令"><a href="#windows下nginx命令" class="headerlink" title="windows下nginx命令"></a>windows下nginx命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#启动nginx</span><br><span class="line">在nginx安装目录下</span><br><span class="line">start nginx.exe</span><br><span class="line"></span><br><span class="line">#不停服务加载配置</span><br><span class="line">在nginx安装目录下</span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line">#nginx命令参数</span><br><span class="line">-c &lt;&#x2F;path&#x2F;to&#x2F;config&gt; 为 Nginx 指定一个配置文件,来代替缺省的。</span><br><span class="line">-t 如需检查配置文件的语法的正确性</span><br><span class="line">-v 显示 nginx 的版本</span><br><span class="line">-V 显示 nginx 的版本,编译器版本和配置参数(可查看nginx使用的模块)。</span><br><span class="line">-s reload  # 向主进程发送信号,重新加载配置文件</span><br><span class="line">-s reopen	 # 重启 Nginx</span><br><span class="line">-s stop    # 快速关闭</span><br><span class="line">-s quit    # 等待工作进程处理完成后关闭</span><br><span class="line">nginx -h可查看完整命令</span><br><span class="line"></span><br><span class="line">#查看nginx进程</span><br><span class="line">tasklist &#x2F;fi &quot;imagename eq nginx.exe&quot;</span><br><span class="line"></span><br><span class="line">#强制结束所有nginx进程</span><br><span class="line">taskkill &#x2F;F &#x2F;IM nginx.exe</span><br></pre></td></tr></table></figure>
 <h5 id="linux下nginx命令"><a href="#linux下nginx命令" class="headerlink" title="linux下nginx命令"></a>linux下nginx命令</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">1.手动编译nginx</span><br><span class="line">#启动nginx</span><br><span class="line">在nginx安装目录下</span><br><span class="line">.&#x2F;sbin&#x2F;nginx</span><br><span class="line">#不停服务加载配置</span><br><span class="line">在nginx安装目录下</span><br><span class="line">.&#x2F;sbin&#x2F;nginx -s reload</span><br><span class="line">命令参数均一致,只需把windows的nginx改为.&#x2F;sbin&#x2F;nginx即可</span><br><span class="line">#查看nginx进程</span><br><span class="line">ps -ef|grep nginx</span><br><span class="line">#强制结束所有nginx进程</span><br><span class="line">killalll nginx</span><br><span class="line"></span><br><span class="line">2.yum安装nginx</span><br><span class="line">#yum安装nginx,默认安装目录为&#x2F;etc&#x2F;nginx.可全局使用nginx命令,无需进入nginx安装目录</span><br></pre></td></tr></table></figure>
 <h4 id="nginx配置"><a href="#nginx配置" class="headerlink" title="nginx配置"></a>nginx配置</h4><p>nginx配置文件在安装目录的nginx.conf中<br>nginx 配置文件主要分成四部分：main（全局设置）、server（主机设置）、upstream（上游服务器设置,主要为反向代理、负载均衡相关配置）和 location（URL匹配特定位置后的设置）。main 部分设置的指令影响其他所有部分的设置；server 部分的指令主要用于制定虚拟主机域名、IP 和端口号；upstream 的指令用于设置一系列的后端服务器,设置反向代理及后端服务器的负载均衡；location 部分用于匹配网页位置（比如,根目录“/”,“/images”,等等）。他们之间的关系：server 继承 main,location 继承 server；upstream 既不会继承指令也不会被继承。</p>
@@ -211,7 +203,7 @@
 <p>server 块可以包含多个 location 块,location 指令用于匹配 uri,语法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location [ &#x3D; | ~ | ~* | ^~] uri &#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>指令后面：</p>
-<p>1.<code>=</code>精确匹配路径,用于不含正则表达式的 uri 前,如果匹配成功,不再进行后续的查找；<br>2.<code>^<del></code>用于不含正则表达式的 uri； 前,表示如果该符号后面的字符是最佳匹配,采用该规则,不再进行后续的查找；<br>3.<code></del></code> 表示用该符号后面的正则去匹配路径,区分大小写；<br>4.<code>~*</code>表示用该符号后面的正则去匹配路径,不区分大小写。跟 ~ 优先级都比较低,如有多个location的正则能匹配的话,则使用正则表达式最长的那个；</p>
+<p>1.<code>=</code>精确匹配路径,用于不含正则表达式的 uri 前,如果匹配成功,不再进行后续的查找；<br>2.<code>^<del></del></code>用于不含正则表达式的 uri； 前,表示如果该符号后面的字符是最佳匹配,采用该规则,不再进行后续的查找；<br>3.<code></code> 表示用该符号后面的正则去匹配路径,区分大小写；<br>4.<code>~*</code>表示用该符号后面的正则去匹配路径,不区分大小写。跟 ~ 优先级都比较低,如有多个location的正则能匹配的话,则使用正则表达式最长的那个；</p>
 <p>如果 uri 包含正则表达式,则必须要有 ~ 或 ~* 标志。</p>
 <h4 id="常用的全局变量"><a href="#常用的全局变量" class="headerlink" title="常用的全局变量"></a>常用的全局变量</h4><table>
 <thead>
@@ -359,7 +351,7 @@
                 
                     <p class="copyright-item">
                         <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
                     </p>
                 
                 

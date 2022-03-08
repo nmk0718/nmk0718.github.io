@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -39,7 +38,7 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 <body>
     <div class="wrapper">
         <header>
@@ -48,9 +47,9 @@
             <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -74,9 +73,9 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -182,13 +181,6 @@
                         Date: <a href="#">2020-7-30&nbsp;&nbsp;22:55:00</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/category/tools/">tools</a>
-                            
-                        </span>
                     
                 </div>
             
@@ -419,7 +411,7 @@
 <p><strong>Kibana可视化管理页面详细使用说明</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Discover：日志管理视图 主要进行搜索和查询Visualize：统计视图 构建可视化的图表Dashboard：仪表视图 将构建的图表组合形成图表盘Dev Tools： 开发者命令视图 开发工具Management：管理视图 管理工具</span><br></pre></td></tr></table></figure>
 
-<p><strong>简单查询</strong><br>点击discover，则会显示默认索引的空间，显示的数据默认是15分钟，你可以自己调整时间段后refresh刷新查询到你想要的数据。<br><img src="\image\5f16b919cf571.png" /><br>默认情况下,列表会显示所有字段,在左侧的Available fields下方的字段选中add添加,则只显示你所选中的字段到列表中。<br><img src="\image\5f16b9c6b79d3.png" /><br>save保存搜索条件<br><img src="\image\5f17b28256ac4.png" /><br>open打开保存的搜索条件<br><img src="\image\5f17b26c3780b.png" /><br><strong>自定义索引</strong><br>创建索引<br><img src="\image\5f16bd2e3b622.png" /><br>输入日志名称(可通过正则匹配)<br><img src="\image\5f16bd669d4ac.png" /><br><img src="\image\5f16bd9a241ec.png" /><br>可查看所有字段<br><img src="\image\5f16bdc9b995c.png" /><br>点击Discover可查看到新添加的索引<br><img src="\image\5f16bdf66aab1.png" /><br>Visualize 创建可视化图表<br><img src="\image\5f16bfd8e2c2f.png" /><br>Kibana自带有上10种图表,这里选择直方图📊<br><img src="\image\5f16c0138f4c3.png" /><br>选择数据来源<br><img src="\image\5f16c7d5b235b.png" /><br>默认已经有一个Y轴了，统计的是数量，我们添加一个X轴，点击Buckets下的Add<br><img src="\image\5f16c8377e70b.png" /><br>我选择了<a href="https://github.com/timestamp" target="_blank" rel="noopener">@timestamp</a>字段作为x轴 然后Update<br><img src="\image\5f16c8c18cf67.png" /><br>保存<br><img src="\image\5f16c8fe1622e.png" /><br><strong>仪表盘</strong> 展示保存的可视化结果集合<br>创建一个Dashboard,展示上面定义好的图表<br><img src="\image\5f17af8cbf6d4.png" /><br>添加已经存在的图表<br><img src="\image\5f17afa79b0a6.png" /><br>添加完后保存即可<br><img src="\image\5f17aff2b7ccd.png" /><br><strong>Dev Tools</strong> 可以看到Console命令行直接可以执行ES的REST风格API，右侧是查询的返回结果<br><img src="\image\5f16bad4c39a6.png" /><br><strong>Management</strong><br>可对视图或搜索等删除和导入导出<br><img src="\image\5f17b36c51b37.png" /><br>kibana可视化操作: <a href="https://www.cnblogs.com/ygunoil/p/13279514.html" target="_blank" rel="noopener">https://www.cnblogs.com/ygunoil/p/13279514.html</a><br>查询语法: <a href="https://www.cnblogs.com/chenqionghe/p/12501218.html" target="_blank" rel="noopener">https://www.cnblogs.com/chenqionghe/p/12501218.html</a></p>
+<p><strong>简单查询</strong><br>点击discover，则会显示默认索引的空间，显示的数据默认是15分钟，你可以自己调整时间段后refresh刷新查询到你想要的数据。<br><img src="\image\5f16b919cf571.png"><br>默认情况下,列表会显示所有字段,在左侧的Available fields下方的字段选中add添加,则只显示你所选中的字段到列表中。<br><img src="\image\5f16b9c6b79d3.png"><br>save保存搜索条件<br><img src="\image\5f17b28256ac4.png"><br>open打开保存的搜索条件<br><img src="\image\5f17b26c3780b.png"><br><strong>自定义索引</strong><br>创建索引<br><img src="\image\5f16bd2e3b622.png"><br>输入日志名称(可通过正则匹配)<br><img src="\image\5f16bd669d4ac.png"><br><img src="\image\5f16bd9a241ec.png"><br>可查看所有字段<br><img src="\image\5f16bdc9b995c.png"><br>点击Discover可查看到新添加的索引<br><img src="\image\5f16bdf66aab1.png"><br>Visualize 创建可视化图表<br><img src="\image\5f16bfd8e2c2f.png"><br>Kibana自带有上10种图表,这里选择直方图📊<br><img src="\image\5f16c0138f4c3.png"><br>选择数据来源<br><img src="\image\5f16c7d5b235b.png"><br>默认已经有一个Y轴了，统计的是数量，我们添加一个X轴，点击Buckets下的Add<br><img src="\image\5f16c8377e70b.png"><br>我选择了<a href="https://github.com/timestamp" target="_blank" rel="noopener">@timestamp</a>字段作为x轴 然后Update<br><img src="\image\5f16c8c18cf67.png"><br>保存<br><img src="\image\5f16c8fe1622e.png"><br><strong>仪表盘</strong> 展示保存的可视化结果集合<br>创建一个Dashboard,展示上面定义好的图表<br><img src="\image\5f17af8cbf6d4.png"><br>添加已经存在的图表<br><img src="\image\5f17afa79b0a6.png"><br>添加完后保存即可<br><img src="\image\5f17aff2b7ccd.png"><br><strong>Dev Tools</strong> 可以看到Console命令行直接可以执行ES的REST风格API，右侧是查询的返回结果<br><img src="\image\5f16bad4c39a6.png"><br><strong>Management</strong><br>可对视图或搜索等删除和导入导出<br><img src="\image\5f17b36c51b37.png"><br>kibana可视化操作: <a href="https://www.cnblogs.com/ygunoil/p/13279514.html" target="_blank" rel="noopener">https://www.cnblogs.com/ygunoil/p/13279514.html</a><br>查询语法: <a href="https://www.cnblogs.com/chenqionghe/p/12501218.html" target="_blank" rel="noopener">https://www.cnblogs.com/chenqionghe/p/12501218.html</a></p>
 
         </div>
 
@@ -440,7 +432,7 @@
                 
                     <p class="copyright-item">
                         <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
                     </p>
                 
                 
@@ -466,7 +458,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/07/30/%E9%A2%84%E7%94%9F%E4%BA%A7%E8%BF%90%E7%BB%B4%E6%9E%B6%E6%9E%84/">预生产运维架构</a>
+                <a class="prev" rel="prev" href="/2020/07/30/预生产运维架构/">预生产运维架构</a>
             
             
             <a class="next" rel="next" href="/2020/07/16/nginx/">nginx</a>

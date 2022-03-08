@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -39,7 +38,7 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+</head>
 <body>
     <div class="wrapper">
         <header>
@@ -48,9 +47,9 @@
             <div class="navbar-header header-logo"><a href="/">nimingkun&#39;s Blog</a></div>
             <div class="menu navbar-right">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -74,9 +73,9 @@
             </div>
             <div class="menu" id="mobile-menu">
                 
-                    <a class="menu-item" href="/archives">Posts</a>
+                    <a class="menu-item" href="/app">App</a>
                 
-                    <a class="menu-item" href="/category">Categories</a>
+                    <a class="menu-item" href="/archives">Posts</a>
                 
                     <a class="menu-item" href="/tag">Tags</a>
                 
@@ -182,13 +181,6 @@
                         Date: <a href="#">2021-3-27&nbsp;&nbsp;15:20:00</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/category/database/">database</a>
-                            
-                        </span>
                     
                 </div>
             
@@ -313,7 +305,7 @@
 <p>连接sqlserver</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum install -y mssql-tools unixODBC-devel</span><br><span class="line"></span><br><span class="line">echo &quot;export PATH&#x3D;$PATH:&#x2F;opt&#x2F;mssql-tools&#x2F;bin&quot; &gt;&gt; &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">[root@dev-database home]# sqlcmd -S localhost -U sa</span><br><span class="line">Password: </span><br><span class="line">1&gt; select db_name();</span><br><span class="line">2&gt; go</span><br><span class="line">                                                                                                                                </span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">master                                                                                                                          </span><br><span class="line"></span><br><span class="line">(1 rows affected)</span><br><span class="line">1&gt;</span><br></pre></td></tr></table></figure>
 
-<p>还原数据库<br><img src="\image\image-20210131165156539.png" /><br><img src="\image\image-20210131165233729.png" /><br><img src="\image\image-20210131165242088.png" /></p>
+<p>还原数据库<br><img src="\image\image-20210131165156539.png"><br><img src="\image\image-20210131165233729.png"><br><img src="\image\image-20210131165242088.png"></p>
 <h4 id="恢复mongdb"><a href="#恢复mongdb" class="headerlink" title="恢复mongdb"></a>恢复mongdb</h4><p><strong>配置系统yum源</strong></p>
 <ul>
 <li><p>创建.repo文件，生成mongodb的源</p>
@@ -391,13 +383,13 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2021/03/27/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/">http://nmk0718.github.io/2021/03/27/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</a></span>
+                        <span><a href="http://nmk0718.github.io/2021/03/27/数据库备份与恢复/">http://nmk0718.github.io/2021/03/27/数据库备份与恢复/</a></span>
                     </p>
                 
                 
                     <p class="copyright-item">
                         <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
                     </p>
                 
                 
