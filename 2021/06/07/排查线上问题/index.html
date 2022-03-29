@@ -234,6 +234,65 @@
 <p>2.云服务器CPU飙升可能为上次版本代码中的有效时间问题,在6.08号版本生产上线中解决</p>
 <p>3.项目不能访问后没有即刻告警,因为该服务没有停止运行,但是内部已经连接超时,无法响应。针对此情况新增监控告警,该告警为监控日志报错后告警,时间间隔为10分钟,通过手机短信,邮箱,钉钉机器人报警</p>
 <p>![image-20210607162109471](E:\nginx\file\images\image-20210607162109471.png” /&gt;</p>
+<h3 id="钉钉收到容器OOM告警"><a href="#钉钉收到容器OOM告警" class="headerlink" title="钉钉收到容器OOM告警"></a>钉钉收到容器OOM告警</h3><img src="\image/ding dingalert.png">
+
+<p>进入到监控中查看CPU和内存均正常</p>
+<img src="\image/alimonitor.png">
+
+<p>查看nhospital容器对应的的CPU和内存,CPU达到80%但没超过限制值</p>
+<img src="\image/containercpu.png">
+
+<p>内存在1.8G时进行重启容器(分配内存为2.2G)</p>
+<img src="\image/containermem.png">
+
+<p>查看该节点对应的/var/log/message得知容器被OOM杀掉进程</p>
+<img src="\image/systemlog.png"> 
+
+<p><strong>OOM:</strong></p>
+<p>如果节点在 kubelet 回收内存之前经历了系统 OOM（内存不足）事件，它将基于 <a href="https://lwn.net/Articles/391222/" target="_blank" rel="noopener">oom-killer</a> 做出响应。</p>
+<p>kubelet 基于 pod 的 service 质量为每个容器设置一个 oom_score_adj 值。</p>
+<table>
+<thead>
+<tr>
+<th>Service 质量</th>
+<th>oom_score_adj</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Guaranteed</td>
+<td>-998</td>
+</tr>
+<tr>
+<td>BestEffort</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>Burstable</td>
+<td>min(max(2,  1000 - (1000 * memoryRequestBytes) / machineMemoryCapacityBytes), 999)</td>
+</tr>
+</tbody></table>
+<p>如果 kubelet 在节点经历系统 OOM 之前无法回收内存，oom_killer 将基于它在节点上 使用的内存百分比算出一个 oom_score，并加上 oom_score_adj 得到容器的有效 oom_score，然后结束得分最高的容器。</p>
+<p>预期的行为应该是拥有最低服务质量并消耗和调度请求相关内存量最多的容器第一个被结束，以回收内存。</p>
+<p>和 pod 驱逐不同，如果一个 Pod 的容器是被 OOM 结束的，基于其 RestartPolicy， 它可能会被 kubelet 重新启动</p>
+<p><strong>QoS类型：</strong><br> Guranteed:<br> 　每个容器的CPU，RAM资源都设置了相同值的requests 和 limits属性。<br> 　简单说： cpu.limits = cpu.requests<br> 　　　　　memory.limits = memory.requests<br> 　这类Pod的运行优先级最高，但凡这样配置了cpu和内存的limits和requests，它会自动被归为此类。<br> 　Burstable:<br> 　　　每个容器至少定义了CPU，RAM的requests属性，这里说每个容器是指：一个Pod中可以运行多个容器。<br> 　　　那么这类容器就会被自动归为burstable，而此类就属于中等优先级。<br> 　BestEffort:<br> 　　　没有一个容器设置了requests 或 limits，则会归为此类，而此类别是最低优先级。</p>
+<p> <strong>QoS类型的作用：</strong><br> 　Node上会运行很多Pod，当运行一段时间后，发现Node上的资源紧张了，这时K8s就会根据QoS类别来选择Kill掉一部分Pod，那些会先被Kill掉？<br> 　当然就是优先级最低的，也就是BestEffort，若BestEffort被Kill完了，还是紧张，接下来就是Kill中等优先级的，即Burstable，依次类推。</p>
+<p> 　这里有个问题，BestEffort因为没有设置requests和limits，可根据谁占用资源最多，就kill谁，但Burstable设置了requests和limits，它的kill标准是什么？<br> 　若按照谁占资源多kill谁，那遇到这样的问题，怎么选择？<br> 　　　PodA: 启动时设置了memory.request=512M , memory.limits=1G<br> 　　　PodB: 设置为: memory.requests=1G, memory.limits=2G</p>
+<p> 　　　PodA: 运行了一段时间后，占用了500M了，它可能还有继续申请内存。<br> 　　　PodB: 它则占用了512M内存了，但它可能也还需要申请内存。<br> 　　　想想，现在Node资源紧张了，会先kill谁？<br> 　　　其实，会优先kill PodA ， 为啥？<br> 　　　因为它启动时，说自己需要512M内存就够了，但你现在这么积极的申请内存，都快把你需求的内存吃完了，只能说明你太激进了，因此会先kill。<br> 　　　而PodB，启动时需要1G，但目前才用了1半，说明它比较温和，因此不会先kill它。</p>
+<p><strong>解决方案：</strong></p>
+<p>挂掉的nhospital容器的资源配置为：</p>
+<p>cpu.request=0.1m cpu.limit=0.9m  memory.request=512M memory.limits=2248M</p>
+<p>故nhospital容器的Qos类型为Burstable,若该容器比较激进使用内存容易被kill</p>
+<p>修改nhospital容器的资源配置为：</p>
+<p>cpu.request=0.1m cpu.limit=0.9m memory.request=2248M memory.limits=2248M</p>
+<p>当pod 内存超过limit时，会被oom。</p>
+<p>当cpu超过limit时，不会被kill，但是会限制不超过limit值。</p>
+<p>所以只修改memory的request跟limit保持一致即可</p>
+<p>这样nhospital容器的Qos类型就变为了Guranteed,分值最低不会被kill</p>
+<p>当前节点池中的节点内存使用量都在73-78%,当其他服务内存增长过高情况下会导致会先oom情况,可进行内存扩容进行避免OOM发生</p>
+<img src="\image/node">
+
+
+
 <h3 id="代码获取不到客户端真实ip"><a href="#代码获取不到客户端真实ip" class="headerlink" title="代码获取不到客户端真实ip"></a>代码获取不到客户端真实ip</h3><p>排查一:</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">查看nginx服务器配置转发是否正确</span><br><span class="line"><span class="attribute">proxy_set_header</span>   Host    <span class="variable">$host</span>;</span><br><span class="line"><span class="attribute">proxy_set_header</span>   X-Real-IP   <span class="variable">$remote_addr</span>;</span><br><span class="line"><span class="attribute">proxy_set_header</span>   X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"><span class="attribute">proxy_set_header</span>   X-Forwarded-Proto <span class="variable">$scheme</span>;</span><br><span class="line"></span><br><span class="line">查看得知正确无误</span><br></pre></td></tr></table></figure>
 
