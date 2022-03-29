@@ -234,13 +234,13 @@
 <p>2.云服务器CPU飙升可能为上次版本代码中的有效时间问题,在6.08号版本生产上线中解决</p>
 <p>3.项目不能访问后没有即刻告警,因为该服务没有停止运行,但是内部已经连接超时,无法响应。针对此情况新增监控告警,该告警为监控日志报错后告警,时间间隔为10分钟,通过手机短信,邮箱,钉钉机器人报警</p>
 <p>![image-20210607162109471](E:\nginx\file\images\image-20210607162109471.png” /&gt;</p>
-<h3 id="钉钉收到容器OOM告警"><a href="#钉钉收到容器OOM告警" class="headerlink" title="钉钉收到容器OOM告警"></a>钉钉收到容器OOM告警</h3><img src="\image/ding dingalert.png">
+<h3 id="钉钉收到容器OOM告警"><a href="#钉钉收到容器OOM告警" class="headerlink" title="钉钉收到容器OOM告警"></a>钉钉收到容器OOM告警</h3><img src="\image/dingdingalert.png">
 
 <p>进入到监控中查看CPU和内存均正常</p>
 <img src="\image/alimonitor.png">
 
 <p>查看nhospital容器对应的的CPU和内存,CPU达到80%但没超过限制值</p>
-<img src="\image/containercpu.png">
+<img src="\image/contianercpu.png">
 
 <p>内存在1.8G时进行重启容器(分配内存为2.2G)</p>
 <img src="\image/containermem.png">
@@ -289,7 +289,7 @@
 <p>所以只修改memory的request跟limit保持一致即可</p>
 <p>这样nhospital容器的Qos类型就变为了Guranteed,分值最低不会被kill</p>
 <p>当前节点池中的节点内存使用量都在73-78%,当其他服务内存增长过高情况下会导致会先oom情况,可进行内存扩容进行避免OOM发生</p>
-<img src="\image/node">
+<img src="\image/node.png">
 
 
 
@@ -301,6 +301,54 @@
 
 <p>修改proxy_set_header X-Forwarded-For        $remote_addr;中的$remote_addr为 $proxy_add_x_forwarded_for;</p>
 <p>再次进行获取客户端真实ip,获取正常</p>
+<h3 id="2021年9月18号出现宕机问题汇总"><a href="#2021年9月18号出现宕机问题汇总" class="headerlink" title="2021年9月18号出现宕机问题汇总"></a>2021年9月18号出现宕机问题汇总</h3><ol>
+<li>在10:43分左右出现app登录不上问题,查看项目报错日志</li>
+</ol>
+<p>Exception in thread “Thread-38” org.springframework.jdbc.BadSqlGrammarException: Error selecting key or setting result to parameter object. Cause: org.postgresql.util.PSQLException: 错误: 语法错误 在 “PostgreSQL” 或附近的<br>  Position: 1<br> ; bad SQL grammar []; nested exception is org.postgresql.util.PSQLException: 错误: 语法错误 在 “PostgreSQL” 或附近的<br>  Position: 1</p>
+<p>是由上述报错导致项目挂掉,找到该接口负责人,进行修改.重新提交代码后,进行重新发布</p>
+<p>再次观察监控得知再次宕机</p>
+<img src="\image/20210918monitor.png">
+
+
+
+<p>查看日志未有报错,CPU和内存溢出.又收到都市大医生也出现宕机问题,加大项目节点观察是否宕机还是出现问题</p>
+<p>通过nginx查看请求的ip和URL 通过访问地址进行分析</p>
+<img src="\image/20210918sls.png">
+
+
+
+
+
+<table>
+<thead>
+<tr>
+<th>前4个请求最多的地址为:</th>
+<th>业务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/zuul/live-app/ext/video/getRandomProduct</td>
+<td>首页推荐视频</td>
+</tr>
+<tr>
+<td>/zuul/live-app/ext/video/article/recommended</td>
+<td>首页推荐文章</td>
+</tr>
+<tr>
+<td>/doctor-api/v1_0/user/logoutForLj</td>
+<td>用户退出登录</td>
+</tr>
+<tr>
+<td>/zuul/live-app/ext/app/saveChannel</td>
+<td>上报渠道</td>
+</tr>
+</tbody></table>
+<p>查看得知用户退出登录接口的请求次数为25600次,上传渠道接口的请求次数为21474次</p>
+<p>得出结论:</p>
+<p>用户退出登录接口导致服务宕机,使用户无法访问都市大医生,上报渠道接口导致接口出现无法访问问题</p>
+<p>协助开发查询代码问题,找到问题原因,用户退出登录接口一直在死循环请求服务器,导致服务一直重启.上报渠道接口因修改app登录不上时出现了502,也会一直请求服务器.开发进行重新修复代码问题后,重新打出app包.再无问题出现</p>
+<p><strong>后续</strong></p>
+<p>该问题为代码问题,都是正常的请求,但是出现了死循环,加大服务器节点和内存无法避免该情况发生,只能通过排查代码中的问题来解决.</p>
 
         </div>
 
