@@ -265,6 +265,32 @@
 <p>恢复数据库</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -uhospitalTest -pLiangjian123360@8899</span><br><span class="line">CREATE DATABASE hospunion;</span><br><span class="line">use hospunion;</span><br><span class="line">source /home/hospunion-20-10-27.sql</span><br></pre></td></tr></table></figure>
 
+<h5 id="恢复单个库"><a href="#恢复单个库" class="headerlink" title="恢复单个库"></a>恢复单个库</h5><p>方法一:</p>
+<p>从全备中直接导入单个库 </p>
+<p>格式：mysql -u用户 -p密码 单个数据库名  –one-database &lt; 全备的sql文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p&apos;nmk@0718&apos;  test  -o  &lt; databases-2022-07-08.sql</span><br></pre></td></tr></table></figure>
+
+<p>方法二:</p>
+<p>从全备中直接导出库数据到新的sql文件</p>
+<p>格式：sed -n ‘/^– Current Database: <code>表名</code>/,/^– Current Database: `/p’  全备sql文件 &gt; 新sql文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -n &apos;/^-- Current Database: `test`/,/^-- Current Database: `/p&apos; databases-2022-07-08.sql &gt; test.sql</span><br></pre></td></tr></table></figure>
+
+<p>将提取出的新的sql数据导入数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p&apos;nmk@0718&apos;  &lt; test.sql</span><br></pre></td></tr></table></figure>
+
+<h5 id="恢复单个表"><a href="#恢复单个表" class="headerlink" title="恢复单个表"></a>恢复单个表</h5><p>方法一:</p>
+<p>从全备份中导出该表的建表语句到新的sql文件中</p>
+<p>格式：sed -e’/./{H;$!d;}’ -e ‘x;/CREATE TABLE <code>表名</code>/!d;q’  全备sql文件 &gt; 新sql文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -e&apos;/./&#123;H;$!d;&#125;&apos; -e &apos;x;/CREATE TABLE `test`/!d;q&apos; databases-2022-07-08.sql &gt; test.sql</span><br></pre></td></tr></table></figure>
+
+<p>从全备份中导出该表的insert into语句追加到上一个sql文件中</p>
+<p>格式：grep -i ‘INSERT INTO <code>表名</code>‘  全备sql文件 &gt;&gt; 含建表语句的sql文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -i &apos;INSERT INTO `test`&apos; databases-2022-07-08.sql &gt;&gt; test.sql</span><br></pre></td></tr></table></figure>
+
+<p>导入到对应的库中</p>
+<p>格式：<br>use 对应的库名；<br>source 导出的sql文件；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">use test;</span><br><span class="line">source /root/test.sql;</span><br></pre></td></tr></table></figure>
+
 <p>mysql问题</p>
 <p><strong>ERROR 1805 (HY000): Column count of mysql.user is wrong. Expected 45, found 43. The table is probabl</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create user &apos;turn123&apos;@&apos;localhost&apos; identified by &apos;abc123&apos;; </span><br><span class="line">ERROR 1805 (HY000): Column count of mysql.user is wrong. Expected 45, found 43. The table is probably corrupted</span><br></pre></td></tr></table></figure>
