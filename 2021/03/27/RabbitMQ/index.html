@@ -200,43 +200,43 @@
 
         <div class="post-content">
             <h5 id="安装erlang"><a href="#安装erlang" class="headerlink" title="安装erlang"></a>安装erlang</h5><p>安装erlang的前置脚本文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https:<span class="regexp">//</span>packagecloud.io<span class="regexp">/install/</span>repositories<span class="regexp">/rabbitmq/</span>erlang<span class="regexp">/script.rpm.sh | sudo bash</span></span><br></pre></td></tr></table></figure>
 
 <p>安装erlang</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install erlang</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> erlang</span><br></pre></td></tr></table></figure>
 
 <p>检查版本号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@public-service ~]# erl</span><br><span class="line">Erlang/OTP 23 [erts-11.1.1] [source] [64-bit] [smp:2:2] [ds:2:2:10] [async-threads:1] [hipe]</span><br><span class="line"></span><br><span class="line">Eshell V11.1.1  (abort with ^G)</span><br><span class="line">1&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[root@public-service ~]</span># <span class="selector-tag">erl</span></span><br><span class="line"><span class="selector-tag">Erlang</span>/<span class="selector-tag">OTP</span> <span class="selector-tag">23</span> <span class="selector-attr">[erts-11.1.1]</span> <span class="selector-attr">[source]</span> <span class="selector-attr">[64-bit]</span> <span class="selector-attr">[smp:2:2]</span> <span class="selector-attr">[ds:2:2:10]</span> <span class="selector-attr">[async-threads:1]</span> <span class="selector-attr">[hipe]</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">Eshell</span> <span class="selector-tag">V11</span><span class="selector-class">.1</span><span class="selector-class">.1</span>  (abort with ^G)</span><br><span class="line"><span class="selector-tag">1</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <h5 id="安装rabbitmq"><a href="#安装rabbitmq" class="headerlink" title="安装rabbitmq"></a>安装rabbitmq</h5><p>导入rabbitmq需要的key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey</span><br><span class="line">rpm --import https://packagecloud.io/gpg.key</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm --<span class="keyword">import</span> <span class="string">https:</span><span class="comment">//packagecloud.io/rabbitmq/rabbitmq-server/gpgkey</span></span><br><span class="line">rpm --<span class="keyword">import</span> <span class="string">https:</span><span class="comment">//packagecloud.io/gpg.key</span></span><br></pre></td></tr></table></figure>
 
 <p>安装rabbitmq的前置脚本文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https:<span class="regexp">//</span>packagecloud.io<span class="regexp">/install/</span>repositories<span class="regexp">/rabbitmq/</span>rabbitmq-server<span class="regexp">/script.rpm.sh | sudo bash</span></span><br></pre></td></tr></table></figure>
 
 <p>导入key</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm --<span class="keyword">import</span> <span class="string">https:</span><span class="comment">//www.rabbitmq.com/rabbitmq-release-signing-key.asc</span></span><br></pre></td></tr></table></figure>
 
 <p>安装socat</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y install epel-release</span><br><span class="line">yum -y install socat</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> epel-<span class="keyword">release</span></span><br><span class="line">yum -y <span class="keyword">install</span> socat</span><br></pre></td></tr></table></figure>
 
 <p>安装rabbitmq</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ivh rabbitmq-server-3.8.5-1.el7.noarch.rpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">rpm</span> <span class="selector-tag">-ivh</span> <span class="selector-tag">rabbitmq-server-3</span><span class="selector-class">.8</span><span class="selector-class">.5-1</span><span class="selector-class">.el7</span><span class="selector-class">.noarch</span><span class="selector-class">.rpm</span></span><br></pre></td></tr></table></figure>
 
 <p>启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start</span><br></pre></td></tr></table></figure>
 
 <p>开启web管理页面插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="builtin-name">enable</span> rabbitmq_management</span><br></pre></td></tr></table></figure>
 
 <p>查看插件列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins list</span><br></pre></td></tr></table></figure>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="built_in">list</span></span><br></pre></td></tr></table></figure>
 
 <p>开启插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_delayed_message_exchange</span><br></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins <span class="builtin-name">enable</span> rabbitmq_delayed_message_exchange</span><br></pre></td></tr></table></figure>
 
 <p>创建用户授权</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user liangjian liangjian360</span><br><span class="line">rabbitmqctl set_user_tags liangjian administrator</span><br></pre></td></tr></table></figure>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">rabbitmqctl</span> <span class="keyword">add_user </span>liangjian liangjian360</span><br><span class="line"><span class="symbol">rabbitmqctl</span> set_user_tags liangjian administrator</span><br></pre></td></tr></table></figure>
         </div>
 
         
