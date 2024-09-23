@@ -1278,13 +1278,6 @@ header label {
   color: #008000;
   font-weight: bold;
 }
-.highlight .code .symbol,
-.highlight .code .bullet,
-.highlight .code .formula {
-  color: #000;
-  background: #d0eded;
-  font-style: italic;
-}
 .highlight .code .doctag {
   text-decoration: underline;
 }
