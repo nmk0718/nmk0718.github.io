@@ -7,7 +7,7 @@
 
 
 
-<title>easyimage | K&#39;s Blog</title>
+<title>Adhell3 阻止广告（三星） | K&#39;s Blog</title>
 
 
 
@@ -181,7 +181,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">easyimage</h1>
+            <h1 class="post-title">Adhell3 阻止广告（三星）</h1>
             
                 <div class="post-meta">
                     
@@ -190,7 +190,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2020-4-2&nbsp;&nbsp;14:00:00</a>
+                        Date: <a href="#">2024-9-29&nbsp;&nbsp;13:35:00</a>
                         </span>
                     
                     
@@ -199,37 +199,40 @@
         </header>
 
         <div class="post-content">
-            <h2 id="简单图床"><a href="#简单图床" class="headerlink" title="简单图床"></a>简单图床</h2><h3 id="安装php"><a href="#安装php" class="headerlink" title="安装php"></a>安装php</h3><p>卸载php旧版本</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="builtin-name">remove</span> php*</span><br></pre></td></tr></table></figure>
+            <h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h4><ol>
+<li>需要先对三星手机进行adb授权启动黑域</li>
+<li>NotifyRDS-Add-on-Samsung.apk,Adhell3.apk,三星手机</li>
+</ol>
+<p>⚠️本文尝试参考链接中的炼妖壶方案无法激活Adhell3,仅列出安全文件夹的激活步骤</p>
+<h4 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h4><ol>
+<li><p>启用 klms agent</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#黑域内运行命令</span></span><br><span class="line">pm <span class="builtin-name">enable</span> com.samsung.klmsagent</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装NotifyRDS-Add-on-Samsung</p>
+</li>
+<li><p>手机设置中开启安全文件夹，把NotifyRDS-Add-on-Samsung安装到安全文件夹中<br>安全文件夹：右上角加号——添加NotifyRDS-Add-on-Samsung</p>
+</li>
+<li><p>卸载手机自身安装的NotifyRDS-Add-on-Samsung<br>手机设置内搜索 <code>设备管理应用程序</code> 对第一个NotifyRDS-Add-on-Samsung进行取消激活和卸载</p>
+</li>
+<li><p>禁用 klms agent</p>
+<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#黑域内运行命令</span></span><br><span class="line">pm disable-<span class="keyword">user</span> <span class="title">com</span>.samsung.klmsagent</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>卸载安全文件夹中的NotifyRDS-Add-on-Samsung<br>安全文件夹：右上角三个点——设置——更多设置——卸载，【取消】将媒体文件移出安全文件</p>
+</li>
+<li><p>安装 Adhell<br>先安装Adhell3到手机内<br>黑域内运行命令</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm enable com<span class="selector-class">.samsung</span><span class="selector-class">.klmsagent</span></span><br></pre></td></tr></table></figure>
 
-<p>安装拓展</p>
-<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php72w php72w-cli php72w-common php72w-devel php72w-embedded php72w-fpm php72w-gd php72w-mbstring php72w-mysqlnd php72w-opcache php72w-pdo php72w-xml php72w-ldap php72w-mcrypt</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>手机设置内搜索 <code>设备管理应用程序</code> 对Adhell3进行激活<br>启动Adhell3即可</p>
+<h4 id="配置作用域"><a href="#配置作用域" class="headerlink" title="配置作用域"></a>配置作用域</h4><p>在作用域的订阅源中配置</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="regexp">//</span>raw.githubusercontent.com<span class="regexp">/VeleSila/y</span>hosts<span class="regexp">/master/</span>hosts</span><br><span class="line">https:<span class="regexp">//</span>raw.githubusercontent.com<span class="regexp">/AdAway/</span>adaway.github.io<span class="regexp">/master/</span>hosts.txt</span><br><span class="line">https:<span class="regexp">//</span>hblock.molinero.dev<span class="regexp">/hosts</span></span><br></pre></td></tr></table></figure>
 
-<p>查看php版本</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">php -v</span></span><br></pre></td></tr></table></figure>
+<p>在作用域的白名单中配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">errnewlog.umeng.com</span><br><span class="line">errlog.umeng.com</span><br><span class="line">beacon.qq.com</span><br><span class="line">ssl.google-analytics.com</span><br><span class="line">loggw.alipay.com.cn</span><br><span class="line">dataflow.biliapi.com</span><br></pre></td></tr></table></figure>
 
-<p>查看拓展</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">php -m</span></span><br></pre></td></tr></table></figure>
-
-<p>修改php的配置文件</p>
-<figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#查看php安装位置</span></span><br><span class="line">whereis php</span><br><span class="line"><span class="meta">#编辑php配置文件</span></span><br><span class="line">vim etc/php.ini</span><br><span class="line"><span class="meta">#修改upload_max_size: 50M和post_max_size: 50M</span></span><br></pre></td></tr></table></figure>
-
-<p>下载easyimage</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:<span class="regexp">//gi</span>thub.com<span class="regexp">/icret/</span>EasyImages2.<span class="number">0</span><span class="regexp">/archive/m</span>aster.zip</span><br></pre></td></tr></table></figure>
-
-<p>解压</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip <span class="literal">master</span>.zip</span><br></pre></td></tr></table></figure>
-
-<p>把解压出来文件夹内的所有文件放到/var/www/html下</p>
-<p>安装Apache</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y <span class="keyword">install</span> httpd httpd-devel</span><br></pre></td></tr></table></figure>
-
-<p>启动httpd</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="literal">start</span> httpd</span><br></pre></td></tr></table></figure>
-
-<p>访问</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span><span class="comment">//ip:port/</span></span><br></pre></td></tr></table></figure>
-
+<p>在主页启用作用域即可</p>
+<p>参考文档:<br><a href="https://zhuanlan.zhihu.com/p/670139739" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/670139739</a></p>
 
         </div>
 
@@ -244,7 +247,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2020/04/02/easyimage/">http://nmk0718.github.io/2020/04/02/easyimage/</a></span>
+                        <span><a href="http://nmk0718.github.io/2024/09/29/Adhell3/">http://nmk0718.github.io/2024/09/29/Adhell3/</a></span>
                     </p>
                 
                 
@@ -262,10 +265,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tag/easyimage/"># easyimage</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -276,10 +275,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/04/07/Tomcat日志处理/">tomcat日志处理</a>
             
-            
-            <a class="next" rel="next" href="/2020/03/31/docker/">Docker</a>
+            <a class="next" rel="next" href="/2024/09/23/tke授权容器权限/">tke授权容器权限</a>
             
         </section>
 
