@@ -7,7 +7,7 @@
 
 
 
-<title>goproxy | K&#39;s Blog</title>
+<title>运维架构 | K&#39;s Blog</title>
 
 
 
@@ -181,7 +181,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">goproxy</h1>
+            <h1 class="post-title">运维架构</h1>
             
                 <div class="post-meta">
                     
@@ -190,7 +190,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2022-3-8&nbsp;&nbsp;14:19:14</a>
+                        Date: <a href="#">2020-7-30&nbsp;&nbsp;23:40:00</a>
                         </span>
                     
                     
@@ -199,21 +199,47 @@
         </header>
 
         <div class="post-content">
-            <h3 id="goproxy"><a href="#goproxy" class="headerlink" title="goproxy"></a>goproxy</h3><p>GoProxy是一款轻量级、功能强大、高性能的http代理、https代理、socks5代理、内网穿透代理服务器、ss代理、游戏盾、游戏代理，支持API代理认证。websocke代理、tcp代理、udp代理、socket代理、高防服务器。支持正向代理、反向代理、透明代理、TCP内网穿透、UDP内网穿透、HTTP内网穿透、HTTPS内网穿透、https代理负载均衡、http代理负载均衡、socks5代理负载均衡、socket代理负载均衡、ss代理负载均衡、TCP/UDP端口映射、SSH中转、TLS加密传输、协议转换、防污染DNS代理，限速，限连接数。</p>
-<ul>
-<li><a href="https://github.com/snail007/goproxy/releases" target="_blank" rel="noopener">下载地址</a><h4 id="windows开启代理"><a href="#windows开启代理" class="headerlink" title="windows开启代理"></a>windows开启代理</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\admin&gt;cd Desktop\proxy-windows-amd64</span><br><span class="line"></span><br><span class="line">C:\Users\admin\Desktop\proxy-windows-amd64&gt;proxy.exe http -t tcp -p &quot;:7002&quot;</span><br><span class="line"></span><br><span class="line">proxy free version 8.6  by snail , email : arraykeys@gmail.com</span><br><span class="line">2022/01/12 10:12:13 tcp http(s) proxy on [::]:7002</span><br></pre></td></tr></table></figure>
+            <h4 id="项目构建和代码管理"><a href="#项目构建和代码管理" class="headerlink" title="项目构建和代码管理"></a>项目构建和代码管理</h4><p>已经购买包年包月的服务器用来做jenkins自动部署,git代码存放</p>
+<p>容器镜像仓库无需付费</p>
+<h4 id="部署服务"><a href="#部署服务" class="headerlink" title="部署服务"></a>部署服务</h4><p>k8s集群托管版本费用</p>
+<img src="\image\image-20201016144605673.png">
 
-</li>
-</ul>
-<h4 id="linux服务器配置全局代理"><a href="#linux服务器配置全局代理" class="headerlink" title="linux服务器配置全局代理"></a>linux服务器配置全局代理</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@centos ~]# vi /etc/profile</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在最后面加入以下配置</span></span><br><span class="line"></span><br><span class="line">http_proxy=192.168.10.117:7002 </span><br><span class="line">https_proxy=192.168.10.117:7002</span><br><span class="line">ftp_proxy=192.168.10.117:7002</span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定代理所在的ip和port</span></span><br><span class="line">export http_proxy https_proxy ftp_proxy no_proxy</span><br><span class="line"><span class="meta">#</span><span class="bash"> 分别指定http、https、ftp协议使用的代理服务器地址</span></span><br><span class="line"></span><br><span class="line">no_proxy=*.abc.com,192.168.20.*,192.168.50.*,*.local,localhost,127.0.0.1  # 访问局域网地址（ip/网段）时不使用代理，可以用逗号分隔多个&gt;地址</span><br><span class="line"></span><br><span class="line">[root@centos ~]# source /etc/profile</span><br></pre></td></tr></table></figure>
+<p>SLB 费用：￥ 0.05 /时￥ 0.80 /GB</p>
+<p>NAT 费用：￥ 12.00 /天</p>
+<p>EIP 费用：￥ 0.80 /GB</p>
+<p>ECS 费用：￥ 7.58 /时</p>
+<p>ACK 费用：￥ 0.64 0 /时</p>
+<h4 id="云监控"><a href="#云监控" class="headerlink" title="云监控"></a>云监控</h4><p>需开通云监控对服务器和应用服务进行监控告警</p>
+<p>按量付费模式进行使用,具体费用如下</p>
+<img src="\image\image-20201016145531424.png">
 
-<p>测试是否走代理</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@centos ~]# curl https://myip.ipip.net/</span><br><span class="line">当前 IP：119.130.113.243  来自于：中国 广东 广州  电信</span><br></pre></td></tr></table></figure>
+<h4 id="日志服务"><a href="#日志服务" class="headerlink" title="日志服务"></a>日志服务</h4><p>预生产和生产使用日志服务进行采集,日志服务计费方式为按量付费,具体费用如下</p>
+<p>因日志服务只供生产和预生产使用,所以采用内网上传,不使用外网流量</p>
+<img src="\image\image-20201016145849739.png">
 
-<p>查看是否使用代理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\admin\Desktop\proxy-windows-amd64&gt;proxy.exe http -t tcp -p &quot;:7002&quot;</span><br><span class="line"></span><br><span class="line">proxy free version 8.6  by snail , email : arraykeys@gmail.com</span><br><span class="line">2022/01/12 10:12:13 tcp http(s) proxy on [::]:7002</span><br><span class="line">2022/01/12 10:46:48 CONNECT:myip.ipip.net:443</span><br><span class="line">2022/01/12 10:46:48 use parent : false, myip.ipip.net:443</span><br><span class="line">2022/01/12 10:46:48 conn 192.168.50.54:45768 - 116.211.155.164:443 connected [myip.ipip.net:443]</span><br><span class="line">2022/01/12 10:46:48 conn 192.168.50.54:45768 - 116.211.155.164:443 released [myip.ipip.net:443]</span><br></pre></td></tr></table></figure>
+<h4 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h4><p>redis推荐在jenkins服务器自建供预生产使用,因预生产只是供大版本上线使用,故可以先使用自建,不使用时也可随时停止</p>
+<p>阿里云按量付费费用如下图</p>
+<img src="\image\image-20201016150750204.png">
 
-<h4 id="JAVA配置代理"><a href="#JAVA配置代理" class="headerlink" title="JAVA配置代理"></a>JAVA配置代理</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># JVM中加入以下配置</span></span><br><span class="line"></span><br><span class="line">-Dhttp.proxyHost=192.168.10.117 -Dhttp.proxyPort=7002 -Dhttps.proxyHost=192.168.10.117 -Dhttps.proxyPort=7002 -Dhttp.nonProxyHosts=<span class="string">'localhost|127.0.0.1|192.168.20.*|192.168.50.*'</span></span><br></pre></td></tr></table></figure>
+<h4 id="图片存储"><a href="#图片存储" class="headerlink" title="图片存储"></a>图片存储</h4><p>用户上传的图片可使用OSS进行存储,查看得知已有OSS做存储</p>
+<img src="\image\image-20201016151228116.png">
+
+<h4 id="短信服务"><a href="#短信服务" class="headerlink" title="短信服务"></a>短信服务</h4><p>如需使用验证码等操作,可开通短信服务,具体费用如下</p>
+<img src="\image\image-20201016151605202.png">
+
+<h4 id="数据库对比"><a href="#数据库对比" class="headerlink" title="数据库对比"></a>数据库对比</h4><h5 id="MySQL按量"><a href="#MySQL按量" class="headerlink" title="MySQL按量"></a>MySQL按量</h5><p>基础版为单机服务,高可用版为主备服务,预生产是生产之前的测试,基础版即可,生产服务可选高可用或三节点</p>
+<p>0当前mysql服务虽使用1.5G,后续项目和数据量上来后,内存肯定会上升,推荐使用2核4G服务器,,如使用1核2G服务器,可能会出现问题</p>
+<img src="\image\image-20201016115239784.png">
+
+<h5 id="postgreSQL按量"><a href="#postgreSQL按量" class="headerlink" title="postgreSQL按量"></a>postgreSQL按量</h5><img src="\image\image-20201016140459679.png">
+
+<h5 id="1台服务器的价格"><a href="#1台服务器的价格" class="headerlink" title="1台服务器的价格"></a>1台服务器的价格</h5><img src="\image\image-20201016141643422.png">
+
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>当前生产中,Mysql占用内存为1.5G,postgres占用内存为700M,预生产数据库采用按量付费进行对比</p>
+<p>阿里云: 按量付费两台服务器(2CPU4G+1CPU2G” /&gt;的花费为0.58+0.39=0.97/时,自动分配外网访问,可体验阿里云自动备份监控告警和慢查询等功能服务</p>
+<p>自建:     一台服务器(2CPU4G” /&gt;价格为0.725/时,另外需要1个外网ip的费用。人工搭建服务和配置定时备份等比较耗时,数据库告警需要另外做监控处理</p>
+<p>总体来看阿里云更方便快捷</p>
+<h4 id="总流程图"><a href="#总流程图" class="headerlink" title="总流程图"></a>总流程图</h4><img src="\image\image-20201016160604035.png">
         </div>
 
         
@@ -227,7 +253,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2022/03/08/goproxy/">http://nmk0718.github.io/2022/03/08/goproxy/</a></span>
+                        <span><a href="http://nmk0718.github.io/2020/07/30/运维架构/">http://nmk0718.github.io/2020/07/30/运维架构/</a></span>
                     </p>
                 
                 
@@ -246,7 +272,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tag/proxy/"># proxy</a>
+                        <a href="/tag/framework/"># framework</a>
                     
                         
                 </span>
@@ -259,10 +285,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/03/08/flutter自定义Tabbar的问题/">Flutter自定义Tabbar的长度</a>
+                <a class="prev" rel="prev" href="/2020/07/30/容器维护/">容器维护</a>
             
             
-            <a class="next" rel="next" href="/2022/01/18/ADB卸载系统自带软件/">adb卸载系统自带软件</a>
+            <a class="next" rel="next" href="/2020/07/30/elasticsearch/">elasticsearch</a>
             
         </section>
 
