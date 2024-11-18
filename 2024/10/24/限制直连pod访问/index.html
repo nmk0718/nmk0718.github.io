@@ -115,6 +115,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -138,11 +200,12 @@
 
         <div class="post-content">
             <p>问题：因公司通过专线与腾讯云打通，导致本地办公网络能直连集群内的pod ip和port进行访问</p>
-<p>解决方案：<br>1.进入tke&gt;组件管理&gt;新建&gt;勾选NetworkPolicy组件，进行保存<br>使用yaml文件创建限制策略</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">apiVersion</span>: networking.k8s.io/v1</span><br><span class="line"><span class="attribute">kind</span>: NetworkPolicy</span><br><span class="line"><span class="attribute">metadata</span>:</span><br><span class="line">  <span class="attribute">name</span>: test-network-policy</span><br><span class="line">  <span class="attribute">namespace</span>: default</span><br><span class="line"><span class="attribute">spec</span>:</span><br><span class="line">  <span class="attribute">podSelector</span>:</span><br><span class="line">    <span class="attribute">matchLabels</span>:</span><br><span class="line">      <span class="attribute">app</span>: test-app</span><br><span class="line">  <span class="attribute">policyTypes</span>:</span><br><span class="line">  - Ingress</span><br><span class="line">  <span class="attribute">ingress</span>:</span><br><span class="line">  - <span class="attribute">from</span>:</span><br><span class="line">    - <span class="attribute">ipBlock</span>:</span><br><span class="line">        <span class="attribute">cidr</span>: <span class="number">10.3</span>.<span class="number">0.0</span>/<span class="number">16</span></span><br><span class="line">        <span class="attribute">except</span>:</span><br><span class="line">        - <span class="number">10.80</span>.<span class="number">0.0</span>/<span class="number">16</span></span><br><span class="line">    <span class="attribute">ports</span>:</span><br><span class="line">    - <span class="attribute">protocol</span>: TCP</span><br><span class="line">      <span class="attribute">port</span>: <span class="number">4000</span></span><br></pre></td></tr></table></figure>
+<p>解决方案：</p>
+<h4 id="使用NetworkPolicy限制"><a href="#使用NetworkPolicy限制" class="headerlink" title="使用NetworkPolicy限制"></a>使用NetworkPolicy限制</h4><p>进入tke&gt;组件管理&gt;新建&gt;勾选NetworkPolicy组件，进行保存，使用yaml文件创建限制策略</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">networking.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">NetworkPolicy</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">test-network-policy</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  podSelector:</span></span><br><span class="line"><span class="attr">    matchLabels:</span> </span><br><span class="line"><span class="attr">      app:</span> <span class="string">test-app</span> <span class="comment">#服务的标签</span></span><br><span class="line"><span class="attr">  policyTypes:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">  ingress:</span></span><br><span class="line"><span class="attr">  - from:</span></span><br><span class="line"><span class="attr">    - ipBlock:</span></span><br><span class="line"><span class="attr">        cidr:</span> <span class="number">10.3</span><span class="number">.0</span><span class="number">.0</span><span class="string">/16</span> <span class="comment">#允许网段访问</span></span><br><span class="line"><span class="attr">        except:</span></span><br><span class="line"><span class="bullet">        -</span> <span class="number">10.80</span><span class="number">.0</span><span class="number">.0</span><span class="string">/16</span> <span class="comment">#不允许网段访问</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="attr">    - protocol:</span> <span class="string">TCP</span></span><br><span class="line"><span class="attr">      port:</span> <span class="number">4000</span></span><br></pre></td></tr></table></figure>
 
 <p>⚠️如果没有配置组件，创建yaml是不生效的<br>具体参考<br><a href="https://cloud.tencent.com/document/product/457/19793" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/457/19793</a></p>
-<p>2.给VPC-CNI绑定安全组<br>进入tke&gt;组件管理&gt;eniipamd的右侧更新配置&gt;勾选安全组，配置安全组即可<br><a href="https://cloud.tencent.com/document/product/457/50360" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/457/50360</a></p>
+<h4 id="给VPC-CNI绑定安全组"><a href="#给VPC-CNI绑定安全组" class="headerlink" title="给VPC-CNI绑定安全组"></a>给VPC-CNI绑定安全组</h4><p>进入tke&gt;组件管理&gt;eniipamd的右侧更新配置&gt;勾选安全组，配置安全组即可<br><a href="https://cloud.tencent.com/document/product/457/50360" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/457/50360</a></p>
 
         </div>
 
@@ -188,6 +251,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/11/18/nginx-ingress配置跨域/">nginx-ingress配置</a>
             
             
             <a class="next" rel="next" href="/2024/09/29/Adhell3/">Adhell3 阻止广告（三星）</a>
