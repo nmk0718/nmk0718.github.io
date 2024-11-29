@@ -722,7 +722,6 @@ header label {
   color: #eee;
 }
 .post-content h3::before {
-  content: "|";
   margin-right: 5px;
   color: #2d96bd;
 }
@@ -842,8 +841,8 @@ header label {
   padding: 1em 1.2em 1em 1.2em;
   position: relative;
   color: rgba(52,73,94,0.8);
-  background-color: #e9f5fa;
-  border-left: 2px solid #2d96bd;
+  background-color: #f8fcfd;
+  border-left: 0.1px solid #2d96bd;
 }
 .post-content blockquote p {
   margin: 0;
@@ -853,8 +852,8 @@ header label {
 }
 .dark-theme .post-content blockquote {
   color: #a9a9b3;
-  background-color: #3e3e3e;
-  border-left: 2px solid #dcdcdc;
+  background-color: rgba(255,255,255,0);
+  border-left: 0.1px solid #dcdcdc;
 }
 .post-content blockquote.pullquote {
   background-color: transparent;
