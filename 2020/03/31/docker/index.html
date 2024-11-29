@@ -193,7 +193,6 @@
                         Date: <a href="#">2020-3-31&nbsp;&nbsp;17:00:00</a>
                         </span>
                     
-                    
                 </div>
             
         </header>
@@ -210,6 +209,8 @@
 <h4 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h4><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker</span> pull tomcat</span><br><span class="line"><span class="comment">#相当于 docker pull centos:latest 最新版本,可以手动指定版本</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="查看容器的所有镜像"><a href="#查看容器的所有镜像" class="headerlink" title="查看容器的所有镜像"></a>查看容器的所有镜像</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker images</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="查看容器的运行状态"><a href="#查看容器的运行状态" class="headerlink" title="查看容器的运行状态"></a>查看容器的运行状态</h4><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker stats</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="查看容器运行的镜像"><a href="#查看容器运行的镜像" class="headerlink" title="查看容器运行的镜像"></a>查看容器运行的镜像</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">ps</span></span><br><span class="line">#可以使用<span class="keyword">grep</span>过滤镜像</span><br><span class="line">docker <span class="keyword">ps</span> |<span class="keyword">grep</span> tomcat</span><br></pre></td></tr></table></figure>
 
