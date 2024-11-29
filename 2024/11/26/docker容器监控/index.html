@@ -115,6 +115,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -136,7 +198,13 @@
         </header>
 
         <div class="post-content">
-            <p>编写GO脚本使用Docker Engine API的/stats端点来获取获取CPU,内存,容器运行状态,进程数。配合nvidia_gpu_exporter进行GPU的指标采集</p>
+            <h3 id="背景信息："><a href="#背景信息：" class="headerlink" title="背景信息："></a>背景信息：</h3><blockquote>
+<p>在现代企业运营中，Prometheus 已被广泛部署用于监控 Kubernetes 集群、中间件以及服务器，以实现快速的问题定位和预警。尽管 Prometheus 与 cAdvisor 结合使用可以收集一台机器上所有运行的容器信息，对节点机器上的 CPU 使用情况、内存使用情况、网络吞吐量及文件系统使用情况进行实时监控和性能数据采集，但这种监控方式存在一定的局限性。在监控单个主机内运行容器的服务健康状态方面存在不足。这种局限性可能导致在服务出现故障时无法及时感知，从而影响服务的连续性和稳定性</p>
+</blockquote>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的:"></a>目的:</h3><blockquote>
+<p>本篇文章旨在探讨如何有效地监控主机内运行的 Docker 容器，包括它们的运行状态以及 CPU、内存和 GPU 等关键性能指标。通过建立一个全面的监控和告警系统，我们可以预防服务中断，确保服务的高可用性和业务连续性，从而避免因服务挂掉而造成的无感知中断。</p>
+</blockquote>
+<p>编写GO脚本使用Docker Engine API的/stats端点来获取获取CPU,内存,容器运行状态,进程数。配合nvidia_gpu_exporter进行GPU的指标采集</p>
 <p>####</p>
 
         </div>
@@ -180,7 +248,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/11/29/自定义指标HPA/"></a>
+                <a class="prev" rel="prev" href="/2024/11/29/自定义指标HPA/">自定义指标HPA</a>
             
             
             <a class="next" rel="next" href="/2024/11/25/VictoriaMetrics/">VictoriaMetrics</a>
