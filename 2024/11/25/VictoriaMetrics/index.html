@@ -250,7 +250,7 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➜  ~ vi vmnode-exporter-scrape.yaml</span><br><span class="line">➜  ~ kubectl apply -f vmnode-exporter-scrape.yaml</span><br><span class="line">vmnodescrape.operator.victoriametrics.com/node-exporter created</span><br><span class="line">➜  ~ kubectl get vmnodescrape</span><br><span class="line">NAME            AGE   STATUS        SYNC ERROR</span><br><span class="line">node-exporter   6s    operational</span><br></pre></td></tr></table></figure>
 
 <h4 id="vmui"><a href="#vmui" class="headerlink" title="vmui"></a>vmui</h4><p>VictoriaMetrics Cluster提供了用于查询故障排除和探索的 UI</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➜  ~ kubectl --namespace default port-forward $POD_NAME 8481</span><br><span class="line">Forwarding from 127.0.0.1:3000 -&gt; 3000</span><br><span class="line">Forwarding from [::1]:3000 -&gt; 3000</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➜  ~ kubectl port-forward svc/vmselect-vmcluster 8481:8481</span><br><span class="line">Forwarding from 127.0.0.1:8481 -&gt; 8481</span><br><span class="line">Forwarding from [::1]:8481 -&gt; 8481</span><br></pre></td></tr></table></figure>
 
 <p>访问:<code>http://localhost:8481/select/0/vmui/</code></p>
 <h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><p>容器K8S接入victoria操作步骤</p>
