@@ -1,17 +1,21 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang>
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <meta name="author" content="kk">
 
 
-<title>oracle | kk&#39;s Blog</title>
 
 
 
-    <link rel="icon" href="/favicon.ico">
+<title>oracle</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
 
 
 
@@ -29,14 +33,6 @@
     
     <script src="/js/tocbot.min.js"></script>
     
-
-
-
-    
-    
-        
-    
-
 
 </head>
 <body>
@@ -64,7 +60,6 @@
                 <input id="switch_default" type="checkbox" class="switch_default">
                 <label for="switch_default" class="toggleBtn"></label>
             </div>
-
         </div>
     </nav>
 
@@ -126,45 +121,40 @@
 </div>
 
 <script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
 
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
     }
 
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
     }
 
     function go_top() {
@@ -175,6 +165,14 @@
         window.scrollTo(0, document.body.scrollHeight);
     }
 
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
 </script>
     
 
@@ -185,13 +183,12 @@
             
                 <div class="post-meta">
                     
-                        Author: <a itemprop="author" rel="author" href="/">kk</a>
-                    
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2019-9-30&nbsp;&nbsp;9:15:45</a>
+                        Date: <a href="#">2019-09-30&nbsp;&nbsp;09:15</a>
                         </span>
+                    
                     
                 </div>
             
@@ -240,22 +237,7 @@
         
             <section class="post-copyright">
                 
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>kk</span>
-                    </p>
                 
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://nmk0718.github.io/2019/09/30/oracle/">http://nmk0718.github.io/2019/09/30/oracle/</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2020 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
                 
                 
 
@@ -275,9 +257,9 @@
                 </span>
             </div>
             <div>
-                <a href="javascript:window.history.back();">back</a>
+                <a href="javascript:window.history.back();">Back</a>
                 <span>· </span>
-                <a href="/">home</a>
+                <a href="/">Home</a>
             </div>
         </section>
         <section class="post-nav">
@@ -295,7 +277,7 @@
         <footer id="footer" class="footer">
     <div class="copyright">
         <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
-	</div>
+    </div>
 </footer>
 
     </div>

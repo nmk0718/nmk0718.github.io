@@ -1,186 +1,106 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang>
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-
-
-<title>app | kk&#39;s Blog</title>
-
-
-
-    <link rel="icon" href="/favicon.ico">
-
-
-
-
-    <!-- stylesheets list from _config.yml -->
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps</title>
     <link rel="stylesheet" href="/css/style.css">
-    
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script>
-    
-    <script src="/js/tocbot.min.js"></script>
-    
-
-
-
-    
-    
-        
-    
-
-
+    <link rel="stylesheet" href="/css/custom.css">
 </head>
 <body>
     <div class="wrapper">
         <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">Posts</a>
-                
-                    <a class="menu-item" href="/app">App</a>
-                
-                    <a class="menu-item" href="/map">Map</a>
-                
-                    <a class="menu-item" href="/game">Game</a>
-                
-                    <a class="menu-item" href="/media">Media</a>
-                
-                    <a class="menu-item" href="/tag">Tags</a>
-                
-                    <a class="menu-item" href="/about">About</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default">
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+                    <div class="menu navbar-right">
 
-        </div>
-    </nav>
+                        <a class="menu-item" href="/archives">Posts</a>
 
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                        <a class="menu-item" href="/app">App</a>
+
+                        <a class="menu-item" href="/map">Map</a>
+
+                        <a class="menu-item" href="/game">Game</a>
+
+                        <a class="menu-item" href="/media">Media</a>
+
+                        <a class="menu-item" href="/tag">Tags</a>
+
+                        <a class="menu-item" href="/about">About</a>
+
+                        <input id="switch_default" type="checkbox" class="switch_default">
+                        <label for="switch_default" class="toggleBtn"></label>
+                    </div>
+
                 </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">Posts</a>
-                
-                    <a class="menu-item" href="/app">App</a>
-                
-                    <a class="menu-item" href="/map">Map</a>
-                
-                    <a class="menu-item" href="/game">Game</a>
-                
-                    <a class="menu-item" href="/media">Media</a>
-                
-                    <a class="menu-item" href="/tag">Tags</a>
-                
-                    <a class="menu-item" href="/about">About</a>
-                
-            </div>
-        </div>
-    </nav>
+            </nav>
 
-</header>
-<script>
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
-        }
-    }
-</script>
+
+            <nav class="navbar-mobile" id="nav-mobile">
+                <div class="container">
+                    <div class="navbar-header">
+                        <div>
+                            <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                        </div>
+                        <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+                    </div>
+                    <div class="menu" id="mobile-menu">
+
+                        <a class="menu-item" href="/archives">Posts</a>
+
+                        <a class="menu-item" href="/app">App</a>
+
+                        <a class="menu-item" href="/map">Map</a>
+
+                        <a class="menu-item" href="/game">Game</a>
+
+                        <a class="menu-item" href="/media">Media</a>
+
+                        <a class="menu-item" href="/tag">Tags</a>
+
+                        <a class="menu-item" href="/about">About</a>
+
+                    </div>
+                </div>
+            </nav>
+
+        </header>
         <div class="main">
-            <div class="container app-list-c">
-    <div class="app-title post-title">
-        - App -
-    </div>
-    <div class="app-list">
-        <div class="app" onclick="linkTo('/app-page/HotSearch.html')">
-            <img src="../image/HotSearch/HotSearch.png" alt>
-            <span class="label">
-                    Hot Search
-                </span>
+            <div class="container">
+                <article class="post-wrap">
+                    <header class="post-header">
+                        <h1 class="post-title">My Apps</h1>
+                    </header>
+                    
+                    <div class="post-content">
+                        <div class="app-grid">
+                            <div class="app-item" onclick="linkTo('/app-page/HotSearch.html')">
+                                <img src="../image/HotSearch/HotSearch.png" alt="Hot Search">
+                                <span class="app-label">Hot Search</span>
+                            </div>
+                            
+                            <div class="app-item" onclick="linkTo('/app-page/todo.html')">
+                                <img src="../image/todo/todo.png" alt="Todo">
+                                <span class="app-label">Todo</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
         </div>
-        <div class="app" onclick="linkTo('/app-page/todo.html')">
-            <img src="../image/todo/todo.png" alt>
-            <span class="label">
-                    todo
-                </span>
-        </div>
-    </div>
-
-</div>
-<script>
-    const linkTo = (url) => {
-        location.href = url
-    }
-</script>
-<style>
-    .app-list-c {
-        width: 100%;
-        max-width: 780px;
-        margin: 0 auto;
-        padding-top: 2rem;
-    }
-
-    .app-title {
-        /*font-size: 20px;*/
-        margin-bottom: 30px;
-        font-size: 2em;
-        line-height: 1.5em;
-    }
-
-    .app-list {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .app {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0 64px 16px 0;
-        cursor: pointer;
-    }
-
-    .app img {
-        width: 64px;
-        height: 64px;
-        margin-bottom: 16px;
-    }
-
-</style>
-
-
-        </div>
+        
         <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
-	</div>
-</footer>
-
+            <div class="copyright">
+                <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+            </div>
+        </footer>
     </div>
+    
+    <script>
+        const linkTo = (url) => {
+            location.href = url;
+        }
+    </script>
 </body>
 </html>

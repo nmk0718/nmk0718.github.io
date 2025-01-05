@@ -1,23 +1,49 @@
+/* 产品展示容器样式 */
+.products-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* 支持iOS滑动 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.products-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
 .products {
   display: flex;
-  overflow-x: auto;
+  flex-wrap: nowrap;
+  padding: 10px 0;
+  gap: 15px;
 }
 .product {
-  border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  margin-right: 20px;
-  margin-bottom: 10px;
-  text-align: center;
+  flex: 0 0 auto;
+  width: 280px;
 }
 .product img {
-  height: 200px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
-.computer-product {
-  border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.product-info {
+  padding: 15px 0;
 }
+.product-info h3 {
+  margin: 0;
+  font-size: 1.1em;
+  color: var(--text-color);
+}
+/* 滑动提示样式 */
+.scroll-hint {
+  text-align: center;
+  color: var(--text-color);
+  font-size: 0.9em;
+  margin: 5px 0;
+  opacity: 0.7;
+}
+/* 电脑产品展示样式 */
 .computer-product-content {
   display: flex;
+  padding: 15px 0;
 }
 .computer-product-info {
   flex: 1;
@@ -25,30 +51,82 @@
 }
 .computer-product-info img {
   width: 80%;
+  max-width: 300px;
 }
 .computer-item-content {
   flex: 1;
   text-align: left;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-@media only screen and (max-width: 479px) {
-  body {
-    line-height: 1em;
+.computer-item-content p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .products-container {
+    margin: 0 -15px;
+    padding: 0 15px;
+  }
+  .product {
+    width: 220px;
+  }
+  .computer-product-content {
+    flex-direction: column;
+    align-items: center; /* 整体内容居中 */
+  }
+  .computer-product-info {
+    margin-bottom: 15px;
+  }
+  .computer-product-info img {
+    width: 100%;
+  }
+  .computer-item-content {
+    padding: 0;
+    text-align: left; /* 文字左对齐 */
+    width: 80%; /* 控制内容区域宽度 */
+    max-width: 300px; /* 限制最大宽度 */
+  }
+  .computer-item-content p {
+    width: 100%;
+    text-align: left; /* 段落文字左对齐 */
   }
 }
-.item {
+/* App列表页面样式 */
+.app-list-container {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+.app-grid {
   display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 10px 0;
+}
+.app-item {
+  display: flex;
+  flex-direction: column;
+}
+/* 地图容器样式 */
+.map-container {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  border-top: 0.5px solid #ccc;
-  padding: 20px 0;
+  width: 100%;
+  min-height: calc(100vh - 300px); /* 减去header和footer的高度 */
+  margin: 0;
 }
-.item img {
-  max-width: 250px;
-  margin-right: 20px;
-}
-.item-content {
-  flex: 1;
-  line-height: 1em;
-}
-.playtime {
-  padding: 10px;
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .map-container {
+    min-height: calc(100vh - 250px);
+  }
+  .map-container iframe {
+    height: 400px;
+  }
 }
