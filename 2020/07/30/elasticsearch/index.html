@@ -260,7 +260,7 @@
 <ul>
 <li>在文件里面写入shell脚本</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 05</span></span><br><span class="line"><span class="comment">#description: elasticsearch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Java Env</span></span><br><span class="line">export JAVA_HOME=/usr/java</span><br><span class="line">export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="line">export PATH=<span class="variable">$PATH:</span><span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line"> </span><br><span class="line">case <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">    su es&lt;&lt;!</span><br><span class="line">    cd /opt/es</span><br><span class="line">    ./bin/elasticsearch -d</span><br><span class="line">!</span><br><span class="line">    echo <span class="string">"elasticsearch startup"</span></span><br><span class="line">    ;;  </span><br><span class="line">stop)</span><br><span class="line">    es_pid=`ps aux|grep elasticsearch | grep -v <span class="string">'grep elasticsearch'</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line">    kill -<span class="number">9</span> <span class="variable">$es_pid</span></span><br><span class="line">    echo <span class="string">"elasticsearch stopped"</span></span><br><span class="line">    ;;  </span><br><span class="line">restart)</span><br><span class="line">    es_pid=`ps aux|grep elasticsearch | grep -v <span class="string">'grep elasticsearch'</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line">    kill -<span class="number">9</span> <span class="variable">$es_pid</span></span><br><span class="line">    echo <span class="string">"elasticsearch stopped"</span></span><br><span class="line">    su es&lt;&lt;!</span><br><span class="line">    cd /opt/es</span><br><span class="line">    ./bin/elasticsearch -d</span><br><span class="line">!</span><br><span class="line">    echo <span class="string">"elasticsearch startup"</span></span><br><span class="line">    ;;  </span><br><span class="line">*)</span><br><span class="line">    echo <span class="string">"start|stop|restart"</span></span><br><span class="line">    ;;  </span><br><span class="line">esac</span><br><span class="line"> </span><br><span class="line"><span class="keyword">exit</span> $?</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#!/bin/sh</span></span><br><span class="line"><span class="comment">#chkconfig: 2345 80 05</span></span><br><span class="line"><span class="comment">#description: elasticsearch</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#Java Env</span></span><br><span class="line">export JAVA_HOME=/usr/java</span><br><span class="line">export CLASSPATH=.:<span class="variable">$JAVA_HOME</span>/lib/dt.jar:<span class="variable">$JAVA_HOME</span>/lib/tools.jar</span><br><span class="line">export PATH=<span class="variable">$PATH:</span><span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line"> </span><br><span class="line">case <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">    su es&lt;&lt;!</span><br><span class="line">    cd /opt/es</span><br><span class="line">    ./bin/elasticsearch <span class="literal">-d</span></span><br><span class="line">!</span><br><span class="line">    echo <span class="string">"elasticsearch startup"</span></span><br><span class="line">    ;;  </span><br><span class="line">stop)</span><br><span class="line">    es_pid=`ps aux|grep elasticsearch | grep <span class="literal">-v</span> <span class="string">'grep elasticsearch'</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line">    kill <span class="literal">-9</span> <span class="variable">$es_pid</span></span><br><span class="line">    echo <span class="string">"elasticsearch stopped"</span></span><br><span class="line">    ;;  </span><br><span class="line">restart)</span><br><span class="line">    es_pid=`ps aux|grep elasticsearch | grep <span class="literal">-v</span> <span class="string">'grep elasticsearch'</span> | awk <span class="string">'&#123;print $2&#125;'</span>`</span><br><span class="line">    kill <span class="literal">-9</span> <span class="variable">$es_pid</span></span><br><span class="line">    echo <span class="string">"elasticsearch stopped"</span></span><br><span class="line">    su es&lt;&lt;!</span><br><span class="line">    cd /opt/es</span><br><span class="line">    ./bin/elasticsearch <span class="literal">-d</span></span><br><span class="line">!</span><br><span class="line">    echo <span class="string">"elasticsearch startup"</span></span><br><span class="line">    ;;  </span><br><span class="line">*)</span><br><span class="line">    echo <span class="string">"start|stop|restart"</span></span><br><span class="line">    ;;  </span><br><span class="line">esac</span><br><span class="line"> </span><br><span class="line"><span class="keyword">exit</span> <span class="variable">$</span>?</span><br></pre></td></tr></table></figure>
 
 <p>代码中的JAVA_HOME和JAVA_BIN路径需要根据自己的实际情况填写，su es这个要换成自己的服务器用户名，cd /usr/local/elasticsearch-7.7.1需要换成自己es的实际安装地址</p>
 <ul>
@@ -271,7 +271,7 @@
 <ul>
 <li>将elasticsearch添加到开机启动</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">chkconfig --add elasticsearch</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">chkconfig -<span class="literal">-add</span> elasticsearch</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>重启服务器在浏览器中输入<a href="http://X.X.X.X:9200/就可以了" target="_blank" rel="noopener">http://X.X.X.X:9200/就可以了</a></li>
@@ -459,8 +459,77 @@
 
         <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
     </article>
 </div>
+
 
         </div>
         <footer id="footer" class="footer">

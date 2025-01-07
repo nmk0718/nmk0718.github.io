@@ -208,7 +208,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#cpu使用率</span></span><br><span class="line">docker_container_cpu_usage&#123;</span><br><span class="line">    containerId=<span class="string">"142b0b391a1862f101623ba4739afa7e2dd45254fef4344fdf1d37cc2adde3e0"</span>, </span><br><span class="line">    containerName=<span class="string">"ailabel"</span>, </span><br><span class="line">    image=<span class="string">"ailabel:v1.9.5"</span>, </span><br><span class="line">    instance=<span class="string">"10.1.16.250:9190"</span>, </span><br><span class="line">    job=<span class="string">"go-process-exporter"</span>, </span><br><span class="line">    status=<span class="string">"running"</span>, </span><br><span class="line">    vmagent_ha=<span class="string">"victoria-metrics/vmagent-ha"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#内存使用率</span></span><br><span class="line">docker_container_mem_usage&#123;</span><br><span class="line">    containerId=<span class="string">"142b0b391a1862f101623ba4739afa7e2dd45254fef4344fdf1d37cc2adde3e0"</span>, </span><br><span class="line">    containerName=<span class="string">"ailabel"</span>, </span><br><span class="line">    image=<span class="string">"ailabel:v1.9.5"</span>, </span><br><span class="line">    instance=<span class="string">"10.1.16.250:9190"</span>, </span><br><span class="line">    job=<span class="string">"go-process-exporter"</span>, </span><br><span class="line">    status=<span class="string">"running"</span>, </span><br><span class="line">    vmagent_ha=<span class="string">"victoria-metrics/vmagent-ha"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#磁盘使用率</span></span><br><span class="line">docker_instance_disk_usage&#123;</span><br><span class="line">    device=<span class="string">"/dev/vda1"</span>, </span><br><span class="line">    instance=<span class="string">"10.1.16.250:9190"</span>, </span><br><span class="line">    job=<span class="string">"go-process-exporter"</span>, </span><br><span class="line">    mountPath=<span class="string">"/"</span>, </span><br><span class="line">    vmagent_ha=<span class="string">"victoria-metrics/vmagent-ha"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#容器运行状态</span></span><br><span class="line">docker_container_info&#123;</span><br><span class="line">    containerId=<span class="string">"142b0b391a1862f101623ba4739afa7e2dd45254fef4344fdf1d37cc2adde3e0"</span>, </span><br><span class="line">    containerName=<span class="string">"ailabel"</span>, </span><br><span class="line">    image=<span class="string">"ailabel:v1.9.5"</span>, </span><br><span class="line">    instance=<span class="string">"10.1.16.250:9190"</span>, </span><br><span class="line">    job=<span class="string">"go-process-exporter"</span>,</span><br><span class="line">    status=<span class="string">"running"</span>, </span><br><span class="line">    vmagent_ha=<span class="string">"victoria-metrics/vmagent-ha"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#容器进程信息</span></span><br><span class="line">docker_container_process_info&#123;</span><br><span class="line">    <span class="built_in">command</span>=<span class="string">"python OpenPCDet/tools/predict_openpcdet_produce.py"</span> </span><br><span class="line">    containerId=<span class="string">"142b0b391a1862f101623ba4739afa7e2dd45254fef4344fdf1d37cc2adde3e0"</span>, </span><br><span class="line">    containerName=<span class="string">"ailabel"</span>, </span><br><span class="line">    image=<span class="string">"ailabel:v1.9.5"</span>, </span><br><span class="line">    instance=<span class="string">"10.1.16.250:9190"</span>, </span><br><span class="line">    job=<span class="string">"go-process-exporter"</span>, </span><br><span class="line">    pid=<span class="string">"14781"</span>, </span><br><span class="line">    vmagent_ha=<span class="string">"victoria-metrics/vmagent-ha"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="配置采集"><a href="#配置采集" class="headerlink" title="配置采集"></a>配置采集</h4><p>新建job,把需要监控的主机和采集间隔填写进去</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">root@VM-victoria-metrics:~#</span> <span class="string">vi</span> <span class="string">/data/victoria-metrics/vmagent-victoriametrics.yaml</span></span><br><span class="line"><span class="attr">    - job_name:</span> <span class="string">go-process-exporter</span></span><br><span class="line"><span class="attr">      scrape_interval:</span> <span class="number">15</span><span class="string">s</span></span><br><span class="line"><span class="attr">      static_configs:</span></span><br><span class="line"><span class="attr">      - targets:</span> <span class="string">['10.1.7.151:9190','10.1.7.67:9190','10.1.16.154:9190','10.1.16.250:9190']</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">root@VM-victoria-metrics:~#</span> <span class="string">vi</span> <span class="string">/data/victoria-metrics/vmagent-victoriametrics.yaml</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">go-process-exporter</span></span><br><span class="line">      <span class="attr">scrape_interval:</span> <span class="string">15s</span></span><br><span class="line">      <span class="attr">static_configs:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">targets:</span> <span class="string">['10.1.7.151:9190','10.1.7.67:9190','10.1.16.154:9190','10.1.16.250:9190']</span></span><br></pre></td></tr></table></figure>
 
 <p>加载配置文件</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">root@VM-victoria-metrics:~<span class="comment"># kubectl apply -f vmagent-victoriametrics.yaml -n victoria-metrics</span></span><br><span class="line">vmagent.operator.victoriametrics.com/vmagent-ha unchanged</span><br></pre></td></tr></table></figure>
@@ -280,8 +280,77 @@
 
         <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
     </article>
 </div>
+
 
         </div>
         <footer id="footer" class="footer">

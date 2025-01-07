@@ -136,7 +136,7 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
 
 <p>以下为示例</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">coredns</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">  selfLink:</span> <span class="string">/api/v1/namespaces/kube-system/configmaps/coredns</span></span><br><span class="line"><span class="attr">  uid:</span> <span class="string">afe82210-48ab-4e74-a190-7d401a8af49a</span></span><br><span class="line"><span class="attr">  resourceVersion:</span> <span class="string">'240420099'</span></span><br><span class="line"><span class="attr">  creationTimestamp:</span> <span class="string">'2022-09-29T03:44:33Z'</span></span><br><span class="line"><span class="attr">  annotations:</span></span><br><span class="line"><span class="attr">    forward_config:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line"><span class="attr">  Corefile:</span> <span class="string">|-</span></span><br><span class="line">    <span class="string">.:53</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="string">errors</span></span><br><span class="line">        <span class="string">health</span></span><br><span class="line">        <span class="string">ready</span></span><br><span class="line">        <span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">kubernetes</span> <span class="string">cluster.local</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span> <span class="string">&#123;</span></span><br><span class="line">           <span class="string">pods</span> <span class="string">insecure</span></span><br><span class="line">           <span class="string">upstream</span></span><br><span class="line">           <span class="string">fallthrough</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span></span><br><span class="line">           <span class="string">ttl</span> <span class="number">30</span></span><br><span class="line">        <span class="string">&#125;</span>      </span><br><span class="line">       <span class="string">prometheus</span> <span class="string">:9153</span></span><br><span class="line">        <span class="string">log</span> <span class="string">.</span> <span class="string">&#123;</span></span><br><span class="line">            <span class="string">class</span> <span class="string">all</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">cache</span> <span class="number">30</span></span><br><span class="line">        <span class="string">loop</span></span><br><span class="line">        <span class="string">reload</span></span><br><span class="line">        <span class="string">loadbalance</span></span><br><span class="line">        <span class="string">forward</span> <span class="string">.</span> <span class="string">/etc/resolv.conf</span></span><br><span class="line">    <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">coredns</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line">  <span class="attr">selfLink:</span> <span class="string">/api/v1/namespaces/kube-system/configmaps/coredns</span></span><br><span class="line">  <span class="attr">uid:</span> <span class="string">afe82210-48ab-4e74-a190-7d401a8af49a</span></span><br><span class="line">  <span class="attr">resourceVersion:</span> <span class="string">'240420099'</span></span><br><span class="line">  <span class="attr">creationTimestamp:</span> <span class="string">'2022-09-29T03:44:33Z'</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">forward_config:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">Corefile:</span> <span class="string">|-</span></span><br><span class="line">    <span class="string">.:53</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="string">errors</span></span><br><span class="line">        <span class="string">health</span></span><br><span class="line">        <span class="string">ready</span></span><br><span class="line">        <span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">kubernetes</span> <span class="string">cluster.local</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span> <span class="string">&#123;</span></span><br><span class="line">           <span class="string">pods</span> <span class="string">insecure</span></span><br><span class="line">           <span class="string">upstream</span></span><br><span class="line">           <span class="string">fallthrough</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span></span><br><span class="line">           <span class="string">ttl</span> <span class="number">30</span></span><br><span class="line">        <span class="string">&#125;</span>      </span><br><span class="line">       <span class="string">prometheus</span> <span class="string">:9153</span></span><br><span class="line">        <span class="string">log</span> <span class="string">.</span> <span class="string">&#123;</span></span><br><span class="line">            <span class="string">class</span> <span class="string">all</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">cache</span> <span class="number">30</span></span><br><span class="line">        <span class="string">loop</span></span><br><span class="line">        <span class="string">reload</span></span><br><span class="line">        <span class="string">loadbalance</span></span><br><span class="line">        <span class="string">forward</span> <span class="string">.</span> <span class="string">/etc/resolv.conf</span></span><br><span class="line">    <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -176,8 +176,77 @@
 
         <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
     </article>
 </div>
+
 
         </div>
         <footer id="footer" class="footer">

@@ -200,11 +200,11 @@
 
 <h4 id="授权只读权限-1"><a href="#授权只读权限-1" class="headerlink" title="授权只读权限"></a>授权只读权限</h4><img src="/image/placeholder.jpg" data-original="\image\RBAC-auth.png">
 
-<h3 id="授权容器登录权限"><a href="#授权容器登录权限" class="headerlink" title="授权容器登录权限"></a>授权容器登录权限</h3><h4 id="创建ClusterRole"><a href="#创建ClusterRole" class="headerlink" title="创建ClusterRole"></a>创建ClusterRole</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">cloud.tencent.com/tke-rbac-generated:</span> <span class="string">"true"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="attr">tke:pod-exec</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="attr">- apiGroups:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">pods</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">pods/attach</span></span><br><span class="line"><span class="attr">  verbs:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">get</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">list</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">patch</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">update</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">watch</span></span><br><span class="line"><span class="attr">- apiGroups:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">""</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">pods/exec</span></span><br><span class="line"><span class="attr">  verbs:</span></span><br><span class="line"><span class="bullet">  -</span> <span class="string">create</span></span><br></pre></td></tr></table></figure>
+<h3 id="授权容器登录权限"><a href="#授权容器登录权限" class="headerlink" title="授权容器登录权限"></a>授权容器登录权限</h3><h4 id="创建ClusterRole"><a href="#创建ClusterRole" class="headerlink" title="创建ClusterRole"></a>创建ClusterRole</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">cloud.tencent.com/tke-rbac-generated:</span> <span class="string">"true"</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tke:pod-exec</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">""</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pods</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pods/attach</span></span><br><span class="line">  <span class="attr">verbs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">get</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">list</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">patch</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">update</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">watch</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">""</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pods/exec</span></span><br><span class="line">  <span class="attr">verbs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">create</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="创建RoleBinging授权给用户"><a href="#创建RoleBinging授权给用户" class="headerlink" title="创建RoleBinging授权给用户"></a>创建RoleBinging授权给用户</h4><p>复制只读权限中的相关信息<br><img src="/image/placeholder.jpg" data-original="\image\ClusterRoleBinding-yaml.png"></p>
 <p>对账号进行授权容器登录权限</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  annotations:</span></span><br><span class="line">    <span class="string">cloud.tencent.com/tke-account-nickname:</span> <span class="string">nmk</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line">    <span class="string">cloud.tencent.com/tke-account:</span> <span class="string">"100023199976"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="number">100023199976</span><span class="bullet">-Role-pod-exec</span>    </span><br><span class="line">  <span class="comment">#namespace: no-critical-service #填写namespace为针对某个命令空间</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line"><span class="attr">  apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">  kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">  name:</span> <span class="attr">tke:pod-exec</span>    <span class="comment">#指定刚创建的ClusterRole</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="attr">- apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">  kind:</span> <span class="string">User</span></span><br><span class="line"><span class="attr">  name:</span> <span class="number">100023199976</span><span class="bullet">-1682220970</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">cloud.tencent.com/tke-account-nickname:</span> <span class="string">nmk</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">cloud.tencent.com/tke-account:</span> <span class="string">"100023199976"</span></span><br><span class="line">  <span class="attr">name:</span> <span class="number">100023199976</span><span class="string">-Role-pod-exec</span>    </span><br><span class="line">  <span class="comment">#namespace: no-critical-service #填写namespace为针对某个命令空间</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tke:pod-exec</span>    <span class="comment">#指定刚创建的ClusterRole</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">User</span></span><br><span class="line">  <span class="attr">name:</span> <span class="number">100023199976</span><span class="number">-1682220970</span></span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -244,8 +244,77 @@
 
         <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
     </article>
 </div>
+
 
         </div>
         <footer id="footer" class="footer">

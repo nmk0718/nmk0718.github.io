@@ -230,7 +230,7 @@
 <h5 id="添加字体"><a href="#添加字体" class="headerlink" title="添加字体"></a>添加字体</h5><p>可以在Flutter应用程序中使用不同的字体。例如，<a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts (opens new window)</a>中的字体。</p>
 <p>在Flutter中使用字体分两步完成。首先在<code>pubspec.yaml</code>中声明它们，以确保它们会打包到应用程序中。然后通过<a href="https://docs.flutter.io/flutter/painting/TextStyle-class.html" target="_blank" rel="noopener"><code>TextStyle</code> (opens new window)</a>属性使用字体。</p>
 <h5 id="在asset中声明"><a href="#在asset中声明" class="headerlink" title="在asset中声明"></a>在asset中声明</h5><p>要将字体文件打包到应用中，和使用其它资源一样，要先在<code>pubspec.yaml</code>中声明它。然后将字体文件复制到在<code>pubspec.yaml</code>中指定的位置。如：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">flutter:</span></span><br><span class="line"><span class="attr">  fonts:</span></span><br><span class="line"><span class="attr">  - family:</span> <span class="string">Pacifico</span></span><br><span class="line"><span class="attr">    fonts:</span></span><br><span class="line"><span class="attr">    - asset:</span> <span class="string">fonts/Pacifico-Regular.ttf</span></span><br><span class="line"><span class="attr">  - family:</span> <span class="string">SourceSansPro</span></span><br><span class="line"><span class="attr">    fonts:</span></span><br><span class="line"><span class="attr">    - asset:</span> <span class="string">fonts/SourceSansPro-Regular.ttf</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">flutter:</span></span><br><span class="line">  <span class="attr">fonts:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">family:</span> <span class="string">Pacifico</span></span><br><span class="line">    <span class="attr">fonts:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">asset:</span> <span class="string">fonts/Pacifico-Regular.ttf</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">family:</span> <span class="string">SourceSansPro</span></span><br><span class="line">    <span class="attr">fonts:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">asset:</span> <span class="string">fonts/SourceSansPro-Regular.ttf</span></span><br></pre></td></tr></table></figure>
 
 <h5 id="使用字体"><a href="#使用字体" class="headerlink" title="使用字体"></a>使用字体</h5><figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">Text(</span><br><span class="line">  <span class="string">"FlUTTER DEVELOPER"</span>,</span><br><span class="line">  style: TextStyle(</span><br><span class="line">      fontFamily: <span class="string">'SourceSansPro'</span>,</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
 
@@ -544,8 +544,77 @@
 
         <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
 </script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+            copyButton.innerText = 'Copy';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            copyButton.innerText = 'Copied!';
+                            isCopying = true;
+                            setTimeout(function () {
+                                copyButton.innerText = 'Copy';
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
     </article>
 </div>
+
 
         </div>
         <footer id="footer" class="footer">
