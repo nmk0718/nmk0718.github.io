@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>SonarQube</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">SonarQube</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-03-27&nbsp;&nbsp;15:23</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker pull sonarqube:8.6-community</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动镜像"><a href="#启动镜像" class="headerlink" title="启动镜像"></a>启动镜像</h4><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">mkdir -p /data/sonarqube/data</span><br><span class="line">mkdir -p /data/sonarqube/extensions</span><br><span class="line">mkdir -p /data/sonarqube/logs</span><br><span class="line"></span><br><span class="line">docker run -d --name sonarqube --restart=always -p <span class="number">9000</span>:<span class="number">9000</span> -p <span class="number">9092</span>:<span class="number">9092</span> -v /data/sonarqube/data:<span class="regexp">/opt/</span>sonarqube/data -v /data/sonarqube/extensions:<span class="regexp">/opt/</span>sonarqube/extensions -v /data/sonarqube/logs:<span class="regexp">/opt/</span>sonarqube/logs  sonarqube:<span class="number">8.6</span><span class="number">.1</span>-community</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录SonarQube"><a href="#登录SonarQube" class="headerlink" title="登录SonarQube"></a>登录SonarQube</h4><p><a href="http://ip:9000/" target="_blank" rel="noopener">http://ip:9000/</a></p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220115917934.png">
+
+<p>默认账号密码 admin,admin</p>
+<p>修改默认密码</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220134327991.png">
+
+<p>安装中文插件</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220134605819.png">
+
+<p>点击restart等待重启即可</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220140802803.png">
+
+<h4 id="项目检测"><a href="#项目检测" class="headerlink" title="项目检测"></a>项目检测</h4><p>创建项目</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220150454485.png">
+
+<p>创建令牌</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220150549006.png">
+
+<p>分析项目</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220150614630.png">
+
+<p>复制命令在代码目录下执行</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220151026434.png">
+
+<p>看到Buiild Success代表代码检测完毕</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220151048654.png">
+
+<p>可看到项目对应的bugs和漏洞</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220151126791.png">
+
+<h4 id="常用插件："><a href="#常用插件：" class="headerlink" title="常用插件："></a>常用插件：</h4><ul>
+<li>Chinese Pack – 中文语言包</li>
+<li>Checkstyle – Java 代码规范检查</li>
+<li>Crowd – Crowd 插件，实现统一登录</li>
+<li>JaCoCo – Java 代码覆盖率</li>
+<li>PMD – Java 静态代码扫描</li>
+<li>ShellCheck Analyzer – Shell 代码规范检查</li>
+<li>SonarCSS、SonarHTML、SonarJS等 – Sonar 针对不同编程语言代码分析</li>
+</ul>
+<h4 id="自动构建"><a href="#自动构建" class="headerlink" title="自动构建"></a>自动构建</h4><p>生成jenkins专属令牌 </p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220153830365.png">
+
+<p><strong>jenkins关联SonarQube</strong></p>
+<p>安装插件</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220154622214.png">
+
+<p>添加凭据 Secret对应创建的令牌</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220154824249.png">
+
+<p>在系统配置中配置插件</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220155101526.png">
+
+<p>在全局工具配置中配置</p>
+<p>可使用自动安装或包,本文使用指定本地包</p>
+<p>下载地址:<a href="https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.4.0.2170/sonar-scanner-cli-4.4.0.2170-linux.zip" target="_blank" rel="noopener">https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.4.0.2170/sonar-scanner-cli-4.4.0.2170-linux.zip</a></p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220160938832.png">
+
+<p>项目结构,该项目需要进入ymall目录进行打包</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220170855724.png">
+
+<p>增加构建选项Execute SonarQube Scanner</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220171202597.png">
+
+<p>构建控制台输出</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220171336353.png">
+
+<p>查看SonarQube,<code>新代码</code>代表更新的代码漏洞是否新增,全部代码为老代码</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210220171358070.png">
+
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题:"></a>问题:</h4><p>启动SonarQube时MySQL报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; org.sonar.process.MessageException: Unsupported JDBC driver provider: mysql</span><br></pre></td></tr></table></figure>
+
+<p>原因是SonarQube 7.9以上版本已不再支持mysql,启动语句需要更改</p>
+<p>以前版本的启动命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --restart=always --name sonarqube -p 9000:9000 -p 9092:9092 -e &quot;SONARQUBE_JDBC_USERNAME=sonar&quot; -e &quot;SONARQUBE_JDBC_PASSWORD=sonar&quot; -e &quot;SONARQUBE_JDBC_URL=jdbc:mysql://192.168.50.57:3306/sonar?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false&quot;  -v /data/sonarqube/conf:/opt/sonarqube/conf -v /data/sonarqube/data:/opt/sonarqube/data -v /data/sonarqube/extensions:/opt/sonarqube/extensions -v /data/sonarqube/logs:/opt/sonarqube/logs  sonarqube:7.5-community</span><br></pre></td></tr></table></figure>
+
+<p>现在版本的启动命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker run -d --name sonarqube --restart=always -p 9000:9000 -p 9092:9092 -v /data/sonarqube/data:/opt/sonarqube/data -v /data/sonarqube/extensions:/opt/sonarqube/extensions -v /data/sonarqube/logs:/opt/sonarqube/logs  sonarqube:8.6.1-community</span><br></pre></td></tr></table></figure>
+
+<p>jenkins构建时报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Cannot run program &quot;/opt/sonar-scanner-cli/bin/sonar-scanner&quot; (in directory /root/.jenkins/workspace/ymall&quot;) error=13, Permission denied</span><br></pre></td></tr></table></figure>
+
+<p>授权sonar-scanner</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod -R 777 sonar-scanner-cli/</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/SonarQube/"># SonarQube</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/03/27/shadowsocks/">shadowsocks</a>
+            
+            
+            <a class="next" rel="next" href="/2020/03/08/photoshop/">photoshop</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

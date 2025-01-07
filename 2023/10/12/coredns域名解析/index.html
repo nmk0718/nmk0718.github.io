@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>coredns域名解析</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">coredns域名解析</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2023-10-12&nbsp;&nbsp;18:20</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>编辑coredns的配置文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl edit configmap coredns -n kube-system</span><br></pre></td></tr></table></figure>
+
+<p>增加解析</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>以下为示例</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">coredns</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">  selfLink:</span> <span class="string">/api/v1/namespaces/kube-system/configmaps/coredns</span></span><br><span class="line"><span class="attr">  uid:</span> <span class="string">afe82210-48ab-4e74-a190-7d401a8af49a</span></span><br><span class="line"><span class="attr">  resourceVersion:</span> <span class="string">'240420099'</span></span><br><span class="line"><span class="attr">  creationTimestamp:</span> <span class="string">'2022-09-29T03:44:33Z'</span></span><br><span class="line"><span class="attr">  annotations:</span></span><br><span class="line"><span class="attr">    forward_config:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line"><span class="attr">  Corefile:</span> <span class="string">|-</span></span><br><span class="line">    <span class="string">.:53</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="string">errors</span></span><br><span class="line">        <span class="string">health</span></span><br><span class="line">        <span class="string">ready</span></span><br><span class="line">        <span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">kubernetes</span> <span class="string">cluster.local</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span> <span class="string">&#123;</span></span><br><span class="line">           <span class="string">pods</span> <span class="string">insecure</span></span><br><span class="line">           <span class="string">upstream</span></span><br><span class="line">           <span class="string">fallthrough</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span></span><br><span class="line">           <span class="string">ttl</span> <span class="number">30</span></span><br><span class="line">        <span class="string">&#125;</span>      </span><br><span class="line">       <span class="string">prometheus</span> <span class="string">:9153</span></span><br><span class="line">        <span class="string">log</span> <span class="string">.</span> <span class="string">&#123;</span></span><br><span class="line">            <span class="string">class</span> <span class="string">all</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">cache</span> <span class="number">30</span></span><br><span class="line">        <span class="string">loop</span></span><br><span class="line">        <span class="string">reload</span></span><br><span class="line">        <span class="string">loadbalance</span></span><br><span class="line">        <span class="string">forward</span> <span class="string">.</span> <span class="string">/etc/resolv.conf</span></span><br><span class="line">    <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/k8s/"># k8s</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/12/05/Ubuntu安装Docker和GPU驱动/">Ubuntu安装Docker和GPU驱动</a>
+            
+            
+            <a class="next" rel="next" href="/2022/08/11/istio/">istio</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

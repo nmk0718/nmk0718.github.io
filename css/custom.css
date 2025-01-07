@@ -1,0 +1,397 @@
+/* media 页面样式 */
+.products-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* 支持iOS滑动 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.products-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+.products {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 10px 0;
+  gap: 15px;
+}
+.product {
+  flex: 0 0 auto;
+  width: 280px;
+}
+.product img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.product-info {
+  padding: 15px 0;
+}
+.product-info h3 {
+  margin: 0;
+  font-size: 1.1em;
+  color: var(--text-color);
+}
+/* 滑动提示样式 */
+.scroll-hint {
+  text-align: center;
+  color: var(--text-color);
+  font-size: 0.9em;
+  margin: 5px 0;
+  opacity: 0.7;
+}
+.computer-product-content {
+  display: flex;
+  padding: 15px 0;
+}
+.computer-product-info {
+  flex: 1;
+  text-align: center;
+}
+.computer-product-info img {
+  width: 80%;
+  max-width: 300px;
+}
+.computer-item-content {
+  flex: 1;
+  text-align: left;
+  padding: 0 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.computer-item-content p {
+  margin: 8px 0;
+  line-height: 1.6;
+}
+/* media移动端适配 */
+@media screen and (max-width: 768px) {
+  .products-container {
+    margin: 0 -15px;
+    padding: 0 15px;
+  }
+  .product {
+    width: 220px;
+  }
+  .computer-product-content {
+    flex-direction: column;
+    align-items: center; /* 整体内容居中 */
+  }
+  .computer-product-info {
+    margin-bottom: 15px;
+  }
+  .computer-product-info img {
+    width: 100%;
+  }
+  .computer-item-content {
+    padding: 0;
+    text-align: left; /* 文字左对齐 */
+    width: 80%; /* 控制内容区域宽度 */
+    max-width: 300px; /* 限制最大宽度 */
+  }
+  .computer-item-content p {
+    width: 100%;
+    text-align: left; /* 段落文字左对齐 */
+  }
+}
+/* map页面样式 */
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 300px); /* 减去header和footer的高度 */
+  margin: 0;
+}
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .map-container {
+    min-height: calc(100vh - 250px);
+  }
+  .map-container iframe {
+    height: 400px;
+  }
+}
+/* game页面样式 */
+.game-item {
+  display: flex;
+  align-items: center;
+  border-top: 0.5px solid #ccc;
+  padding: 20px 0;
+}
+.game-item img {
+  width: 250px;
+  margin-right: 20px;
+}
+.game-item-content-wrapper {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+.game-item-content {
+  flex: 1;
+  line-height: 1.5em;
+}
+.game-item-content h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+}
+/* game页面移动端适配 */
+@media screen and (max-width: 768px) {
+  .game-item {
+    flex-direction: column;
+    padding: 15px 0;
+  }
+  .game-item img {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .game-item-content-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .game-item-content h4 {
+    font-size: 1.1em;
+    margin-bottom: 5px;
+  }
+  .game-item-content p {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+  .game-playtime p {
+    font-size: 0.9em;
+  }
+}
+/* app页面样式 */
+.app-list-c {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+.app-title {
+/*font-size: 20px;*/
+  margin-bottom: 30px;
+  font-size: 2em;
+  line-height: 1.5em;
+}
+.app-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 64px 16px 0;
+  cursor: pointer;
+}
+.app img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+}
+/* App页面通用样式 */
+.post-wrap.page .app-header,
+.post-wrap.page .header {
+  display: flex;
+  justify-content: space-between;
+  background: transparent;
+  width: 100%;
+  margin: 0 auto;
+}
+.post-wrap.page .app-header .app-icon img,
+.post-wrap.page .header .app-icon img,
+.post-wrap.page .app-header .icon img,
+.post-wrap.page .header .icon img {
+  width: 90px;
+  height: 90px;
+  border-radius: 5px;
+}
+.post-wrap.page .app-header .app-title-content,
+.post-wrap.page .header .app-title-content,
+.post-wrap.page .app-header .title-c,
+.post-wrap.page .header .title-c {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0 20px;
+}
+.post-wrap.page .app-header .app-title-content .app-name,
+.post-wrap.page .header .app-title-content .app-name,
+.post-wrap.page .app-header .title-c .app-name,
+.post-wrap.page .header .title-c .app-name {
+  color: #333;
+  line-height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 22px;
+  font-weight: normal;
+  margin: 0;
+}
+.post-wrap.page .app-header .app-title-content .app-size,
+.post-wrap.page .header .app-title-content .app-size,
+.post-wrap.page .app-header .title-c .app-size,
+.post-wrap.page .header .title-c .app-size,
+.post-wrap.page .app-header .app-title-content .app-package,
+.post-wrap.page .header .app-title-content .app-package,
+.post-wrap.page .app-header .title-c .app-package,
+.post-wrap.page .header .title-c .app-package {
+  font-size: 14px;
+  color: #999;
+  line-height: 20px;
+  margin: 3px 0 0 !important;
+}
+.post-wrap.page .app-header .app-qrcode,
+.post-wrap.page .header .app-qrcode,
+.post-wrap.page .app-header .qrcode,
+.post-wrap.page .header .qrcode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.post-wrap.page .app-header .app-qrcode img,
+.post-wrap.page .header .app-qrcode img,
+.post-wrap.page .app-header .qrcode img,
+.post-wrap.page .header .qrcode img {
+  width: 82px;
+  height: 82px;
+}
+.post-wrap.page .app-header .app-qrcode span,
+.post-wrap.page .header .app-qrcode span,
+.post-wrap.page .app-header .qrcode span,
+.post-wrap.page .header .qrcode span {
+  font-size: 12px;
+  color: #999;
+}
+.post-wrap.page .download-btn {
+  padding: 0 6px;
+  display: inline-block;
+  width: 120px;
+  height: 34px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #4caf50;
+  margin-top: 6px;
+  border: none;
+  cursor: pointer;
+}
+.post-wrap.page .app-screenshots,
+.post-wrap.page .screen-shot {
+  width: 100%;
+  padding: 20px;
+  background: transparent;
+  margin-top: 16px;
+}
+.post-wrap.page .app-screenshots .sub-title,
+.post-wrap.page .screen-shot .sub-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.post-wrap.page .app-screenshots .app-image,
+.post-wrap.page .screen-shot .app-image {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 5px;
+  margin-bottom: 16px;
+}
+.post-wrap.page .app-screenshots .app-image img,
+.post-wrap.page .screen-shot .app-image img {
+  width: 230px;
+  height: auto;
+  margin-right: 20px;
+  box-shadow: 2px 2px 4px 3px rgba(0,0,0,0.1);
+  cursor: pointer;
+  border-radius: 20px;
+}
+.post-wrap.page .app-screenshots .description,
+.post-wrap.page .screen-shot .description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+.post-wrap.page .app-screenshots .description p,
+.post-wrap.page .screen-shot .description p {
+  margin-bottom: 16px;
+}
+/* 图片预览样式 */
+.preview {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.preview .preview-img {
+  max-height: 90vh;
+  max-width: 90vw;
+  object-fit: contain;
+}
+.preview .prev-ic,
+.preview .next-ic {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.preview .prev-ic img,
+.preview .next-ic img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+.preview .prev-ic img:hover,
+.preview .next-ic img:hover {
+  opacity: 1;
+}
+.preview .prev-ic {
+  left: 20px;
+}
+.preview .next-ic {
+  right: 20px;
+}
+/* 暗色主题适配 */
+.dark-theme .post-wrap.page .app-name {
+  color: #a9a9b3;
+}
+.dark-theme .post-wrap.page .description {
+  color: #a9a9b3;
+}
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .post-wrap.page .app-header,
+  .post-wrap.page .header {
+    flex-direction: column;
+    align-items: center;
+  }
+  .post-wrap.page .app-header .app-title-content,
+  .post-wrap.page .header .app-title-content,
+  .post-wrap.page .app-header .title-c,
+  .post-wrap.page .header .title-c {
+    margin: 15px 0;
+    align-items: center;
+    text-align: center;
+  }
+  .post-wrap.page .app-screenshots,
+  .post-wrap.page .screen-shot {
+    padding: 10px;
+  }
+}

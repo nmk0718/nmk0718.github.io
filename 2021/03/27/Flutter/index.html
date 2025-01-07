@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>Flutter</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Flutter</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2021-03-27&nbsp;&nbsp;14:50</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h5 id="安全区域"><a href="#安全区域" class="headerlink" title="安全区域"></a>安全区域</h5><p>当直接使用小部件时会出现在左上角的状态栏附近</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &apos;package:flutter/material.dart&apos;;</span><br><span class="line"></span><br><span class="line">void main() &#123;</span><br><span class="line">  runApp(</span><br><span class="line">    MaterialApp(</span><br><span class="line">      home: Scaffold(</span><br><span class="line">        backgroundColor: Colors.teal,</span><br><span class="line">        body: Container(</span><br><span class="line">          child: Text(&quot;Hello,nmk&quot;),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    ),</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/image/placeholder.jpg" data-original="\image\image-20210306164220893.png">
+
+<p>使用Safeared进行摆放到安全区域</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &apos;package:flutter/material.dart&apos;;</span><br><span class="line"></span><br><span class="line">void main() &#123;</span><br><span class="line">  runApp(</span><br><span class="line">    MaterialApp(</span><br><span class="line">      home: Scaffold(</span><br><span class="line">        backgroundColor: Colors.teal,</span><br><span class="line">        body: SafeArea(</span><br><span class="line">          child: Container(</span><br><span class="line">            child: Text(&quot;Hello,nmk&quot;),</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    ),</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/image/placeholder.jpg" data-original="\image\image-20210306164517482.png">
+
+<p>圆形控件</p>
+<p>可展示用户头像</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">                child: CircleAvatar(</span><br><span class="line">                  radius: 50.0,</span><br><span class="line">                  backgroundImage:</span><br><span class="line">                      NetworkImage(&apos;https://s3.ax1x.com/2021/03/02/6FUzNt.jpg&apos;),</span><br><span class="line">                ),</span><br><span class="line">NetworkImage 网络加载</span><br><span class="line">AssetImage 本地加载</span><br></pre></td></tr></table></figure>
+
+<p>效果图</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210306172349708.png">
+
+<h5 id="文本样式"><a href="#文本样式" class="headerlink" title="文本样式"></a>文本样式</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Text(</span><br><span class="line">  &quot;FlUTTER DEVELOPER&quot;,</span><br><span class="line">  style: TextStyle(</span><br><span class="line">      fontFamily: &apos;SourceSansPro&apos;,</span><br><span class="line">      color: Colors.white,</span><br><span class="line">      fontSize: 20,</span><br><span class="line">      letterSpacing: 2.5,</span><br><span class="line">      fontWeight: FontWeight.bold),</span><br><span class="line">      textAlign: TextAlign.left,</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<p><code>color</code>: 文字颜色</p>
+<p><code>fontStyle</code>: 文字样式  斜体和正常</p>
+<p><code>fontWeight</code>: 字体粗细  粗体和正常</p>
+<p><code>letterSpacing</code>: 字母间隙(负值可以让字母更紧凑)</p>
+<p><code>textAlign</code>：文本的对齐方式；可以选择左对齐、右对齐还是居中。</p>
+<p><code>height</code>：该属性用于指定行高，但它并不是一个绝对值，而是一个因子，具体的行高等于<code>fontSize</code>*<code>height</code>。</p>
+<p><code>fontFamily</code> ：指定字体,由于不同平台默认支持的字体集不同，所以在手动指定字体时一定要先在不同平台测试一下。</p>
+<p><code>fontSize</code>：该属性和Text的<code>textScaleFactor</code>都用于控制字体大小。但是有两个主要区别：</p>
+<ul>
+<li><code>fontSize</code>可以精确指定字体大小，而<code>textScaleFactor</code>只能通过缩放比例来控制。</li>
+<li><code>textScaleFactor</code>主要是用于系统字体大小设置改变时对Flutter应用字体进行全局调整，而<code>fontSize</code>通常用于单个文本，字体大小不会跟随系统字体大小变化。</li>
+</ul>
+<p><code>maxLines</code>、<code>overflow</code>：指定文本显示的最大行数，默认情况下，文本是自动折行的，如果指定此参数，则文本最多不会超过指定的行。如果有多余的文本，可以通过<code>overflow</code>来指定截断方式，默认是直接截断 TextOverflow.clip剪裁   TextOverflow.fade 渐隐  TextOverflow.ellipsis省略号</p>
+<p><code>textScaleFactor</code>：代表文本相对于当前字体大小的缩放因子，相对于去设置文本的样式<code>style</code>属性的<code>fontSize</code>，它是调整字体大小的一个快捷方式。该属性的默认值可以通过<code>MediaQueryData.textScaleFactor</code>获得，如果没有<code>MediaQuery</code>，那么会默认值将为1.0。</p>
+<h5 id="添加字体"><a href="#添加字体" class="headerlink" title="添加字体"></a>添加字体</h5><p>可以在Flutter应用程序中使用不同的字体。例如，<a href="https://fonts.google.com/" target="_blank" rel="noopener">Google Fonts (opens new window)</a>中的字体。</p>
+<p>在Flutter中使用字体分两步完成。首先在<code>pubspec.yaml</code>中声明它们，以确保它们会打包到应用程序中。然后通过<a href="https://docs.flutter.io/flutter/painting/TextStyle-class.html" target="_blank" rel="noopener"><code>TextStyle</code> (opens new window)</a>属性使用字体。</p>
+<h5 id="在asset中声明"><a href="#在asset中声明" class="headerlink" title="在asset中声明"></a>在asset中声明</h5><p>要将字体文件打包到应用中，和使用其它资源一样，要先在<code>pubspec.yaml</code>中声明它。然后将字体文件复制到在<code>pubspec.yaml</code>中指定的位置。如：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">flutter:</span></span><br><span class="line"><span class="attr">  fonts:</span></span><br><span class="line"><span class="attr">  - family:</span> <span class="string">Pacifico</span></span><br><span class="line"><span class="attr">    fonts:</span></span><br><span class="line"><span class="attr">    - asset:</span> <span class="string">fonts/Pacifico-Regular.ttf</span></span><br><span class="line"><span class="attr">  - family:</span> <span class="string">SourceSansPro</span></span><br><span class="line"><span class="attr">    fonts:</span></span><br><span class="line"><span class="attr">    - asset:</span> <span class="string">fonts/SourceSansPro-Regular.ttf</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="使用字体"><a href="#使用字体" class="headerlink" title="使用字体"></a>使用字体</h5><figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">Text(</span><br><span class="line">  <span class="string">"FlUTTER DEVELOPER"</span>,</span><br><span class="line">  style: TextStyle(</span><br><span class="line">      fontFamily: <span class="string">'SourceSansPro'</span>,</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<h5 id="添加水平横线"><a href="#添加水平横线" class="headerlink" title="添加水平横线"></a>添加水平横线</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SizedBox(</span><br><span class="line">    height: 20.0,</span><br><span class="line">    width: 180.0,</span><br><span class="line">    child: Divider(</span><br><span class="line">      color: Colors.teal.shade100,</span><br><span class="line">    )),</span><br></pre></td></tr></table></figure>
+
+<h5 id="更改图标文件"><a href="#更改图标文件" class="headerlink" title="更改图标文件"></a>更改图标文件</h5><p><a href="https://www.iconfont.cn/查找到喜欢的图标" target="_blank" rel="noopener">https://www.iconfont.cn/查找到喜欢的图标</a></p>
+<p><a href="https://appicon.co/" target="_blank" rel="noopener">https://appicon.co/</a> 把图标生成为ios和android可以使用的图标文件</p>
+<h5 id="Expanded"><a href="#Expanded" class="headerlink" title="Expanded"></a>Expanded</h5><p>Expanded是用于展开<code>Row</code>，<code>Column</code>或<code>Flex</code>的子<code>child</code>的Widget。 </p>
+<p>使用<code>Expanded</code>可以使[Row]，[Column]或[Flex]的子项扩展以填充主轴中的可用空间（例如，水平用[Row]或垂直用[Column]）。 </p>
+<p>如果扩展了多个子节点，则根据<code>[flex]</code>因子将可用空间划分为多个子节点。</p>
+<p> [Expanded]小部件必须是[Row]，[Column]或[Flex]的后代，并且从[Expanded]小部件到其封闭的[Row]，[Column]或[Flex]的路径必须包含 只有[StatelessWidget]或[StatefulWidget]</p>
+<p>构造函数</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const Expanded(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    int flex = 1,</span><br><span class="line">    @required Widget child,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>flex 分配空间的弹性系数，<code>Row</code>，<code>Column</code>或<code>Flex</code>的每个Expanded的flex构成空间分配的比例，默认<code>int flex = 1</code></li>
+<li>child 即需要分配的子Widget</li>
+</ul>
+<p>示例</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Expanded(</span><br><span class="line">  child: FlatButton(</span><br><span class="line">    color: Colors.red,</span><br><span class="line">    onPressed: () &#123;&#125;,</span><br><span class="line">  ),</span><br><span class="line">),</span><br><span class="line">Expanded(</span><br><span class="line">  child: FlatButton(</span><br><span class="line">    color: Colors.orange,</span><br><span class="line">    onPressed: () &#123;&#125;,</span><br><span class="line">  ),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<p>默认flex为1 所以颜色按比例1:1分配</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210316181002701.png" alt="image-20210316181002701" style="zoom:50%;">
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Expanded(</span><br><span class="line">  flex: 2,</span><br><span class="line">  child: FlatButton(</span><br><span class="line">    color: Colors.red,</span><br><span class="line">    onPressed: () &#123;&#125;,</span><br><span class="line">  ),</span><br><span class="line">),</span><br><span class="line">Expanded(</span><br><span class="line">  child: FlatButton(</span><br><span class="line">    color: Colors.orange,</span><br><span class="line">    onPressed: () &#123;&#125;,</span><br><span class="line">  ),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<p>默认flex为2 所以颜色按比例2:1分配</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210316181208812.png" alt="image-20210316181208812" style="zoom50%;">
+
+<h5 id="内边距"><a href="#内边距" class="headerlink" title="内边距"></a>内边距</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">padding: EdgeInsets.only(left: 12,top: 12,bottom: 12),</span><br></pre></td></tr></table></figure>
+
+<h5 id="外边距"><a href="#外边距" class="headerlink" title="外边距"></a>外边距</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">margin: EdgeInsets.only(top:4),</span><br></pre></td></tr></table></figure>
+
+<h5 id="flutter内容超出屏幕"><a href="#flutter内容超出屏幕" class="headerlink" title="flutter内容超出屏幕"></a>flutter内容超出屏幕</h5><p>编写flutter代码的时候，如果超出手机屏幕高度的话是会出错的，需要使用SingleChildScrollView来包裹</p>
+<p>SingleChildScrollView和container用发一样， 直接包在外层就好了，里面是child’<br>它可以在主题内容超出Y轴的时候自动生成滚动条，类似overflow：auto<br>类似如下用法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return SingleChildScrollView(</span><br><span class="line">	child: Container(</span><br><span class="line">		child .....</span><br><span class="line">	)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>进入flutter_app的android&gt;app&gt;src&gt;main&gt;res目录</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20210303180252077.png" alt="image-20210303180252077" style="zoom:50%;">
+
+<h5 id="浮动按钮"><a href="#浮动按钮" class="headerlink" title="浮动按钮"></a>浮动按钮</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">return Scaffold(</span><br><span class="line">  floatingActionButton: FloatingActionButton(</span><br><span class="line">    child: IconButton(icon: Icon(Icons.add),onPressed: ()&#123;&#125;,),</span><br><span class="line">  ),</span><br><span class="line">  floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>写在scaffold的里面</p>
+<p>通过floatingActionButtonLocation: FloatingActionButtonLocation.来控制浮动的位置</p>
+<h5 id="routes"><a href="#routes" class="headerlink" title="routes"></a>routes</h5><p>默认页面的三种方式</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">第一种方式:</span><br><span class="line">		routes: &#123;</span><br><span class="line">          &apos;/&apos;: (context) =&gt; home(),</span><br><span class="line">        &#125;,</span><br><span class="line">第二种方式:</span><br><span class="line">		home: home(),</span><br><span class="line">第三种方式:</span><br><span class="line">        initialRoute: &apos;/home&apos;,</span><br></pre></td></tr></table></figure>
+
+<h5 id="ListTitle"><a href="#ListTitle" class="headerlink" title="ListTitle"></a>ListTitle</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const ListTile(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    this.leading, //左侧的组件</span><br><span class="line">    this.title, //中间的主标题</span><br><span class="line">    this.subtitle, //中间的副标题</span><br><span class="line">    this.trailing, //右侧组件，通常是一个值或者一个图标</span><br><span class="line">    this.isThreeLine = false, //是否显示三行</span><br><span class="line">    this.dense, //是否以垂直密集的方式显示，这样文字会更小</span><br><span class="line">    this.visualDensity,</span><br><span class="line">    this.shape, //定义外观形状</span><br><span class="line">    this.contentPadding, //内容与边框之间的边距，默认16</span><br><span class="line">    this.enabled = true, //是否可以互动事件</span><br><span class="line">    this.onTap, //点击事件</span><br><span class="line">    this.onLongPress, //长按事件</span><br><span class="line">    this.mouseCursor, //鼠标悬停在ListTile上时的处理效果，给web用的</span><br><span class="line">    this.selected = false, //如果是true，文本和图标将会以相同的颜色呈现</span><br><span class="line">    this.focusColor, </span><br><span class="line">    this.hoverColor, //指针悬停在ListTile上的颜色</span><br><span class="line">    this.focusNode, //聚焦事件</span><br><span class="line">    this.autofocus = false, //是否默认聚焦</span><br><span class="line">    this.tileColor, //listTile的背景颜色，selected=false时生效</span><br><span class="line">    this.selectedTileColor, //listTile的背景颜色，selected=true时生效</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+
+<h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><p> 定义没有返回值的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">void name ()&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>定义有返回值的方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String name()&#123;</span><br><span class="line">return abc;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int name()&#123;</span><br><span class="line">return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool name()&#123;</span><br><span class="line">return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="flutter导航"><a href="#flutter导航" class="headerlink" title="flutter导航"></a>flutter导航</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Navigator.push(context, MaterialPageRoute(builder: (context)&#123;return InputPage();&#125;,));</span><br><span class="line">#push导航到新的页面</span><br><span class="line"></span><br><span class="line">Navigator.pop(context);</span><br><span class="line">#pop销毁当前页面</span><br><span class="line"></span><br><span class="line">Navigator.pushNamed(context, &apos;/&apos;);</span><br><span class="line">#pushNamed通过路由名进行导航</span><br></pre></td></tr></table></figure>
+
+<h5 id="根据设备类型显示不同小部件"><a href="#根据设备类型显示不同小部件" class="headerlink" title="根据设备类型显示不同小部件"></a>根据设备类型显示不同小部件</h5><p>方法一</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">引入包</span><br><span class="line">import &apos;dart:io&apos;;</span><br><span class="line"></span><br><span class="line">通过if进行判断设备返回不同小部件</span><br><span class="line">Widget getPicker() &#123;</span><br><span class="line">    if (Platform.isIOS) &#123;</span><br><span class="line">      return iosPicker();</span><br><span class="line">    &#125; else if (Platform.isAndroid) &#123;</span><br><span class="line">      return androidDorpdown();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">调用该方法</span><br><span class="line">          Container(</span><br><span class="line">              height: 100.0,</span><br><span class="line">              alignment: Alignment.center,</span><br><span class="line">              color: Colors.lightBlue,</span><br><span class="line">              child: getPicker()),</span><br></pre></td></tr></table></figure>
+
+<p>方法二</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Container(</span><br><span class="line">  height: 120.0,</span><br><span class="line">  alignment: Alignment.center,</span><br><span class="line">  padding: EdgeInsets.only(bottom: 30.0),</span><br><span class="line">  color: Colors.lightBlue,</span><br><span class="line">  child: Platform.isIOS ? iosPicker() : androidDorpdown(),</span><br><span class="line">),</span><br></pre></td></tr></table></figure>
+
+<h5 id="import中的含义"><a href="#import中的含义" class="headerlink" title="import中的含义"></a>import中的含义</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &apos;dart:io&apos; show Platform;</span><br><span class="line">只导入Platform</span><br><span class="line">import &apos;dart:io&apos; hide Platform;</span><br><span class="line">除了Platform都导入</span><br><span class="line">import &apos;dart:io&apos; as http;</span><br><span class="line">讲库重命名避免冲突</span><br></pre></td></tr></table></figure>
+
+<h5 id="调用键盘时出现黄条-空间不够"><a href="#调用键盘时出现黄条-空间不够" class="headerlink" title="调用键盘时出现黄条 空间不够"></a>调用键盘时出现黄条 空间不够</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">加入Flexible</span><br><span class="line"></span><br><span class="line">              Flexible(</span><br><span class="line">                child: Hero(</span><br><span class="line">                  tag: &apos;logo&apos;,</span><br><span class="line">                  child: Container(</span><br><span class="line">                    height: 200.0,</span><br><span class="line">                    child: Image.asset(&apos;images/logo.png&apos;),</span><br><span class="line">                  ),</span><br><span class="line">                ),</span><br><span class="line">              ),</span><br></pre></td></tr></table></figure>
+
+<p>会在调用键盘时 缩小该Widget</p>
+<h4 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h4><h4 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h4><p><strong>Cupertino风格</strong></p>
+<h5 id="CupertinoActivityIndicator"><a href="#CupertinoActivityIndicator" class="headerlink" title="CupertinoActivityIndicator"></a>CupertinoActivityIndicator</h5><table>
+<thead>
+<tr>
+<th>加载中组件</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>radius</td>
+<td>默认10 加载图形的半径值</td>
+</tr>
+<tr>
+<td>animating</td>
+<td>默认true 是否播放加载动画</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CupertinoActivityIndicator(</span><br><span class="line">            animating: <span class="literal">true</span>,</span><br><span class="line">            radius: 10.0,</span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoAlertDialog"><a href="#CupertinoAlertDialog" class="headerlink" title="CupertinoAlertDialog"></a>CupertinoAlertDialog</h5><table>
+<thead>
+<tr>
+<th>对话框</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>action: List</td>
+<td>对话框底部按钮</td>
+</tr>
+<tr>
+<td>title</td>
+<td>标题</td>
+</tr>
+<tr>
+<td>content</td>
+<td>内容</td>
+</tr>
+</tbody></table>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyHomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyHomePage</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">_showIOSDialog</span><span class="params">(BuildContext cxt)</span> </span>&#123;</span><br><span class="line">    showCupertinoDialog&lt;<span class="keyword">int</span>&gt;(</span><br><span class="line">        context: cxt,</span><br><span class="line">        builder: (cxt) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">new</span> CupertinoAlertDialog(</span><br><span class="line">            title: Text(<span class="string">'提示'</span>),</span><br><span class="line">            content: Text(<span class="string">'是否退出应用'</span>),</span><br><span class="line">            actions: &lt;Widget&gt;[</span><br><span class="line">              <span class="keyword">new</span> Container(</span><br><span class="line">                decoration: BoxDecoration(</span><br><span class="line">                    border: Border(</span><br><span class="line">                        right: BorderSide(color: Color(<span class="number">0xFFD9D9D9</span>), width: <span class="number">0.5</span>),</span><br><span class="line">                        top: BorderSide(color: Color(<span class="number">0xFFD9D9D9</span>), width: <span class="number">0.5</span>))),</span><br><span class="line">                child: CupertinoDialogAction(</span><br><span class="line">                  child: <span class="keyword">new</span> Text(<span class="string">"确定"</span>),</span><br><span class="line">                  onPressed: () &#123;</span><br><span class="line">                    Navigator.pop(context);</span><br><span class="line">                  &#125;,</span><br><span class="line">                ),</span><br><span class="line">              ),</span><br><span class="line">              <span class="keyword">new</span> Container(</span><br><span class="line">                decoration: BoxDecoration(</span><br><span class="line">                    border: Border(</span><br><span class="line">                        top: BorderSide(color: Color(<span class="number">0xFFD9D9D9</span>), width: <span class="number">0.5</span>))),</span><br><span class="line">                child: CupertinoDialogAction(</span><br><span class="line">                  child: <span class="keyword">new</span> Text(<span class="string">"取消"</span>),</span><br><span class="line">                  onPressed: () &#123;</span><br><span class="line">                    Navigator.pop(context);</span><br><span class="line">                  &#125;,</span><br><span class="line">                ),</span><br><span class="line">              )</span><br><span class="line">            ],</span><br><span class="line">          );</span><br><span class="line">        &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="function">Widget <span class="title">build</span><span class="params">(BuildContext context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Scaffold(</span><br><span class="line">        appBar: <span class="keyword">new</span> AppBar(title: <span class="function"><span class="keyword">const</span> <span class="title">Text</span><span class="params">(<span class="string">'首页'</span>)</span>),</span></span><br><span class="line"><span class="function">        body: new <span class="title">Container</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">          alignment: Alignment.center,</span></span></span><br><span class="line"><span class="function"><span class="params">          child: RaisedButton(</span></span></span><br><span class="line"><span class="function"><span class="params">            onPressed: ()</span> </span>=&gt; &#123;_showIOSDialog(context)&#125;,</span><br><span class="line">            child: Text(<span class="string">'点我弹框'</span>),</span><br><span class="line">          ),</span><br><span class="line">        ));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoButton"><a href="#CupertinoButton" class="headerlink" title="CupertinoButton"></a>CupertinoButton</h5><p>展示IOS风格按钮<br>color 组件颜色<br>disableColor 禁用颜色<br>onPressed 按下事件<br>child 显示按钮的文本<br>enable 是否禁用</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">CupertinoButton(</span><br><span class="line">            <span class="comment">//按钮控件布局</span></span><br><span class="line">            child: Text(<span class="string">'IOS风格按钮'</span>),</span><br><span class="line">            <span class="comment">//内边距</span></span><br><span class="line">            padding:EdgeInsets.all(<span class="number">10.0</span>),</span><br><span class="line">            <span class="comment">//背景颜色</span></span><br><span class="line">            color:Colors.blue,</span><br><span class="line">            <span class="comment">//onPress 为 null，禁用点击的背景颜色</span></span><br><span class="line">            disabledColor:Colors.grey,</span><br><span class="line">            <span class="comment">//最小尺寸</span></span><br><span class="line">            minSize : <span class="number">44.0</span>,</span><br><span class="line">            <span class="comment">//按下的透明度</span></span><br><span class="line">            pressedOpacity : <span class="number">0.1</span>,</span><br><span class="line">            <span class="comment">//边框圆角</span></span><br><span class="line">            borderRadius : <span class="keyword">const</span> BorderRadius.all(Radius.circular(<span class="number">8.0</span>)),</span><br><span class="line">            <span class="comment">//点击事件</span></span><br><span class="line">            onPressed:()=&gt;&#123;</span><br><span class="line">              <span class="built_in">print</span>(<span class="string">'点我干嘛'</span>)</span><br><span class="line">            &#125;</span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoDialogAction"><a href="#CupertinoDialogAction" class="headerlink" title="CupertinoDialogAction"></a>CupertinoDialogAction</h5><p>通常用于CupertinoAlertDialog的一个button</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">CupertinoDialogAction(</span><br><span class="line">                  child: <span class="keyword">new</span> Text(<span class="string">"确定"</span>),</span><br><span class="line">                  <span class="comment">//是否为默认按钮</span></span><br><span class="line">                  isDefaultAction: <span class="literal">true</span>,</span><br><span class="line">                  <span class="comment">//是否为取消操作按钮</span></span><br><span class="line">                  isDestructiveAction: <span class="literal">true</span>,</span><br><span class="line">                  onPressed: () &#123;</span><br><span class="line">                    Navigator.pop(context);</span><br><span class="line">                  &#125;,</span><br><span class="line">                )</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoSlider"><a href="#CupertinoSlider" class="headerlink" title="CupertinoSlider"></a>CupertinoSlider</h5><figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">CupertinoSlider(</span><br><span class="line">            <span class="comment">//当前进度值</span></span><br><span class="line">            value:_progress,</span><br><span class="line">            <span class="comment">//进度条监听事件</span></span><br><span class="line">            onChanged:(progress) =&gt; &#123;</span><br><span class="line">              _progress = progress,</span><br><span class="line">              <span class="built_in">print</span>(<span class="string">"_progress<span class="subst">$_progress</span>"</span>),</span><br><span class="line">              setState(()&#123;</span><br><span class="line">              &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">//进度条开始监听</span></span><br><span class="line">            onChangeStart:(progress) =&gt; &#123;</span><br><span class="line">              <span class="built_in">print</span>(<span class="string">"onChangeStart<span class="subst">$progress</span>"</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">//进度条结束监听</span></span><br><span class="line">            onChangeEnd:(progress) =&gt; &#123;</span><br><span class="line">              <span class="built_in">print</span>(<span class="string">"onChangeEnd<span class="subst">$progress</span>"</span>),</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">//进度条最小值</span></span><br><span class="line">            min : <span class="number">0.0</span>,</span><br><span class="line">            <span class="comment">//进度条最大值</span></span><br><span class="line">            max : <span class="number">100.0</span>,</span><br><span class="line">            <span class="comment">//进度条分成多少分</span></span><br><span class="line">            divisions:<span class="number">1</span>,</span><br><span class="line">            <span class="comment">//进度条颜色</span></span><br><span class="line">            activeColor:Colors.blue,</span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoSwitch"><a href="#CupertinoSwitch" class="headerlink" title="CupertinoSwitch"></a>CupertinoSwitch</h5><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">CupertinoSwitch(</span><br><span class="line">            value: _isOpen,</span><br><span class="line">            onChanged: <span class="function">(<span class="params">isOpen</span>) =&gt;</span> &#123;</span><br><span class="line">              _isOpen = isOpen,</span><br><span class="line">              setState(()&#123;</span><br><span class="line"></span><br><span class="line">              &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">//开关颜色</span></span><br><span class="line">            activeColor: Colors.blue,</span><br><span class="line">          )</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoPageRoute"><a href="#CupertinoPageRoute" class="headerlink" title="CupertinoPageRoute"></a>CupertinoPageRoute</h5><figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">onPressed: ()&#123;</span><br><span class="line">               Navigator.push(context, <span class="keyword">new</span> CupertinoPageRoute(</span><br><span class="line">               builder: <span class="function">(<span class="params">context</span>) =&gt;</span> Details(),</span><br><span class="line">               ));</span><br><span class="line">           &#125;,</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoNavigationBar"><a href="#CupertinoNavigationBar" class="headerlink" title="CupertinoNavigationBar"></a>CupertinoNavigationBar</h5><p>iOS风格的导航栏. 通常和CupertinoPageScaffold一起使用。</p>
+<table>
+<thead>
+<tr>
+<th>cupertinoNavigationBar</th>
+<th>导航栏结构组件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>middle</td>
+<td>中间组件，多为标题</td>
+</tr>
+<tr>
+<td>trailing</td>
+<td>右边 多为菜单按钮</td>
+</tr>
+<tr>
+<td>leading</td>
+<td>左边按钮，多为返回</td>
+</tr>
+</tbody></table>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> CupertinoNavigationBar(</span><br><span class="line">          <span class="comment">//左边Widget（一般为返回按钮）</span></span><br><span class="line">          leading: <span class="keyword">const</span> Icon(Icons.arrow_back_ios),</span><br><span class="line">          <span class="comment">//如果为true并且middle为空的时候并且当前路由是CupertinoPageRoute，则自动用[Text]小部件填充，文本当前路由的“title”。</span></span><br><span class="line">          automaticallyImplyMiddle: <span class="keyword">true</span>,</span><br><span class="line">          <span class="comment">//上一页按钮</span></span><br><span class="line">          previousPageTitle: <span class="string">'上一页'</span>,</span><br><span class="line">          backgroundColor: Colors.blue,</span><br><span class="line">          middle: <span class="keyword">const</span> Text(</span><br><span class="line">            <span class="string">'标题'</span>,</span><br><span class="line">            style: TextStyle(color: Colors.white),</span><br><span class="line">          ),</span><br><span class="line">          <span class="comment">//右边Widget</span></span><br><span class="line">          trailing: <span class="keyword">const</span> Text(</span><br><span class="line">            <span class="string">'trailing'</span>,</span><br><span class="line">            style: TextStyle(color: Colors.white),</span><br><span class="line">          ),</span><br><span class="line">          <span class="comment">//边框</span></span><br><span class="line">          border: Border.all(color: Color(<span class="number">0xFFD9D9D9</span>), width: <span class="number">1.0</span>),</span><br><span class="line">          <span class="comment">//图标颜色</span></span><br><span class="line">          actionsForegroundColor: Colors.white,</span><br><span class="line">          <span class="comment">//内边距</span></span><br><span class="line">          padding: EdgeInsetsDirectional.zero,</span><br><span class="line">          <span class="comment">//是否在导航栏之间切换。</span></span><br><span class="line">          transitionBetweenRoutes: <span class="keyword">true</span>,</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoPageScaffold"><a href="#CupertinoPageScaffold" class="headerlink" title="CupertinoPageScaffold"></a>CupertinoPageScaffold</h5><p>一个iOS风格的页面的基本布局结构。包含内容和导航栏,和 CupertinoNavigationBar 一起使用。</p>
+<table>
+<thead>
+<tr>
+<th>cupertinoTabScaffold</th>
+<th>选项卡组件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>tabbar</td>
+<td>cupertinoTabbar</td>
+</tr>
+<tr>
+<td>tabBuilderr: indexedWidgetBuilder</td>
+<td>选项卡视图构造器</td>
+</tr>
+</tbody></table>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> CupertinoPageScaffold(</span><br><span class="line">        navigationBar: <span class="keyword">new</span> CupertinoNavigationBar(</span><br><span class="line">          middle: <span class="keyword">const</span> Text(</span><br><span class="line">            <span class="string">'标题'</span>,</span><br><span class="line">            style: TextStyle(color: Colors.black),</span><br><span class="line">          ),</span><br><span class="line">        ),</span><br><span class="line">        child: <span class="keyword">new</span> Container(</span><br><span class="line">          alignment: Alignment.center,</span><br><span class="line">          child: RaisedButton(</span><br><span class="line">            child: Text(<span class="string">'跳转下一个页面'</span>),</span><br><span class="line">            onPressed: () &#123;</span><br><span class="line">              Navigator.push(</span><br><span class="line">                  context,</span><br><span class="line">                  <span class="keyword">new</span> CupertinoPageRoute(</span><br><span class="line">                    builder: <span class="function">(<span class="params">context</span>) =&gt;</span> Details(),</span><br><span class="line">                  ));</span><br><span class="line">            &#125;,</span><br><span class="line">          ),</span><br><span class="line">        ))</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoTabScaffold-和-CupertinoTabBar"><a href="#CupertinoTabScaffold-和-CupertinoTabBar" class="headerlink" title="CupertinoTabScaffold 和 CupertinoTabBar"></a>CupertinoTabScaffold 和 CupertinoTabBar</h5><p>标签式iOS应用程序的结构。将选项卡栏放在内容选项卡之上</p>
+<p>CupertinoTabBar 是 iOS风格的底部选项卡。 通常和CupertinoTabScaffold一起使用。</p>
+<table>
+<thead>
+<tr>
+<th>cupertinoTabbar</th>
+<th>选项卡按钮组件，通常有BottomNavigationBarItem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>items: list</td>
+<td></td>
+</tr>
+<tr>
+<td>backgroundcolor</td>
+<td>按钮背景色</td>
+</tr>
+<tr>
+<td>activeColor</td>
+<td>前景色</td>
+</tr>
+<tr>
+<td>iconSize</td>
+<td>图标大小</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">new CupertinoTabScaffold(</span><br><span class="line">        tabBar: new CupertinoTabBar(</span><br><span class="line">          items: &lt;BottomNavigationBarItem&gt;[</span><br><span class="line">            new BottomNavigationBarItem(</span><br><span class="line">              icon: Icon(Icons.home),</span><br><span class="line">              activeIcon: Icon(Icons.hourglass_full),</span><br><span class="line">              title:Text(&apos;首页&apos;,</span><br><span class="line">                style: TextStyle(color: Colors.black))</span><br><span class="line">            ),</span><br><span class="line">            new BottomNavigationBarItem(</span><br><span class="line">                icon: Icon(Icons.fiber_manual_record),</span><br><span class="line">                activeIcon: Icon(Icons.fiber_manual_record),</span><br><span class="line">                title:Text(&apos;社区&apos;,</span><br><span class="line">                    style: TextStyle(color: Colors.black))</span><br><span class="line">            ),</span><br><span class="line">            new BottomNavigationBarItem(</span><br><span class="line">                icon: Icon(Icons.add_shopping_cart),</span><br><span class="line">                activeIcon: Icon(Icons.add_shopping_cart),</span><br><span class="line">                title:Text(&apos;发现&apos;,</span><br><span class="line">                    style: TextStyle(color: Colors.black))</span><br><span class="line">            ),</span><br><span class="line">            new BottomNavigationBarItem(</span><br><span class="line">                icon: Icon(Icons.my_location),</span><br><span class="line">                activeIcon: Icon(Icons.my_location),</span><br><span class="line">                title:Text(&apos;我的&apos;,</span><br><span class="line">                    style: TextStyle(color: Colors.black))</span><br><span class="line">            ),</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">        tabBuilder: (context,index) =&gt; new Container(</span><br><span class="line">          alignment: Alignment.center,</span><br><span class="line">          child: RaisedButton(</span><br><span class="line">            child: Text(&apos;跳转下一个页面$index&apos;),</span><br><span class="line">            onPressed: () &#123;</span><br><span class="line">              Navigator.push(</span><br><span class="line">                  context,</span><br><span class="line">                  new CupertinoPageRoute(</span><br><span class="line">                    builder: (context) =&gt; Details(),</span><br><span class="line">                  ));</span><br><span class="line">            &#125;,</span><br><span class="line">          ),</span><br><span class="line">        ))</span><br></pre></td></tr></table></figure>
+
+<h5 id="CupertinoTabView"><a href="#CupertinoTabView" class="headerlink" title="CupertinoTabView"></a>CupertinoTabView</h5><p>选项卡视图组件,支持选项卡间并行导航项卡的根内容。通常与CupertinoTabScaffolde一起使用</p>
+<figure class="highlight jsx"><table><tr><td class="code"><pre><span class="line">tabBuilder: <span class="function">(<span class="params">context, index</span>) =&gt;</span> <span class="keyword">new</span> CupertinoTabView(</span><br><span class="line">              <span class="comment">//返回按钮描述文本</span></span><br><span class="line">              defaultTitle: <span class="string">'返回'</span>,</span><br><span class="line">              <span class="comment">//注册跳转的路径和页面</span></span><br><span class="line">              routes: &#123;</span><br><span class="line">                <span class="string">'/home'</span>: (context) &#123;</span><br><span class="line">                  <span class="keyword">return</span> CupertinoPageScaffold(</span><br><span class="line">                    navigationBar: CupertinoNavigationBar(</span><br><span class="line">                      middle: Text(<span class="string">'我是标题'</span>),</span><br><span class="line">                    ),</span><br><span class="line">                    child: Center(</span><br><span class="line">                      child: Text(<span class="string">'我是第二页'</span>),</span><br><span class="line">                    ),</span><br><span class="line">                  );</span><br><span class="line">                &#125;,</span><br><span class="line">              &#125;,</span><br><span class="line">              builder: <span class="function">(<span class="params">context</span>) =&gt;</span> <span class="keyword">new</span> Container(</span><br><span class="line">                    alignment: Alignment.center,</span><br><span class="line">                    child: RaisedButton(</span><br><span class="line">                      child: Text(<span class="string">'跳转下一个页面$index'</span>),</span><br><span class="line">                      onPressed: () &#123;</span><br><span class="line">                        Navigator.of(context).pushNamed(<span class="string">'/home'</span>);</span><br><span class="line">                      &#125;,</span><br><span class="line">                    ),</span><br><span class="line">                  ),</span><br><span class="line">            )</span><br></pre></td></tr></table></figure>
+
+<h4 id="使app支持多端"><a href="#使app支持多端" class="headerlink" title="使app支持多端"></a>使app支持多端</h4><h5 id="flutter使app支持web"><a href="#flutter使app支持web" class="headerlink" title="flutter使app支持web"></a>flutter使app支持web</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flutter channel stable</span><br><span class="line">flutter upgrade</span><br><span class="line"></span><br><span class="line">Unable to &apos;pub upgrade&apos; flutter tool. Retrying in five seconds</span><br><span class="line">解决方法：删除 flutter SDK中 bin/cache 文件夹，然后再flutter upgrade就可以了。</span><br><span class="line"></span><br><span class="line">如果报错使用</span><br><span class="line">flutter upgrade --force</span><br></pre></td></tr></table></figure>
+
+<p>一旦开启了 Web 支持，运行 <code>flutter devices</code>，命令会输出一个名为 <code>Chrome</code> 的设备信息，开启一个为 Web 应用提供服务的 <code>Web Sever</code>，并打开 Chrome 浏览器并访问某个 URL 地址。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">➜flutter devices</span><br><span class="line">1 connected device:</span><br><span class="line"></span><br><span class="line">Chrome (web) • chrome • web-javascript • Google Chrome 89.0.4389.128</span><br></pre></td></tr></table></figure>
+
+<p>要在 Chrome 的 <code>localhost</code> 中部署你的应用，从软件包根目录输入以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flutter run -d chrome</span><br></pre></td></tr></table></figure>
+
+<p>当前项目目录下,创建web文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flutter create .</span><br></pre></td></tr></table></figure>
+
+<p>运行下面命令以生成发行版构建：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flutter build web</span><br></pre></td></tr></table></figure>
+
+<p>Release 构建产物使用 <a href="https://dart.cn/tools/dart2js" target="_blank" rel="noopener">dart2js</a>（不是 dartdevc）生成了一个单独的 JavaScript <code>main.dart.js</code> 文件。你可以通过 release 模式 (<code>flutter run --release</code>) 或者 <code>flutter build web</code> 创建一个发行构建。输出文件在 <code>build/web</code> 目录下，包括需要一起提供的 <code>assets</code> 资源文件。</p>
+<p>目前通过两个仍在开发中的项目提供对桌面平台的支持。其中一个甚至是谷歌开发的，但有迹象表明该公司不支持它。可以在以下 Github 存储库中找到这些项目：</p>
+<ul>
+<li>【官方】Google 开源的 Flutter 嵌入桌面的 API 实现：<a href="https://github.com/google/flutter-desktop-embedding" target="_blank" rel="noopener">flutter-desktop-embedding</a></li>
+<li>【推荐】Go 语言实现工具：<a href="https://github.com/go-flutter-desktop/hover" target="_blank" rel="noopener">hover</a></li>
+</ul>
+<p>这两个项目都归类为 Custom Flutter Engine Embedders，也就是说，它们是 Flutter API 的实现，因此在此框架中开发的项目可以在 Flutter 项目（Android，Fuchsia 和 iOS）正式支持的操作系统之外运行。</p>
+<p>本文使用第二种实现方式</p>
+<p>安装需要依赖：GO GCC Git</p>
+<p>访问<a href="https://github.com/go-flutter-desktop/hover" target="_blank" rel="noopener">https://github.com/go-flutter-desktop/hover</a></p>
+<p>运行go version并确保您的Go版本为1.13或更高版本。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Users\admin&gt;go version</span><br><span class="line">go version go1.15.6 windows/amd64</span><br></pre></td></tr></table></figure>
+
+<p>安装GCC</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">exec: &quot;gcc&quot;: executable file not found in %PATH%</span><br><span class="line">这是因为Windows系统上没有GCC编译器。而编译代码中的包里面可能需要用到gcc编译器。</span><br><span class="line"></span><br><span class="line">解决办法如下：</span><br><span class="line"></span><br><span class="line">下载链接：https://sourceforge.net/projects/mingw-w64/files/mingw-w64/</span><br><span class="line"></span><br><span class="line">个人建议：不要下载exe文件，网不好安装下载资源包很费劲。还是下载64位x86_64-posix-seh压缩包，直接解压就行。没有解压工具的自己下载一个。</span><br><span class="line">解压完之后，配置环境变量。将安装路径对应的bin目录添加到PATH环境变量中。</span><br><span class="line"></span><br><span class="line">C:\Users\admin\Desktop\gcc -v</span><br><span class="line">Using built-in specs.</span><br><span class="line">COLLECT_GCC=gcc</span><br><span class="line">COLLECT_LTO_WRAPPER=G:/x86_64-8.1.0-release-posix-seh-rt_v6-rev0/mingw64/bin/../libexec/gcc/x86_64-w64-mingw32/8.1.0/lto-wrapper.exe</span><br><span class="line">Target: x86_64-w64-mingw32</span><br><span class="line">Configured with: ../../../src/gcc-8.1.0/configure --host=x86_64-w64-mingw32 --build=x86_64-w64-mingw32 --target=x86_64-w64-mingw32 --prefix=/mingw64 --with-sysroot=/c/mingw810/x86_64-810-posix-seh-rt_v6-rev0/mingw64 --enable-shared --enable-static --disable-multilib --enable-languages=c,c++,fortran,lto --enable-libstdcxx-time=yes --enable-threads=posix --enable-libgomp --enable-libatomic --enable-lto --enable-graphite --enable-checking=release --enable-fully-dynamic-string --enable-version-specific-runtime-libs --disable-libstdcxx-pch --disable-libstdcxx-debug --enable-bootstrap --disable-rpath --disable-win32-registry --disable-nls --disable-werror --disable-symvers --with-gnu-as --with-gnu-ld --with-arch=nocona --with-tune=core2 --with-libiconv --with-system-zlib --with-gmp=/c/mingw810/prerequisites/x86_64-w64-mingw32-static --with-mpfr=/c/mingw810/prerequisites/x86_64-w64-mingw32-static --with-mpc=/c/mingw810/prerequisites/x86_64-w64-mingw32-static --with-isl=/c/mingw810/prerequisites/x86_64-w64-mingw32-static --with-pkgversion=&apos;x86_64-posix-seh-rev0, Built by MinGW-W64 project&apos; --with-bugurl=https://sourceforge.net/projects/mingw-w64 CFLAGS=&apos;-O2 -pipe -fno-ident -I/c/mingw810/x86_64-810-posix-seh-rt_v6-rev0/mingw64/opt/include -I/c/mingw810/prerequisites/x86_64-zlib-static/include -I/c/mingw810/prerequisites/x86_64-w64-mingw32-static/include&apos; CXXFLAGS=&apos;-O2 -pipe -fno-ident -I/c/mingw810/x86_64-810-posix-seh-rt_v6-rev0/mingw64/opt/include -I/c/mingw810/prerequisites/x86_64-zlib-static/include -I/c/mingw810/prerequisites/x86_64-w64-mingw32-static/include&apos; CPPFLAGS=&apos; -I/c/mingw810/x86_64-810-posix-seh-rt_v6-rev0/mingw64/opt/include -I/c/mingw810/prerequisites/x86_64-zlib-static/include -I/c/mingw810/prerequisites/x86_64-w64-mingw32-static/include&apos; LDFLAGS=&apos;-pipe -fno-ident -L/c/mingw810/x86_64-810-posix-seh-rt_v6-rev0/mingw64/opt/lib -L/c/mingw810/prerequisites/x86_64-zlib-static/lib -L/c/mingw810/prerequisites/x86_64-w64-mingw32-static/lib &apos;</span><br><span class="line">Thread model: posix</span><br><span class="line">gcc version 8.1.0 (x86_64-posix-seh-rev0, Built by MinGW-W64 project)</span><br></pre></td></tr></table></figure>
+
+<p>运行以下命令来安装hover</p>
+<p>windows:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">set GO111MODULE=on</span><br><span class="line">go get -u -a github.com/go-flutter-desktop/hover</span><br></pre></td></tr></table></figure>
+
+<p>现有Flutter项目入门</p>
+<p>进入到项目目录</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd flutter-app/</span><br><span class="line"></span><br><span class="line">#第一次将悬停用于项目时，您需要初始化该项目以与悬停一起使用。可以将参数传递给hover init来设置项目路径。这通常是您在github或自托管git服务上的项目的路径。如果不确定使用hover init无路径。您可以稍后更改路径。</span><br><span class="line">hover init github.com/nmk0718/flutter-app</span><br></pre></td></tr></table></figure>
+
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hover run</span><br><span class="line">#热重载是手动的，因为您需要在终端中按“ r”来热重载应用程序。</span><br><span class="line"></span><br><span class="line">#默认情况下，悬停使用文件lib/main_desktop.dart作为入口点。您可以使用该--target标志指定其他端点。</span><br></pre></td></tr></table></figure>
+
+<p>打包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hover build linux # or darwin or windows</span><br></pre></td></tr></table></figure>
+
+<p>首次使用时hover run启动没问题 打包报错 切换为beta版本在进行打包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Users\admin\Downloads\memos-main\memos-main&gt;flutter channel beta</span><br><span class="line">Switching to flutter channel &apos;beta&apos;...</span><br><span class="line">git: Branch &apos;beta&apos; set up to track remote branch &apos;beta&apos; from &apos;origin&apos;.</span><br><span class="line">git: Switched to a new branch &apos;beta&apos;</span><br><span class="line">Successfully switched to flutter channel &apos;beta&apos;.</span><br><span class="line">To ensure that you&apos;re on the latest build from this channel, run &apos;flutter upgrade&apos;</span><br><span class="line"></span><br><span class="line">C:\Users\admin\Downloads\memos-main\memos-main&gt;hover build windows</span><br><span class="line">hover: Downloading engine for platform windows-release at version a123e75c6082da3a08f229b9c565e64b5b24a8a3...</span><br><span class="line">Download completed in 23.08s</span><br><span class="line">hover: Cleaning the build directory</span><br><span class="line">hover: Bundling flutter app</span><br><span class="line">VersionCheckError: Command exited with code 128: git fetch __flutter_version_check__ beta</span><br><span class="line">Standard error: fatal: unable to access &apos;https://github.com/flutter/flutter.git/&apos;: OpenSSL SSL_read: Connection was</span><br><span class="line">reset, errno 10054</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Flutter assets will be downloaded from https://storage.flutter-io.cn. Make sure you trust this source!</span><br><span class="line">Downloading package sky_engine...                                  368ms</span><br><span class="line">Downloading flutter_patched_sdk tools...                           448ms</span><br><span class="line">Downloading flutter_patched_sdk_product tools...                   240ms</span><br><span class="line">Downloading windows-x64 tools...                                 1,023ms</span><br><span class="line">Downloading windows-x64/font-subset tools...                       173ms</span><br><span class="line">Running &quot;flutter pub get&quot; in memos-main...                         839ms</span><br><span class="line"></span><br><span class="line"> Building with sound null safety</span><br><span class="line"></span><br><span class="line">hover: Generating kernel snapshot</span><br><span class="line">result 67978fb7-9906-4bd1-a022-0f2cb4d31ba0</span><br><span class="line">lib/main_desktop.dart: Warning: Interpreting this as package URI, &apos;package:memos/main_desktop.dart&apos;.</span><br><span class="line">67978fb7-9906-4bd1-a022-0f2cb4d31ba0</span><br><span class="line">nel_snapshot.dill 0</span><br><span class="line">hover: Generating ELF snapshot</span><br><span class="line">Warning: Generating ELF library without DWARF debugging information.</span><br><span class="line">hover: Checking available release on Github</span><br><span class="line">hover: Compiling &apos;go-flutter&apos; and plugins</span><br><span class="line">runtime/cgo</span><br><span class="line">github.com/go-flutter-desktop/go-flutter/internal/currentthread</span><br><span class="line">github.com/go-flutter-desktop/go-flutter/embedder</span><br><span class="line">github.com/go-gl/glfw/v3.3/glfw</span><br><span class="line">github.com/go-gl/gl/v3.3-core/gl</span><br><span class="line">github.com/go-flutter-desktop/go-flutter/internal/priorityqueue</span><br><span class="line">github.com/go-flutter-desktop/go-flutter/internal/keyboard</span><br><span class="line">github.com/go-flutter-desktop/go-flutter/internal/opengl</span><br><span class="line">github.com/go-flutter-desktop/go-flutter</span><br><span class="line">hover: Successfully compiled executable binary for windows</span><br></pre></td></tr></table></figure>
+
+<p>编译windows不能直接进行使用,必须移动整个文件夹才能使用,所以使用以下命令打包</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">C:\Users\admin\Downloads\memos-main\memos-main&gt;hover build windows-msi</span><br><span class="line">hover: Using engine from cache</span><br><span class="line">hover: Cleaning the build directory</span><br><span class="line">hover: Bundling flutter app</span><br><span class="line"></span><br><span class="line"> Building with sound null safety</span><br><span class="line"></span><br><span class="line">hover: Generating kernel snapshot</span><br><span class="line">result 19414483-7af2-49ad-99fa-98b0c4ca254f</span><br><span class="line">lib/main_desktop.dart: Warning: Interpreting this as package URI, &apos;package:memos/main_desktop.dart&apos;.</span><br><span class="line">19414483-7af2-49ad-99fa-98b0c4ca254f</span><br><span class="line">nel_snapshot.dill 0</span><br><span class="line">hover: Generating ELF snapshot</span><br><span class="line">Warning: Generating ELF library without DWARF debugging information.</span><br><span class="line">hover: Compiling &apos;go-flutter&apos; and plugins</span><br><span class="line">hover: Successfully compiled executable binary for windows</span><br><span class="line">hover: Packaging app for windows-msi</span><br><span class="line">hover: Missing/Empty `author` field in pubspec.yaml. Please add it or otherwise you may publish your app with a wrong author. Continuing with `DESKTOP-D5VSCI4\admin` as a placeholder author.</span><br><span class="line">hover: Missing/Empty `license` field in go/hover.yaml. Please add it or otherwise you may publish your app with a wrong license. Continuing with `NOASSERTION` as a placeholder license.</span><br><span class="line">hover: Failed to read `go/packaging/windows-msi/upgrade-code.txt`: open C:\Users\admin\Downloads\memos-main\memos-main\go\packaging\windows-msi\upgrade-code.txt: The system cannot find the file specified.</span><br><span class="line">hover: Please re-init windows-msi to generate the `go/packaging/windows-msi/upgrade-code.txt`</span><br><span class="line">hover: or put a GUID from https://www.guidgen.com/ into a new `go/packaging/windows-msi/upgrade-code.txt` file.</span><br><span class="line"></span><br><span class="line">如果报错To package windows-msi these tools are required: candle</span><br><span class="line">请前往https://wixtoolset.org/releases/进行下载安装</span><br><span class="line">启动下载好的Wix程序,会提示缺少.netframework3.5.1，windows的控制面板&gt;程序&gt;启用和关闭windows功能&gt;勾选.netframework3.5</span><br><span class="line">安装好.netfamework后再次启动Wix进行安装,安装完毕,目录为C:\Program Files (x86)\WiX Toolset v3.11</span><br><span class="line">运行命令后还是缺少candle.exe,把C:\Program Files (x86)\WiX Toolset v3.11\bin加入系统环境变量的Path中即可</span><br><span class="line"></span><br><span class="line">Failed to read `go/packaging/windows-msi/upgrade-code.txt</span><br><span class="line">按照提示信息访问 https://www.guidgen.com/复制页面中的code</span><br><span class="line">创建go/packaging/windows-msi/upgrade-code.txt文件,粘贴code到文本中保存即可</span><br></pre></td></tr></table></figure>
+
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>Your Flutter application is created using an older version of the Android</p>
+<p>embedding. It’s being deprecated in favor of Android embedding v2.</p>
+<p><strong>解决办法</strong>：打开android/app/main文件夹下的AndroidManifest.xml文件，在activity标签的下面增加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;meta-data</span><br><span class="line">     android:name=&quot;flutterEmbedding&quot;</span><br><span class="line">     android:value=&quot;2&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>[!] Your app isn’t using AndroidX.</p>
+<p>To avoid potential build failures, you can quickly migrate your app by following the steps on https:<em>//goo.gl/CP92wY.</em></p>
+<p><strong>解决办法</strong>：在android文件夹的gradle.properties中添加如下代码即可：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">android.enableJetifier=true</span><br><span class="line">android.useAndroidX=true</span><br></pre></td></tr></table></figure>
+
+<p>error: resource android:attr/fontVariationSettings not found</p>
+<p>解决办法</p>
+<p>更改android目录下app下的build.gradle文件中的编译版本由27改为28即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">	compileSdkVersion 28</span><br><span class="line">	#更改该参数为28</span><br><span class="line">	</span><br><span class="line">	lintOptions &#123;</span><br><span class="line">			disable &apos;InvalidPackage&apos;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>flutter已经pub get下载完插件,但是会报错 Error: Type ‘PathProviderWindows’ not found.</p>
+<p>使用命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flutter clean</span><br><span class="line">flutter pub cache repair</span><br></pre></td></tr></table></figure>
+
+<p>等下完即可</p>
+<p>[!] The following Swift pods cannot yet be integrated as static libraries:</p>
+<p>The Swift pod <code>DKPhotoGallery</code> depends upon <code>SDWebImage</code>, which does not define modules. To opt into those targets generating module maps (which is necessary to import them from Swift when building as static libraries), you may set <code>use_modular_headers!</code> globally in your Podfile, or specify <code>:modular_headers =&gt; true</code> for particular dependencies.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">在ios/Podfile中修改</span><br><span class="line"></span><br><span class="line">target &apos;Runner&apos; do</span><br><span class="line">  use_frameworks! #add here</span><br><span class="line">  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>Automatically assigning platform <a href="http://lib.csdn.net/base/ios" target="_blank" rel="noopener">iOS</a> with version 9.0 on target 你的工程名称 because no platform was specified. Please specify a platform for this target in your Podfile. See <code>https://guides.cocoapods.org/syntax/podfile.html#platform</code></p>
+<p>这是在使用cocoapods安装三方库配置podfile之后的一个警告信息。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Uncomment this line to define a global platform for your project</span><br><span class="line">platform :ios, &apos;9.0&apos;</span><br></pre></td></tr></table></figure>
+
+<p>只需要将第二行platform前面的注销# 符号去掉  就可以了</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/Flutter/"># Flutter</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/03/27/Jenkins/">Jenkins</a>
+            
+            
+            <a class="next" rel="next" href="/2021/03/27/LogView/">LogView</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

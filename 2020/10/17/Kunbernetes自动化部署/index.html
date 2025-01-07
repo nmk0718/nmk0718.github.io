@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>Kunbernetes自动化部署</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Kunbernetes自动化部署</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-10-17&nbsp;&nbsp;09:29</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>部署流程如下图</p>
+<img src="/image/placeholder.jpg" data-original="\image\1.png">
+
+<h3 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes"></a>Kubernetes</h3><p>此文档为安装 Kubernetes 单Master节点</p>
+<h4 id="配置要求"><a href="#配置要求" class="headerlink" title="配置要求"></a>配置要求</h4><ul>
+<li>至少2台<strong>2核4G</strong>的服务器</li>
+<li><strong>Cent OS 7.6 / 7.7 / 7.8</strong></li>
+</ul>
+<h4 id="检查-centos-hostname"><a href="#检查-centos-hostname" class="headerlink" title="检查 centos / hostname"></a>检查 centos / hostname</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在 master 节点和 worker 节点都要执行</span></span><br><span class="line">[root@k8s-node1 ~]<span class="comment"># cat /etc/redhat-release</span></span><br><span class="line">CentOS Linux release 7.8.2003 (Core)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处 hostname 的输出将会是该机器在 Kubernetes 集群中的节点名字</span></span><br><span class="line"><span class="comment"># 不能使用 localhost 作为节点的名字</span></span><br><span class="line">[root@k8s-node1 ~]<span class="comment"># hostname</span></span><br><span class="line">k8s-node1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 请使用 lscpu 命令，核对 CPU 信息</span></span><br><span class="line"><span class="comment"># Architecture: x86_64    本安装文档不支持 arm 架构</span></span><br><span class="line"><span class="comment"># CPU(s):       2         CPU 内核数量不能低于 2</span></span><br><span class="line">[root@k8s-node1 ~]<span class="comment"># lscpu</span></span><br><span class="line">Architecture:          x86_64</span><br><span class="line">CPU op-mode(s):        32-bit, 64-bit</span><br><span class="line">Byte Order:            Little Endian</span><br><span class="line">CPU(s):                2</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改-hostname"><a href="#修改-hostname" class="headerlink" title="修改 hostname"></a>修改 hostname</h4><p>如果您需要修改 hostname，可执行如下指令：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改 hostname</span></span><br><span class="line">hostnamectl <span class="built_in">set</span>-hostname your-new-host-name</span><br><span class="line"><span class="comment"># 查看修改结果</span></span><br><span class="line">hostnamectl status</span><br><span class="line"><span class="comment"># 设置 hostname 解析</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"127.0.0.1   <span class="variable">$(hostname)</span>"</span> &gt;&gt; /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<h4 id="检查网络"><a href="#检查网络" class="headerlink" title="检查网络"></a>检查网络</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node1 ~]# ip route show</span><br><span class="line">default via 192.168.229.2 dev ens33 proto static metric 100 </span><br><span class="line">192.168.229.0/24 dev ens33 proto kernel scope link src 192.168.229.6 metric 100 </span><br><span class="line"></span><br><span class="line">[root@k8s-node1 ~]# ip address</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:67:6f:10 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.229.6/24 brd 192.168.229.255 scope global noprefixroute ens33</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<p>kubelet使用的IP地址</p>
+<ul>
+<li><code>ip route show</code> 命令中，可以知道机器的默认网卡，通常是 <code>eth0</code>，如 <strong><em>default via 172.21.0.23 dev eth0</em></strong> . 这里的是<code>ens33</code></li>
+<li><code>ip address</code> 命令中，可显示默认网卡的 IP 地址，Kubernetes 将使用此 IP 地址与集群内的其他节点通信，如 <code>192.168.229.6</code></li>
+<li>所有节点上 Kubernetes 所使用的 IP 地址必须可以互通（无需 NAT 映射、无安全组或防火墙隔离）</li>
+</ul>
+<h4 id="安装docker及kubelet"><a href="#安装docker及kubelet" class="headerlink" title="安装docker及kubelet"></a>安装docker及kubelet</h4><p>确认是否满足以下条件</p>
+<ul>
+<li>显示 安装 docker/kubelet 的文档</li>
+<li>我的任意节点 centos 版本为 7.6 / 7.7 或 7.8</li>
+<li>我的任意节点 CPU 内核数量大于等于 2，且内存大于等于 4G</li>
+<li>我的任意节点 hostname 不是 localhost，且不包含下划线、小数点、大写字母</li>
+<li>我的任意节点都有固定的内网 IP 地址</li>
+<li>我的任意节点都只有一个网卡，如果有特殊目的，我可以在完成 K8S 安装后再增加新的网卡</li>
+<li>我的任意节点上 <a href="https://www.kuboard.cn/install/install-k8s.html#检查网络" target="_blank" rel="noopener">Kubelet使用的 IP 地址</a> 可互通（无需 NAT 映射即可相互访问），且没有防火墙、安全组隔离</li>
+<li>我的任意节点不会直接使用 docker run 或 docker-compose 运行容器</li>
+</ul>
+<p>使用 root 身份在所有节点执行如下代码，以安装软件：</p>
+<ul>
+<li>docker</li>
+<li>nfs-utils</li>
+<li>kubectl / kubeadm / kubelet</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 在 master 节点和 worker 节点都要执行</span></span><br><span class="line"><span class="comment"># 阿里云 docker hub 镜像</span></span><br><span class="line"><span class="built_in">export</span> REGISTRY_MIRROR=https://registry.cn-hangzhou.aliyuncs.com</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/v1.19.x/install_kubelet.sh | sh -s 1.19.2</span><br></pre></td></tr></table></figure>
+
+<h4 id="初始化-master-节点"><a href="#初始化-master-节点" class="headerlink" title="初始化 master 节点"></a>初始化 master 节点</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只在 master 节点执行</span></span><br><span class="line"><span class="comment"># 替换 x.x.x.x 为 master 节点实际 IP（请使用内网 IP）</span></span><br><span class="line"><span class="comment"># export 命令只在当前 shell 会话中有效，开启新的 shell 窗口后，如果要继续安装过程，请重新执行此处的 export 命令</span></span><br><span class="line"><span class="built_in">export</span> MASTER_IP=x.x.x.x</span><br><span class="line"><span class="comment"># 替换 apiserver.demo 为 您想要的 dnsName</span></span><br><span class="line"><span class="built_in">export</span> APISERVER_NAME=apiserver.demo</span><br><span class="line"><span class="comment"># Kubernetes 容器组所在的网段，该网段安装完成后，由 kubernetes 创建，事先并不存在于您的物理网络中</span></span><br><span class="line"><span class="built_in">export</span> POD_SUBNET=10.100.0.1/16</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;MASTER_IP&#125;</span>    <span class="variable">$&#123;APISERVER_NAME&#125;</span>"</span> &gt;&gt; /etc/hosts</span><br><span class="line">curl -sSL https://kuboard.cn/install-script/v1.19.x/init_master.sh | sh -s 1.19.2</span><br></pre></td></tr></table></figure>
+
+<h5 id="检查-master-初始化结果"><a href="#检查-master-初始化结果" class="headerlink" title="检查 master 初始化结果"></a><strong>检查 master 初始化结果</strong></h5><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只在 master 节点执行</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行如下命令，等待 3-10 分钟，直到所有的容器组处于 Running 状态</span></span><br><span class="line">[root@k8s-node1 ~]<span class="comment"># watch kubectl get pod -n kube-system -o wide</span></span><br><span class="line">NAME                                       READY   STATUS    RESTARTS   AGE   IP              NODE        </span><br><span class="line">calico-kube-controllers-6c89d944d5-zwcl2   1/1     Running   3          43h   10.100.36.75    k8s-node1   </span><br><span class="line">calico-node-6gcj9                          1/1     Running   3          43h   192.168.229.6   k8s-node1   </span><br><span class="line">calico-node-pgqjz                          1/1     Running   5          42h   192.168.229.7   k8s-node2   </span><br><span class="line">coredns-59c898cd69-7vnfg                   1/1     Running   3          43h   10.100.36.76    k8s-node1   </span><br><span class="line">coredns-59c898cd69-fmrjf                   1/1     Running   3          43h   10.100.36.77    k8s-node1   </span><br><span class="line">etcd-k8s-node1                             1/1     Running   3          43h   192.168.229.6   k8s-node1   </span><br><span class="line">kube-apiserver-k8s-node1                   1/1     Running   3          43h   192.168.229.6   k8s-node1   </span><br><span class="line">kube-controller-manager-k8s-node1          1/1     Running   3          43h   192.168.229.6   k8s-node1   </span><br><span class="line">kube-proxy-6sfnc                           1/1     Running   5          42h   192.168.229.7   k8s-node2   </span><br><span class="line">kube-proxy-gpfrv                           1/1     Running   3          43h   192.168.229.6   k8s-node1   </span><br><span class="line">kube-scheduler-k8s-node1                   1/1     Running   3          43h   192.168.229.6   k8s-node1   </span><br><span class="line">kuboard-655785f55c-rc52g                   1/1     Running   1          23h   10.100.36.78    k8s-node1   </span><br><span class="line">metrics-server-7dbf6c4558-5ggbt            1/1     Running   3          21h   192.168.229.7   k8s-node2  </span><br><span class="line"><span class="comment"># 查看 master 节点初始化结果</span></span><br><span class="line">[root@k8s-node1 ~]<span class="comment"># kubectl get nodes -o wide</span></span><br><span class="line">NAME        STATUS   ROLES    AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION           CONTAINER-RUNTIME</span><br><span class="line">k8s-node1   Ready    master   43h   v1.19.2   192.168.229.6   &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-1127.el7.x86_64   docker://19.3.11</span><br></pre></td></tr></table></figure>
+
+<h4 id="初始化-worker节点"><a href="#初始化-worker节点" class="headerlink" title="初始化 worker节点"></a>初始化 worker节点</h4><h5 id="获得-join命令参数"><a href="#获得-join命令参数" class="headerlink" title="获得 join命令参数"></a>获得 join命令参数</h5><p><strong>在 master 节点上执行</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只在 master 节点执行</span></span><br><span class="line">kubeadm token create --<span class="built_in">print</span>-join-command</span><br></pre></td></tr></table></figure>
+
+<p>可获取kubeadm join 命令及参数，如下所示</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># kubeadm token create 命令的输出</span></span><br><span class="line">kubeadm join apiserver.demo:6443 --token mpfjma.4vjjg8flqihor4vt     --discovery-token-ca-cert-hash sha256:6f7a8e40a810323672de5eee6f4d19aa2dbdb38411845a1bf5dd63485c43d303</span><br></pre></td></tr></table></figure>
+
+<p>有效时间</p>
+<p>该 token 的有效时间为 2 个小时，2小时内，您可以使用此 token 初始化任意数量的 worker 节点。</p>
+<p><strong>针对所有的 worker 节点执行</strong></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只在 worker 节点执行</span></span><br><span class="line"><span class="comment"># 替换 x.x.x.x 为 master 节点的内网 IP</span></span><br><span class="line"><span class="built_in">export</span> MASTER_IP=x.x.x.x</span><br><span class="line"><span class="comment"># 替换 apiserver.demo 为初始化 master 节点时所使用的 APISERVER_NAME</span></span><br><span class="line"><span class="built_in">export</span> APISERVER_NAME=apiserver.demo</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$&#123;MASTER_IP&#125;</span>    <span class="variable">$&#123;APISERVER_NAME&#125;</span>"</span> &gt;&gt; /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换为 master 节点上 kubeadm token create 命令的输出</span></span><br><span class="line">kubeadm join apiserver.demo:6443 --token mpfjma.4vjjg8flqihor4vt     --discovery-token-ca-cert-hash sha256:6f7a8e40a810323672de5eee6f4d19aa2dbdb38411845a1bf5dd63485c43d303</span><br></pre></td></tr></table></figure>
+
+<h4 id="检查初始化结果"><a href="#检查初始化结果" class="headerlink" title="检查初始化结果"></a>检查初始化结果</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只在 master 节点执行</span></span><br><span class="line">[root@k8s-node1 ~]<span class="comment"># kubectl get nodes -o wide</span></span><br><span class="line">NAME        STATUS   ROLES    AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION           CONTAINER-RUNTIME</span><br><span class="line">k8s-node1   Ready    master   43h   v1.19.2   192.168.229.6   &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-1127.el7.x86_64   docker://19.3.11</span><br><span class="line">k8s-node2   Ready    &lt;none&gt;   42h   v1.19.2   192.168.229.7   &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-1127.el7.x86_64   docker://19.3.11</span><br><span class="line">[root@k8s-node1 ~]<span class="comment">#  kubectl get nodes</span></span><br><span class="line">NAME        STATUS   ROLES    AGE   VERSION</span><br><span class="line">k8s-node1   Ready    master   43h   v1.19.2</span><br><span class="line">k8s-node2   Ready    &lt;none&gt;   42h   v1.19.2</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-Ingress-Controller"><a href="#安装-Ingress-Controller" class="headerlink" title="安装 Ingress Controller"></a>安装 Ingress Controller</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只在 master 节点执行</span></span><br><span class="line">kubectl apply -f https://kuboard.cn/install-script/v1.19.x/nginx-ingress.yaml</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装Kuboard"><a href="#安装Kuboard" class="headerlink" title="安装Kuboard"></a>安装Kuboard</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">kubectl apply -f https://kuboard.cn/install-script/kuboard.yaml</span><br><span class="line">kubectl apply -f https://addons.kuboard.cn/metrics-server/0.3.7/metrics-server.yaml</span><br></pre></td></tr></table></figure>
+
+<h5 id="查看Kuboard运行状态："><a href="#查看Kuboard运行状态：" class="headerlink" title="查看Kuboard运行状态："></a>查看Kuboard运行状态：</h5><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@k8s-node1 ~]<span class="comment"># kubectl get pods -l k8s.kuboard.cn/name=kuboard -n kube-system</span></span><br><span class="line">NAME                       READY   STATUS    RESTARTS   AGE</span><br><span class="line">kuboard-655785f55c-rc52g   1/1     Running   1          23h</span><br></pre></td></tr></table></figure>
+
+<h5 id="获取token"><a href="#获取token" class="headerlink" title="获取token"></a>获取token</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-master ~]# echo $(kubectl -n kube-system get secret $(kubectl -n kube-system get secret | grep kuboard-user | awk &apos;&#123;print $1&#125;&apos;) -o go-template=&apos;&#123;&#123;.data.token&#125;&#125;&apos; | base64 -d)</span><br><span class="line">eyJhbGciOiJSUzI1NiIsImtpZCI6IjctcWttYVAycFljWlRoMUhtbE5lQzNueHV1dzhHX2xOUUNOQUpaSFI0TkUifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJrdWJvYXJkLXVzZXItdG9rZW4tbTlycXMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoia3Vib2FyZC11c2VyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiODdmMjBjOTQtZDZjZi00N2Y3LTg3ZjItNTg3NDc4OTY1ZDE0Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmt1Ym9hcmQtdXNlciJ9.mMD-OaqLoHrUeHFNNP2LyAS6d5yO1SbbkdPtxFCKFiGG7y5l6A6cuWzE0gqnrZXRXGMJ8nLJqNRmZDgdlyUnlBPtVe2ipWK3SYNy4kVRSguRqEXjhw7H6r1zDkyHRNczkuQQ6eYCAS55t-NRohBE6e4CAE_FiPnDF-AaO-0a0p2cZnqO1vgrkt3y_-9wfs2btmACkbzXJUyfECVWF2LYDsmeQvuiMMQkn_qcPRqh_Y65wBVfXv575NpyJox4KVEcPHcTUxgkMciIlgB6SjDCJI3PrX3GrXilqPx0tSILhvPo-cglwyK33Spvh7b0DWNi-oR3SL3aeME4Khz-ZLiLIQ</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用token登录kuboard"><a href="#使用token登录kuboard" class="headerlink" title="使用token登录kuboard"></a>使用token登录kuboard</h5><p>http://任意一个Worker节点的IP地址:32567/</p>
+<h3 id="GitLab"><a href="#GitLab" class="headerlink" title="GitLab"></a>GitLab</h3><h5 id="使用docker下载gitlab镜像"><a href="#使用docker下载gitlab镜像" class="headerlink" title="使用docker下载gitlab镜像"></a>使用docker下载gitlab镜像</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public ~]#  docker pull gitlab/gitlab-ce</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from gitlab/gitlab-ce</span><br><span class="line">001ecc9468da: Pull complete </span><br><span class="line">f2b966749869: Pull complete </span><br><span class="line">abe474042557: Pull complete </span><br><span class="line">e1bf2fb0fbbc: Pull complete </span><br><span class="line">01aa4f31067e: Pull complete </span><br><span class="line">3e98644dd3ba: Pull complete </span><br><span class="line">d1964c740a63: Pull complete </span><br><span class="line">67d6f9c7950b: Pull complete </span><br><span class="line">3a47828397ca: Pull complete </span><br><span class="line">00ef60c779e0: Pull complete </span><br><span class="line">Digest: sha256:81ff3b05d4da7a8c9b73ec0c4945319932f2ed1d89661831f5a9defe5e408125</span><br><span class="line">Status: Downloaded newer image for gitlab/gitlab-ce:latest</span><br><span class="line">docker.io/gitlab/gitlab-ce:latest</span><br></pre></td></tr></table></figure>
+
+<h5 id="检查镜像下载是否成功"><a href="#检查镜像下载是否成功" class="headerlink" title="检查镜像下载是否成功"></a>检查镜像下载是否成功</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public ~]# docker images</span><br><span class="line">REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">gitlab/gitlab-ce                          latest              85ef0c92d667        3 days ago          1.98GB</span><br><span class="line">registry.aliyuncs.com/k8sxio/kube-proxy   v1.19.2             d373dd5a8593        11 days ago         118MB</span><br><span class="line">eipwork/kuboard                           latest              58cbda9ae6df        2 weeks ago         182MB</span><br><span class="line">eipwork/metrics-server                    v0.3.7              07c9e703ca2c        5 months ago        55.4MB</span><br><span class="line">calico/node                               v3.13.1             2e5029b93d4a        6 months ago        260MB</span><br><span class="line">calico/pod2daemon-flexvol                 v3.13.1             e8c600448aae        6 months ago        111MB</span><br><span class="line">calico/cni                                v3.13.1             6912ec2cfae6        6 months ago        207MB</span><br><span class="line">registry.aliyuncs.com/k8sxio/pause        3.2                 80d28bedfe5d        7 months ago        683kB</span><br><span class="line">nginx/nginx-ingress                       1.5.5               1e674eebb1af        12 months ago       161MB</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建数据存储目录"><a href="#创建数据存储目录" class="headerlink" title="创建数据存储目录"></a>创建数据存储目录</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public ~]# mkdir  -p /file/gitlab/data</span><br><span class="line">[root@public ~]# mkdir /file/gitlab/logs</span><br><span class="line">[root@public ~]# mkdir /file/gitlab/config</span><br></pre></td></tr></table></figure>
+
+<h5 id="启动gitlab"><a href="#启动gitlab" class="headerlink" title="启动gitlab"></a>启动gitlab</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public gitlab]# docker run --detach \</span><br><span class="line">&gt;       --hostname 192.168.229.8 \</span><br><span class="line">&gt;       --publish 8443:443 --publish 9080:80 --publish 2222:22 \</span><br><span class="line">&gt;       --name gitlab \</span><br><span class="line">&gt;       --restart always \</span><br><span class="line">&gt;       --volume /file/gitlab/config:/etc/gitlab \</span><br><span class="line">&gt;       --volume /file/gitlab/logs:/var/log/gitlab \</span><br><span class="line">&gt;       --volume /file/gitlab/data:/var/opt/gitlab \</span><br><span class="line">&gt;    docker.io/gitlab/gitlab-ce:latest</span><br><span class="line">ca10c6a70bfc8f55cd43af2471c1d670fc378726375ac4b39b6c9a761d2b5ed1</span><br></pre></td></tr></table></figure>
+
+<p><strong>gitlab如使用单台服务器可使用默认配置,若跟别的服务放一起会出现gitlab占用内存过多问题</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi /file/gitlab/config/gitlab.rb</span><br><span class="line"></span><br><span class="line">#去掉下面的注释</span><br><span class="line"></span><br><span class="line">unicorn[&apos;worker_processes&apos;] = 2</span><br><span class="line"></span><br><span class="line">#之后执行</span><br><span class="line"></span><br><span class="line">docker exec -it gitlab gitlab-ctl reconfigure</span><br><span class="line"></span><br><span class="line">docker exec -it gitlab gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建项目组"><a href="#创建项目组" class="headerlink" title="创建项目组"></a>创建项目组</h5><img src="/image/placeholder.jpg" data-original="\image\image-20200929152933319.png">
+
+<h5 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h5><img src="/image/placeholder.jpg" data-original="\image\image-20200929153011476.png">
+
+<h5 id="配置本地Git环境"><a href="#配置本地Git环境" class="headerlink" title="配置本地Git环境"></a>配置本地Git环境</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;Administrator&quot;</span><br><span class="line">git config --global user.email &quot;admin@example.com&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Jenkins"><a href="#Jenkins" class="headerlink" title="Jenkins"></a>Jenkins</h3><h5 id="安装jdk"><a href="#安装jdk" class="headerlink" title="安装jdk"></a>安装jdk</h5><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">tar zxvf jdk-8u181-linux-x64.tar.gz</span><br><span class="line">mv jdk1.8.0_181/ java</span><br><span class="line">mv java /usr/<span class="built_in">local</span>/</span><br><span class="line"></span><br><span class="line"><span class="comment">#加入环境变量</span></span><br><span class="line">vi /etc/profile</span><br><span class="line"></span><br><span class="line">JAVA_HOME=/usr/<span class="built_in">local</span>/java</span><br><span class="line">CLASSPATH=<span class="variable">$CLASSPATH</span>:<span class="variable">$JAVA_HOME</span>/lib/</span><br><span class="line">PATH=<span class="variable">$PATH</span>:<span class="variable">$JAVA_HOME</span>/bin</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line"><span class="comment">#查看版本号</span></span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<h5 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h5><p>yum的repos中默认是没有Jenkins的，需要先将Jenkins存储库添加到yum repos。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo</span><br><span class="line">sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key</span><br></pre></td></tr></table></figure>
+
+<p>yum安装Jenkins</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yum install jenkins</span><br></pre></td></tr></table></figure>
+
+<p>启动jenkins</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/lib/jenkins/</span><br><span class="line">java -jar -Xms512m -Xmx1024m jenkins.war  &amp;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件/root/.jenkins/config.xml</p>
+<p>在浏览器输入<code>ip:8080</code>进入Jenkins登录页面。</p>
+<p>进入登录页面后，Jenkins提示我们需要输入超级管理员密码进行解锁。根据提示，我们可以在<code>/var/lib/jenkins/secrets/initialAdminPassword</code>文件里找到密码。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cat /var/lib/jenkins/secrets/initialAdminPassword</span><br></pre></td></tr></table></figure>
+
+<p>找到密码后，复制密码，粘贴到Jenkins解锁页面，点击<code>Continue</code>继续初始化配置。短暂的等待后，进入插件安装页面。</p>
+<p>点击<code>Install suggested plugins</code>，安装默认插件</p>
+<p>安装完成后，页面自动进入了管理员账户注册页面</p>
+<p>输入信息注册。点击<code>Save and Finish</code>。</p>
+<p>点击<code>Start using Jenkins</code>，进入Jenkins主页面。</p>
+<h5 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install curl-devel expat-devel gettext-devel \</span><br><span class="line">  openssl-devel zlib-devel</span><br><span class="line"></span><br><span class="line">yum -y install git-core</span><br><span class="line">#查看版本号</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<h5 id="安装Maven"><a href="#安装Maven" class="headerlink" title="安装Maven"></a>安装Maven</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#下载maven包,解压</span><br><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz</span><br><span class="line">tar zxvf apache-maven-3.6.3-bin.tar.gz </span><br><span class="line">mv apache-maven-3.6.3 /usr/local/maven</span><br><span class="line"></span><br><span class="line">#添加环境变量</span><br><span class="line">vi /etc/profile</span><br><span class="line">#MAVEN</span><br><span class="line">MAVEN_HOME=/usr/local/maven</span><br><span class="line">export MAVEN_HOME</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin:$MAVEN_HOME/bin</span><br><span class="line"></span><br><span class="line">#生效环境变量</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">#查看版本号</span><br><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+
+<h5 id="安装NPM"><a href="#安装NPM" class="headerlink" title="安装NPM"></a>安装NPM</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#下载node,解压</span><br><span class="line">[root@public home]# wget https://nodejs.org/dist/v12.19.0/node-v12.19.0-linux-x64.tar.xz</span><br><span class="line">[root@public home]# tar xf  node-v12.19.0-linux-x64.tar.xz </span><br><span class="line">[root@public home]# cd node-v12.19.0-linux-x64</span><br><span class="line">#软链接</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# ln -s /home/node-v12.19.0-linux-x64/bin/npm   /usr/local/bin/ </span><br><span class="line">[root@public node-v12.19.0-linux-x64]# ln -s /home/node-v12.19.0-linux-x64/bin/node   /usr/local/bin/</span><br><span class="line">#查看版本号验证</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# node -v</span><br><span class="line">v12.19.0</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# npm -v</span><br><span class="line">6.14.8</span><br><span class="line">#安装依赖</span><br><span class="line">[root@public node-v12.19.0-linux-x64]# npm install</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建构建"><a href="#创建构建" class="headerlink" title="创建构建"></a>创建构建</h5><img src="/image/placeholder.jpg" data-original="\image\image-20201009095212341.png">
+
+<h5 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h5><img src="/image/placeholder.jpg" data-original="\image\image-20201009095313048.png">
+
+<h5 id="配置打包构建"><a href="#配置打包构建" class="headerlink" title="配置打包构建"></a>配置打包构建</h5><img src="/image/placeholder.jpg" data-original="\image\image-20200929153431712.png">
+
+<p>通过git clone 拉取代码.mvn clean install进行打包.通过dockerfile上传到镜像仓库</p>
+<h5 id="发布到k8s"><a href="#发布到k8s" class="headerlink" title="发布到k8s"></a>发布到k8s</h5><img src="/image/placeholder.jpg" data-original="\image\image-20200929154250350.png">
+通过ssh插件发送yaml文件到k8s-master
+
+<h5 id="删除打包文件"><a href="#删除打包文件" class="headerlink" title="删除打包文件"></a>删除打包文件</h5><img src="/image/placeholder.jpg" data-original="\image\image-20200929154426301.png">
+
+<h5 id="dockerfile文件"><a href="#dockerfile文件" class="headerlink" title="dockerfile文件"></a>dockerfile文件</h5><p>Dockerfile</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">FROM  192.168.229.8:8551/centos:latest</span><br><span class="line">MAINTAINER nmk</span><br><span class="line"></span><br><span class="line">COPY  *.jar /home/App.jar</span><br><span class="line">COPY  start.sh /home/start.sh</span><br><span class="line">RUN chmod +x /home/start.sh</span><br><span class="line">ENV JAVA_HOME=/usr/local/java</span><br><span class="line">ENV PATH $JAVA_HOME/bin:$PATH</span><br><span class="line">ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">ENV LC_ALL=&quot;en_US.UTF-8&quot;</span><br><span class="line">ENV LANG=&quot;en_US.UTF-8&quot;</span><br><span class="line"></span><br><span class="line">EXPOSE appport</span><br><span class="line">CMD [&quot;/home/start.sh&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>build.sh</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">#构建有版本号的镜像，以防需要回滚，而且是从镜像创建服务</span><br><span class="line">docker build -t 192.168.229.8:8551/$1:$2     . -f Dockerfile</span><br><span class="line"></span><br><span class="line">docker push     192.168.229.8:8551/$1:$2</span><br><span class="line">#构建latest版本，用于自动部署</span><br><span class="line">docker build -t 192.168.229.8:8551/$1:latest . -f Dockerfile</span><br><span class="line">docker push     192.168.229.8:8551/$1:latest</span><br></pre></td></tr></table></figure>
+
+<p>start.sh</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">JARFILE=/home/App.jar</span><br><span class="line">LOGPATH=/home/logs</span><br><span class="line">LOG=/home/logs/app.log</span><br><span class="line">if [ ! -d $LOGPATH ];then</span><br><span class="line">   mkdir -p $LOGPATH</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">java -jar -Xms512M -Xmx1024M -Djava.security.egd=file:/dev/./urandom $JARFILE &gt;&gt; $LOG &amp;</span><br><span class="line"></span><br><span class="line">tail  -50f $LOG</span><br></pre></td></tr></table></figure>
+
+<h5 id="yaml文件"><a href="#yaml文件" class="headerlink" title="yaml文件"></a>yaml文件</h5><p>app.yaml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    app: appname</span><br><span class="line">  name: appname</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  replicas: 2</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: appname</span><br><span class="line">  strategy:</span><br><span class="line">    rollingUpdate:</span><br><span class="line">      maxSurge: 25%</span><br><span class="line">      maxUnavailable: 25%</span><br><span class="line">    type: RollingUpdate</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: appname</span><br><span class="line">    spec:</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br><span class="line">      containers:</span><br><span class="line">      - name: appname</span><br><span class="line">        image: 192.168.229.8:8551/appname:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        livenessProbe:</span><br><span class="line">            failureThreshold: 3</span><br><span class="line">            httpGet:</span><br><span class="line">              path: apppath</span><br><span class="line">              port: appport</span><br><span class="line">              scheme: HTTP</span><br><span class="line">            initialDelaySeconds: 180</span><br><span class="line">            periodSeconds: 10</span><br><span class="line">            successThreshold: 1</span><br><span class="line">            timeoutSeconds: 1 </span><br><span class="line">        readinessProbe:</span><br><span class="line">            failureThreshold: 3</span><br><span class="line">            httpGet:</span><br><span class="line">              path: apppath</span><br><span class="line">              port: appport</span><br><span class="line">              scheme: HTTP</span><br><span class="line">            initialDelaySeconds: 180</span><br><span class="line">            periodSeconds: 10</span><br><span class="line">            successThreshold: 1</span><br><span class="line">            timeoutSeconds: 1</span><br><span class="line">        resources:</span><br><span class="line">            limits:</span><br><span class="line">              cpu: 200m</span><br><span class="line">              memory: 512Mi</span><br><span class="line">            requests:</span><br><span class="line">              cpu: 100m</span><br><span class="line">              memory: 256Mi</span><br></pre></td></tr></table></figure>
+
+<p>service.yaml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  annotations:</span><br><span class="line">  labels:</span><br><span class="line">    app: appname</span><br><span class="line">  name: appname</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">    - name: appname</span><br><span class="line">      port: appport</span><br><span class="line">      protocol: TCP</span><br><span class="line">      targetPort: appport</span><br><span class="line">  selector:</span><br><span class="line">    app: appname</span><br><span class="line">  sessionAffinity: None</span><br><span class="line">  type: ClusterIP</span><br></pre></td></tr></table></figure>
+
+<p>ingress.yaml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: networking.k8s.io/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    app: appname</span><br><span class="line">  name: appname</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">    - host: nmk0718.com</span><br><span class="line">      http:</span><br><span class="line">        paths:</span><br><span class="line">          - backend:</span><br><span class="line">              serviceName: appname</span><br><span class="line">              servicePort: appname</span><br><span class="line">            path: /apppath</span><br><span class="line">            pathType: ImplementationSpecific</span><br></pre></td></tr></table></figure>
+
+<p>*ingress.yaml同域名不同URL创建会覆盖,需手动进行添加。不同域名同URL创建不会覆盖.</p>
+<h5 id="打包前端项目"><a href="#打包前端项目" class="headerlink" title="打包前端项目"></a>打包前端项目</h5><ul>
+<li>拉取前端代码和dockerfile文件</li>
+<li>解压前端依赖的node_modules</li>
+<li>使用npm run build打包</li>
+<li>压缩build出来的dist文件夹</li>
+<li>移动dist压缩包到dockerfile文件夹</li>
+<li>授予build.sh执行权限,传递appname和build_number进行打包镜像</li>
+<li>替换yaml文件的配置</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010152902659.png">
+
+<ul>
+<li>通过ssh插件发送yaml文件到k8s-master</li>
+<li>通过yaml文件创建应用和应用需要的service</li>
+<li>删除yaml文件</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010153404229.png">
+
+<ul>
+<li>手动更新ingress进行路径转发</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010153550656.png">
+
+<ul>
+<li>通过插件在发布完清空工作空间的残留</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010153710024.png">
+
+<ul>
+<li>查看应用是service是否创建成功</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010154554549.png">
+
+<ul>
+<li>访问域名查看是否成功</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010155028976.png">
+
+<h5 id="打包后端项目"><a href="#打包后端项目" class="headerlink" title="打包后端项目"></a>打包后端项目</h5><ul>
+<li>拉取后端代码和dockerfile</li>
+<li>进入项目目录进行打包构建</li>
+<li>复制jar包到dockerfile的文件夹</li>
+<li>进入dockerfile文件夹 替换参数到docker和yaml</li>
+<li>授予build.sh执行权限 执行build.sh并传递参数</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010155626966.png">
+
+<ul>
+<li>通过ssh插件发送yaml文件到k8s-master</li>
+<li>通过yaml文件创建应用和应用需要的service</li>
+<li>删除yaml文件</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010155815880.png">
+
+<ul>
+<li>手动更新ingress进行路径转发</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010155910502.png">
+
+<ul>
+<li>通过插件在发布完清空工作空间的残留</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010153710024.png">
+
+<ul>
+<li>查看应用是service是否创建成功</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010154554549.png">
+
+<ul>
+<li>访问域名查看是否成功</li>
+</ul>
+<img src="/image/placeholder.jpg" data-original="\image\image-20201010160221404.png">
+
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><h5 id="打包基础镜像供项目使用"><a href="#打包基础镜像供项目使用" class="headerlink" title="打包基础镜像供项目使用"></a>打包基础镜像供项目使用</h5><p>拉取centos镜像</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public bin]# docker pull centos:7.8.2003</span><br><span class="line">7.8.2003: Pulling from library/centos</span><br><span class="line">9b4ebb48de8d: Already exists </span><br><span class="line">Digest: sha256:8540a199ad51c6b7b51492fa9fee27549fd11b3bb913e888ab2ccf77cbb72cc1</span><br><span class="line">Status: Downloaded newer image for centos:7.8.2003</span><br><span class="line">docker.io/library/centos:7.8.2003</span><br></pre></td></tr></table></figure>
+
+<p>查看镜像信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public bin]# docker images</span><br><span class="line">REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">centos                                    7.8.2003            afb6fca791e0        4 months ago        203MB</span><br></pre></td></tr></table></figure>
+
+<p>后台运行镜像</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker  run -d afb6fca791e0  tail -f /dev/null</span><br></pre></td></tr></table></figure>
+
+<p>查看运行的容器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public bin]# docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS                  PORTS               NAMES</span><br><span class="line">fc7ac56e28e4        afb6fca791e0        &quot;tail -f /dev/null&quot;   3 seconds ago       Up Less than a second                       determined_nightingale</span><br></pre></td></tr></table></figure>
+
+<h5 id="安装jdk-1"><a href="#安装jdk-1" class="headerlink" title="安装jdk"></a>安装jdk</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#拷贝压缩包到容器</span><br><span class="line">docker cp jdk-8u181-linux-x64.tar.gz fc7ac56e28e4:/home/</span><br><span class="line"></span><br><span class="line">#进入容器</span><br><span class="line">docker exec -it fc7ac56e28e4 /bin/bash</span><br><span class="line">tar zxvf jdk-8u181-linux-x64.tar.gz</span><br><span class="line">mv jdk-8u181-linux-x64 java</span><br><span class="line">mv java /usr/local/</span><br><span class="line"> </span><br><span class="line">#加入环境变量</span><br><span class="line">vi /etc/profile</span><br><span class="line"> </span><br><span class="line">export JAVA_HOME=/usr/local/java</span><br><span class="line">export CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin</span><br><span class="line"></span><br><span class="line">#生效环境变量</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">#查看版本号</span><br><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<h5 id="打包镜像"><a href="#打包镜像" class="headerlink" title="打包镜像"></a>打包镜像</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#把运行的容器打成镜像</span><br><span class="line">[root@public bin]# docker commit -a &quot;nmk&quot; fc7ac56e28e4 centos:v1.1</span><br><span class="line">sha256:bd61002052705bc6b2c838ddae7fb2e1d4974c7ed32ab6dd0ed205096deba5d5</span><br><span class="line"></span><br><span class="line">[root@public bin]# docker images</span><br><span class="line">REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">centos                                    v1.1                bd6100205270        3 seconds ago       203MB</span><br><span class="line">centos                                    7.8.2003            afb6fca791e0        4 months ago        203MB</span><br></pre></td></tr></table></figure>
+
+<h3 id="Nexus"><a href="#Nexus" class="headerlink" title="Nexus"></a>Nexus</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">下载nexus</span><br><span class="line">https://www.sonatype.com/download-oss-sonatype</span><br><span class="line">选择   Nexus Repository Manager OSS 3.x - Unix</span><br><span class="line"></span><br><span class="line">tar zxvf nexus-3.27.0-03-unix.tar.gz</span><br><span class="line">mv nexus-3.27.0-03 /usr/local/nexus</span><br><span class="line">mv sonatype-work/ /usr/local/</span><br><span class="line"></span><br><span class="line">vi /etc/profile</span><br><span class="line">#nexus</span><br><span class="line">export NEXUS_HOME=/usr/local/nexus</span><br><span class="line">export PATH=$PATH:$NEXUS_HOME/bin</span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">cd /usr/local/nexus/etc/</span><br><span class="line">vi nexus-default.properties</span><br><span class="line"></span><br><span class="line">cd /usr/local/nexus/bin</span><br><span class="line">nexus start</span><br><span class="line"></span><br><span class="line">访问http://192.168.229.8:8081/</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建Docker仓库"><a href="#创建Docker仓库" class="headerlink" title="创建Docker仓库"></a>创建Docker仓库</h5><p>在Nexus中Docker仓库被分为了三种</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hosted： 托管仓库 ，私有仓库，可以push和pull </span><br><span class="line">proxy： 代理和缓存远程仓库 ，只能pull</span><br><span class="line">group： 将多个proxy和hosted仓库添加到一个组，只访问一个组地址即可，只能pull</span><br></pre></td></tr></table></figure>
+
+<p><strong>1、配置Blob Stores</strong></p>
+<p>点击 管理 -&gt;Repository -&gt;Blob Stores-&gt; Create blob stores</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20200923150230710.png">
+
+<p>一旦创建了blob store，就不可修改类型和名称。而且，该blob store被仓库或者仓库组使用后，都不可以被删除。一个仓库只可以使用一个Blob Store，一个Blob Store可以对应多个仓库。Blob store的大小为Path对应的文件夹的大小。</p>
+<p><strong>2.创建<code>hosted repository*</code></strong></p>
+<p>点击 管理 -&gt; Repository -&gt; Repositories -&gt; Create Repository -&gt; Docker(hosted)</p>
+<img src="/image/placeholder.jpg" data-original="\image\image-20200923150844177.png">
+
+<p>这样就创建好了一个私有仓库。访问地址即 为192.168.229.8:8551</p>
+<h5 id="查看私有镜像仓库的列表"><a href="#查看私有镜像仓库的列表" class="headerlink" title="查看私有镜像仓库的列表"></a>查看私有镜像仓库的列表</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public ~]#  curl -X GET -u admin:nmk0718 http://192.168.229.8:8551/v2/_catalog</span><br><span class="line">&#123;&quot;repositories&quot;:[&quot;bosybox&quot;,&quot;centos&quot;,&quot;nmk0718&quot;,&quot;nmktest&quot;]&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="查看私有镜像仓库的版本"><a href="#查看私有镜像仓库的版本" class="headerlink" title="查看私有镜像仓库的版本"></a>查看私有镜像仓库的版本</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public ~]#  curl -X GET -u admin:nmk0718 http://192.168.229.8:8551/v2/centos/tags/list</span><br><span class="line">&#123;&quot;name&quot;:&quot;centos&quot;,&quot;tags&quot;:[&quot;v1.1&quot;,&quot;v1.2&quot;,&quot;v1.3&quot;]&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改docker配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">增加&quot;insecure-registries&quot;: [&quot;私服库地址&quot;] 到配置中</span><br><span class="line">[root@k8s-node2 ~]# vi /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.cn-hangzhou.aliyuncs.com&quot;],</span><br><span class="line">  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span><br><span class="line">  &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">  &quot;log-opts&quot;: &#123;</span><br><span class="line">    &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;storage-driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">  &quot;storage-opts&quot;: [</span><br><span class="line">    &quot;overlay2.override_kernel_check=true&quot;</span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">    &quot;insecure-registries&quot;: [</span><br><span class="line">       &quot;192.168.229.8:8551&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">service docker restart</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#标记镜像</span><br><span class="line">docker tag cenots:v1.1 192.168.229.8:8551/centos:v1.1</span><br><span class="line">#语法和格式：docker tag &lt;imageId or imageName&gt; &lt;nexus-hostname&gt;:&lt;repository-port&gt;/&lt;image&gt;:&lt;tag&gt;</span><br></pre></td></tr></table></figure>
+
+<p>登录到私服库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker login -u admin -p nmk0718 192.168.229.8:8551</span><br></pre></td></tr></table></figure>
+
+<p>查看登录凭证</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node2 ~]# cat ~/.docker/config.json</span><br><span class="line">&#123;</span><br><span class="line">        &quot;auths&quot;: &#123;</span><br><span class="line">                &quot;192.168.229.8:8551&quot;: &#123;</span><br><span class="line">                        &quot;auth&quot;: &quot;YWRtaW46bm1rMDcxOA==&quot;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;HttpHeaders&quot;: &#123;</span><br><span class="line">                &quot;User-Agent&quot;: &quot;Docker-Client/19.03.11 (linux)&quot;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>用户名密码可通过命令解码为明文</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node2 ~]# echo &apos;YWRtaW46bm1rMDcxOA==&apos; | base64 --decode</span><br><span class="line">admin:nmk0718</span><br></pre></td></tr></table></figure>
+
+<p><strong>后续需优化</strong>:</p>
+<p>Docker直接将仓库的用户名密码明文保存在配置文件中非常不安全，除非用户每次在与镜像仓库交互完成之后手动执行<code>docker logout</code>删除，这种明文密码很容易被他人窃取. Docker也考虑到这一点，针对不同的平台，其提供了不同的辅助工具将仓库的登录凭证保存到其他安全系数高的存储中。</p>
+<p>上传镜像到私服仓库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker push 192.168.229.8:8551/centos:v1.1</span><br></pre></td></tr></table></figure>
+
+<p>查看上传的镜像</p>
+<img src="/image/placeholder.jpg" data-original="\image\3.png">
+
+<p>拉取上传到私服仓库的镜像</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public bin]# docker pull 192.168.229.8:8551/centos:v1.1</span><br><span class="line">v1.1: Pulling from centos</span><br><span class="line">9b4ebb48de8d: Already exists </span><br><span class="line">72bf021082cd: Pull complete </span><br><span class="line">7f669da652be: Pull complete </span><br><span class="line">b64a50fe3bd5: Pull complete </span><br><span class="line">3e3a9f68a07c: Pull complete </span><br><span class="line">Digest: sha256:7c78a495de5556ab53b14c017bc20c1c4ce682d1e9d4c6aefde2c908d65ef80c</span><br><span class="line">Status: Downloaded newer image for 192.168.229.8:8551/centos:v1.1</span><br><span class="line">192.168.229.8:8551/centos:v1.1</span><br></pre></td></tr></table></figure>
+
+<p>查看拉取完的镜像信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@public bin]# docker images</span><br><span class="line">REPOSITORY                                TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">192.168.229.8:8551/centos                 v1.1                3a26ef36258c        18 hours ago        1.03GB</span><br><span class="line">centos                                    7.8.2003            afb6fca791e0        4 months ago        203MB</span><br></pre></td></tr></table></figure>
+
+<h5 id="Kubernetes从私有镜像拉取镜像"><a href="#Kubernetes从私有镜像拉取镜像" class="headerlink" title="Kubernetes从私有镜像拉取镜像"></a>Kubernetes从私有镜像拉取镜像</h5><p><strong>生成密钥</strong></p>
+<p>在使用私有镜像拉取镜像时，需要为私有镜像仓库创建一个镜像仓库的密钥，并在创建容器中进行引用。创建镜像仓库的语法和格式：</p>
+<p><em>kubectl create secret docker–registry &lt;<strong>regsecret-name&gt;</strong> —docker–server=&lt;your–registry–server&gt; —docker–username=&lt;your–name&gt; —docker–password=&lt;your–pword&gt; —docker–email=&lt;your–email&gt;。</em></p>
+<ul>
+<li><regsecret-name>：所创建的私有镜像仓库密钥的名称；</regsecret-name></li>
+<li><your-registry-server>：为镜像仓库的服务器地址；</your-registry-server></li>
+<li><your-name>：登录镜像仓库的用户名；</your-name></li>
+<li><your-pword>：登录镜像仓库的密码；</your-pword></li>
+<li><your-email>：用户的邮箱地址。</your-email></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl create secret docker-registry regcred   --docker-server=192.168.229.8:8551   --docker-username=admin   --docker-password=nmk0718   --docker-email=nmk0718@163.com</span><br></pre></td></tr></table></figure>
+
+<h5 id="检查-Secret-regcred"><a href="#检查-Secret-regcred" class="headerlink" title="检查 Secret regcred"></a>检查 Secret <code>regcred</code></h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node1 ~]# kubectl get secret regcred --output=yaml</span><br><span class="line">apiVersion: v1</span><br><span class="line">data:</span><br><span class="line">  .dockerconfigjson: eyJhdXRocyI6eyIxOTIuMTY4LjIyOS44Ojg1NTEiOnsidXNlcm5hbWUiOiJhZG1pbiIsInBhc3N3b3JkIjoibm1rMDcxOCIsImVtYWlsIjoibm1rMDcxOEAxNjMuY29tIiwiYXV0aCI6IllXUnRhVzQ2Ym0xck1EY3hPQT09In19fQ==</span><br><span class="line">kind: Secret</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: &quot;2020-09-22T10:38:20Z&quot;</span><br><span class="line">  managedFields:</span><br><span class="line">  - apiVersion: v1</span><br><span class="line">    fieldsType: FieldsV1</span><br><span class="line">    fieldsV1:</span><br><span class="line">      f:data:</span><br><span class="line">        .: &#123;&#125;</span><br><span class="line">        f:.dockerconfigjson: &#123;&#125;</span><br><span class="line">      f:type: &#123;&#125;</span><br><span class="line">    manager: kubectl-create</span><br><span class="line">    operation: Update</span><br><span class="line">    time: &quot;2020-09-22T10:38:20Z&quot;</span><br><span class="line">  name: regcred</span><br><span class="line">  namespace: default</span><br><span class="line">  resourceVersion: &quot;98093&quot;</span><br><span class="line">  selfLink: /api/v1/namespaces/default/secrets/regcred</span><br><span class="line">  uid: 4bd46b7a-9f5c-4a73-9651-c1d947bba264</span><br><span class="line">type: kubernetes.io/dockerconfigjson</span><br></pre></td></tr></table></figure>
+
+<p><code>.dockerconfigjson</code> 字段的值是 Docker 凭据的 base64 表示。</p>
+<p>要了解 <code>dockerconfigjson</code> 字段中的内容，请将 Secret 数据转换为可读格式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node1 ~]# kubectl get secret regcred --output=&quot;jsonpath=&#123;.data.\.dockerconfigjson&#125;&quot; | base64 --decode</span><br><span class="line">&#123;&quot;auths&quot;:&#123;&quot;192.168.229.8:8551&quot;:&#123;&quot;username&quot;:&quot;admin&quot;,&quot;password&quot;:&quot;nmk0718&quot;,&quot;email&quot;:&quot;nmk0718@163.com&quot;,&quot;auth&quot;:&quot;YWRtaW46bm1rMDcxOA==&quot;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要了解 <code>auth</code> 字段中的内容，请将 base64 编码过的数据转换为可读格式：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node1 ~]# echo &quot;YWRtaW46bm1rMDcxOA==&quot; | base64 --decode</span><br><span class="line">admin:nmk0718</span><br></pre></td></tr></table></figure>
+
+<p>注意，Secret 数据包含与本地 <code>~/.docker/config.json</code> 文件类似的授权令牌。</p>
+<p>这样你就已经成功地将 Docker 凭据设置为集群中的名为 <code>regcred</code> 的 Secret。</p>
+<h5 id="定义拉取镜像的部署"><a href="#定义拉取镜像的部署" class="headerlink" title="定义拉取镜像的部署"></a>定义拉取镜像的部署</h5><p>创建一个使用你的secret的pod</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: private-reg</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: private-reg-container</span><br><span class="line">    image: &lt;your-private-image&gt;</span><br><span class="line">  imagePullSecrets:</span><br><span class="line">  - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>在<code>my-private-reg-pod.yaml</code> 文件中，使用私有仓库的镜像路径替换 <code>&lt;your-private-image&gt;</code>，例如：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">192.168.229.8:8551/centos:v1.1</span><br></pre></td></tr></table></figure>
+
+<p>要从私有仓库拉取镜像，Kubernetes 需要凭证。 配置文件中的 <code>imagePullSecrets</code> 字段表明 Kubernetes 应该通过名为 <code>regcred</code> 的 Secret 获取凭证。</p>
+<p>创建使用了你的 Secret 的 Pod，并检查它是否正常运行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl apply -f my-private-reg-pod.yaml</span><br><span class="line">[root@k8s-node1 ~]# kubectl get pod private-reg</span><br><span class="line">NAME          READY   STATUS    RESTARTS   AGE</span><br><span class="line">private-reg   1/1     Running   1          20h</span><br></pre></td></tr></table></figure>
+
+<h5 id="kubernetes命令"><a href="#kubernetes命令" class="headerlink" title="kubernetes命令"></a>kubernetes命令</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1、查看指定pod的日志</span><br><span class="line"></span><br><span class="line">kubectl logs &lt;pod_name&gt;</span><br><span class="line"></span><br><span class="line">kubectl logs -f &lt;pod_name&gt; #类似tail -f的方式查看(tail -f 实时查看日志文件 tail -f 日志文件log)</span><br><span class="line"></span><br><span class="line">2、查看指定pod中指定容器的日志</span><br><span class="line"></span><br><span class="line">kubectl logs &lt;pod_name&gt; -c &lt;container_name&gt;</span><br><span class="line"></span><br><span class="line">3、进入容器的pod</span><br><span class="line">kubectl exec -ti &lt;your-pod-name&gt;  -n &lt;your-namespace&gt;  -- /bin/sh</span><br><span class="line"></span><br><span class="line">kubectl exec -it private-reg -n default /bin/bash</span><br><span class="line"></span><br><span class="line">4、显示Pod的更多信息</span><br><span class="line">kubectl get pod &lt;pod-name&gt; -o wide</span><br><span class="line"></span><br><span class="line">#以yaml格式显示Pod的详细信息</span><br><span class="line">kubectl get pod &lt;pod-name&gt; -o yaml</span><br><span class="line"></span><br><span class="line">5、查看所有Pod列表</span><br><span class="line">kubectl get pods</span><br><span class="line"></span><br><span class="line">#查看rc和service列表</span><br><span class="line">kubectl get rc,service</span><br><span class="line"></span><br><span class="line">#查看资源详细描述</span><br><span class="line"></span><br><span class="line">kubectl describe $&#123;type&#125; $&#123;name&#125; -o wide</span><br><span class="line">kubectl describe pod private-reg</span><br><span class="line">#查看资源</span><br><span class="line">kubectl get nodes|namespaces|services|pods|rc|deployments|replicasets(rs) -o wide</span><br><span class="line">kubectl get nodes -o wide</span><br></pre></td></tr></table></figure>
+
+<h5 id="扩容应用"><a href="#扩容应用" class="headerlink" title="扩容应用"></a>扩容应用</h5><p>1）进行扩容</p>
+<p>根据场景需要，通过kubectl scale deployment命令将Pod的扩容到4个。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ kubectl scale deployments my-nexus3 --replicas=4</span><br></pre></td></tr></table></figure>
+
+<p>2）查看扩容后的Pod</p>
+<p>在扩容后，通过kubectl get pods能够查看扩容后的Pod数量。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ kubectl get pods -o wide</span><br></pre></td></tr></table></figure>
+
+<h5 id="升级应用"><a href="#升级应用" class="headerlink" title="升级应用"></a>升级应用</h5><p>1）使用kubectl set image命令更新应用镜像版本</p>
+<p>当应用发布新版本后，可以</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ kubectl set image deployments/my-nexus3 *=sonatype/nexus3:latest</span><br></pre></td></tr></table></figure>
+
+<p>2）回滚升级到之前的版本</p>
+<p>当部署的版本存在问题时，可以通过执行kubectl rollout unduo回滚至之前的版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ kubectl rollout undo deployments/my-nexus3</span><br></pre></td></tr></table></figure>
+
+<p>3）查看部署的回滚状态</p>
+<p>回滚状态，可以通过rollout status确认。通过执行kubectl rollout stauts可以查看升级和回归的状态信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ kubectl rollout status deployments/my-nexus3</span><br></pre></td></tr></table></figure>
+
+<h5 id="脚本定时删除worker环境的镜像"><a href="#脚本定时删除worker环境的镜像" class="headerlink" title="脚本定时删除worker环境的镜像"></a>脚本定时删除worker环境的镜像</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">docker rmi `docker images | grep  &quot;&lt;none&gt;&quot; | awk &apos;&#123;print $3&#125;&apos;`</span><br></pre></td></tr></table></figure>
+
+<h5 id="docker-login-出现错误"><a href="#docker-login-出现错误" class="headerlink" title="docker login 出现错误"></a>docker login 出现错误</h5><p>WARNING! Using –password via the CLI is insecure. Use –password-stdin.<br>Error response from daemon: Get <a href="https://192.168.229.8:8551/v2/" target="_blank" rel="noopener">https://192.168.229.8:8551/v2/</a>: http: server gave HTTP response to HTTPS client</p>
+<p>在/etc/docker/daemon.json中加入insecure-registries指定私服库地址,重启docker即可</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-node2 ~]# vi /etc/docker/daemon.json</span><br><span class="line">&#123;</span><br><span class="line">  &quot;registry-mirrors&quot;: [&quot;https://registry.cn-hangzhou.aliyuncs.com&quot;],</span><br><span class="line">  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span><br><span class="line">  &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">  &quot;log-opts&quot;: &#123;</span><br><span class="line">    &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;storage-driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">  &quot;storage-opts&quot;: [</span><br><span class="line">    &quot;overlay2.override_kernel_check=true&quot;</span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">    &quot;insecure-registries&quot;: [</span><br><span class="line">       &quot;192.168.229.8:8551&quot;</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">[root@k8s-node2 ~]# systemctl restart docker</span><br></pre></td></tr></table></figure>
+
+<p>Error response from daemon: login attempt to <a href="http://xx.xx.xx.xx:2020/v2/" target="_blank" rel="noopener">http://xx.xx.xx.xx:2020/v2/</a> failed with status: 401 Unauthorized</p>
+<img src="/image/placeholder.jpg" data-original="\image\2.png">
+
+<p>添加<code>Docker Bearer Token Realm</code>到Active即可</p>
+<h5 id="Kubernetes-pod状态出现ImagePullBackOff的原因"><a href="#Kubernetes-pod状态出现ImagePullBackOff的原因" class="headerlink" title="Kubernetes pod状态出现ImagePullBackOff的原因"></a>Kubernetes pod状态出现ImagePullBackOff的原因</h5><p>查看这个Pod的状态，发现状态为 ErrImagePull 或者 ImagePullBackOff：</p>
+<p>[root@k8s-node1 ~]#  kubectl get pods<br>NAME          READY   STATUS    RESTARTS   AGE<br>failpod   1/1     ImagePullBackOff   1          14h</p>
+<p>可以使用describe命令查看这个失败的Pod的明细：<br>[root@k8s-node1 ~]#  kubectl describe pod failpod</p>
+<p>查看 describe 命令的输出中 Events 这部分，我们可以看到如下内容：<br>  Normal   BackOff                 14h (x5 over 14h)   kubelet            Back-off pulling image “192.168.229.8:8551/centos:v1.3”<br>  Warning  Failed                  14h (x4 over 14h)   kubelet            Failed to pull image “192.168.229.8:8551/centos:v1.3”: rpc error: code = Unknown desc = Error response from daemon: Get <a href="https://192.168.229.8:8551/v2/" target="_blank" rel="noopener">https://192.168.229.8:8551/v2/</a>: http: server gave HTTP response to HTTPS client<br>  Warning  Failed                  14h (x4 over 14h)   kubelet            Error: ErrImagePull</p>
+<p>得知原因为pull的链接为https,更改/etc/docker/daemon.json添加私有库地址重启即可</p>
+<p>注意：观察 Pod 状态的时候，镜像缺失和仓库权限不正确是没法区分的。其它情况下，Kubernetes 将报告一个 ErrImagePull 状态。</p>
+<h3 id="宿主机映射k8s中的服务"><a href="#宿主机映射k8s中的服务" class="headerlink" title="宿主机映射k8s中的服务"></a>宿主机映射k8s中的服务</h3><h4 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a>NodePort</h4><p>我们需要在service的yaml定义中指定nodePort：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kind: Service</span><br><span class="line">apiVersion: v1</span><br><span class="line">metadata:</span><br><span class="line">  name: my-service</span><br><span class="line">spec:</span><br><span class="line">  type: NodePort        // 指定service类型</span><br><span class="line">  selector:</span><br><span class="line">    app: forme</span><br><span class="line">  ports:</span><br><span class="line">    - port: 8088         // 供集群中其它服务访问的端口</span><br><span class="line">      targetPort: 8088 // 后端pod中container暴露的端口</span><br><span class="line">      nodePort: 8088   //  节点暴露的端口</span><br></pre></td></tr></table></figure>
+
+<p>验证</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http://192.168.50.56:8088/health(宿主机ip+nodePort)</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改NodePort的范围</strong></p>
+<p>在 Kubernetes 集群中，NodePort 默认范围是 30000-32767</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-master ~]# vi /etc/kubernetes/manifests/kube-apiserver.yaml</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  annotations:</span><br><span class="line">    kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 192.168.50.53:6443</span><br><span class="line">  creationTimestamp: null</span><br><span class="line">  labels:</span><br><span class="line">    component: kube-apiserver</span><br><span class="line">    tier: control-plane</span><br><span class="line">  name: kube-apiserver</span><br><span class="line">  namespace: kube-system</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - command:</span><br><span class="line">    - kube-apiserver</span><br><span class="line">    - --advertise-address=192.168.50.53</span><br><span class="line">    - --allow-privileged=true</span><br><span class="line">    - --authorization-mode=Node,RBAC</span><br><span class="line">    - --client-ca-file=/etc/kubernetes/pki/ca.crt</span><br><span class="line">    - --enable-admission-plugins=NodeRestriction</span><br><span class="line">    - --enable-bootstrap-token-auth=true</span><br><span class="line">    - --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt</span><br><span class="line">    - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt</span><br><span class="line">    - --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key</span><br><span class="line">    - --etcd-servers=https://127.0.0.1:2379</span><br><span class="line">    - --insecure-port=0</span><br><span class="line">    - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt</span><br><span class="line">    - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key</span><br><span class="line">    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname</span><br><span class="line">    - --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt</span><br><span class="line">    - --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key</span><br><span class="line">    - --requestheader-allowed-names=front-proxy-client</span><br><span class="line">    - --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt</span><br><span class="line">    - --requestheader-extra-headers-prefix=X-Remote-Extra-</span><br><span class="line">    - --requestheader-group-headers=X-Remote-Group</span><br><span class="line">    - --requestheader-username-headers=X-Remote-User</span><br><span class="line">    - --secure-port=6443</span><br><span class="line">    - --service-account-key-file=/etc/kubernetes/pki/sa.pub</span><br><span class="line">    - --service-cluster-ip-range=10.96.0.0/16</span><br><span class="line">    - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt</span><br><span class="line">    - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key</span><br><span class="line">    image: registry.aliyuncs.com/k8sxio/kube-apiserver:v1.19.2</span><br><span class="line">    imagePullPolicy: IfNotPresent</span><br><span class="line">    livenessProbe:</span><br><span class="line">      failureThreshold: 8</span><br><span class="line">      httpGet:</span><br><span class="line">        host: 192.168.50.53</span><br><span class="line">        path: /livez</span><br><span class="line">        port: 6443</span><br><span class="line">        scheme: HTTPS</span><br><span class="line">      initialDelaySeconds: 10</span><br><span class="line">      periodSeconds: 10</span><br><span class="line">      timeoutSeconds: 15</span><br><span class="line">    name: kube-apiserver</span><br><span class="line">    readinessProbe:</span><br><span class="line">      failureThreshold: 3</span><br><span class="line">      httpGet:</span><br><span class="line">        host: 192.168.50.53</span><br><span class="line">        path: /readyz</span><br><span class="line">        port: 6443</span><br><span class="line">        scheme: HTTPS</span><br><span class="line">      periodSeconds: 1</span><br><span class="line">      timeoutSeconds: 15</span><br><span class="line">    resources:</span><br><span class="line">      requests:</span><br><span class="line">        cpu: 250m</span><br><span class="line">    startupProbe:</span><br><span class="line">      failureThreshold: 24</span><br><span class="line">      httpGet:</span><br><span class="line">        host: 192.168.50.53</span><br><span class="line">        path: /livez</span><br><span class="line">        port: 6443</span><br><span class="line">        scheme: HTTPS</span><br><span class="line">      initialDelaySeconds: 10</span><br><span class="line">      periodSeconds: 10</span><br><span class="line">      timeoutSeconds: 15</span><br><span class="line">    volumeMounts:</span><br><span class="line">    - mountPath: /etc/ssl/certs</span><br><span class="line">      name: ca-certs</span><br><span class="line">      readOnly: true</span><br><span class="line">    - mountPath: /etc/pki</span><br><span class="line">      name: etc-pki</span><br><span class="line">      readOnly: true</span><br><span class="line">    - mountPath: /etc/kubernetes/pki</span><br><span class="line">      name: k8s-certs</span><br><span class="line">      readOnly: true</span><br><span class="line">  hostNetwork: true</span><br><span class="line">  priorityClassName: system-node-critical</span><br><span class="line">  volumes:</span><br><span class="line">  - hostPath:</span><br><span class="line">      path: /etc/ssl/certs</span><br><span class="line">      type: DirectoryOrCreate</span><br><span class="line">    name: ca-certs</span><br><span class="line">  - hostPath:</span><br><span class="line">      path: /etc/pki</span><br><span class="line">      type: DirectoryOrCreate</span><br><span class="line">    name: etc-pki</span><br><span class="line">  - hostPath:</span><br><span class="line">      path: /etc/kubernetes/pki</span><br><span class="line">      type: DirectoryOrCreate</span><br><span class="line">    name: k8s-certs</span><br><span class="line">status: &#123;&#125;</span><br><span class="line"></span><br><span class="line">在- --service-cluster-ip-range=10.96.0.0/16下面加入以下配置</span><br><span class="line">- --service-node-port-range=7000-10000</span><br></pre></td></tr></table></figure>
+
+<p>重启apiserver</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 获得 apiserver 的 pod 名字</span><br><span class="line">export apiserver_pods=$(kubectl get pods --selector=component=kube-apiserver -n kube-system --output=jsonpath=&#123;.items..metadata.name&#125;)</span><br><span class="line"># 删除 apiserver 的 pod</span><br><span class="line">kubectl delete pod $apiserver_pods -n kube-system</span><br></pre></td></tr></table></figure>
+
+<p>执行以下命令，验证修改是否生效:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl describe pod $apiserver_pods -n kube-system</span><br></pre></td></tr></table></figure>
+
+<h4 id="HostNetwork"><a href="#HostNetwork" class="headerlink" title="HostNetwork"></a>HostNetwork</h4><p>更改app.yaml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    app: ymall</span><br><span class="line">  name: ymall</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: ymall</span><br><span class="line">  strategy:</span><br><span class="line">    rollingUpdate:</span><br><span class="line">      maxSurge: 25%</span><br><span class="line">      maxUnavailable: 25%</span><br><span class="line">    type: RollingUpdate</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: ymall</span><br><span class="line">    spec:</span><br><span class="line">      hostNetwork: true</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br><span class="line">      containers:</span><br><span class="line">      - name: ymall</span><br><span class="line">        image: 192.168.50.52:8551/ymall:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">    	- containerPort: 8080</span><br><span class="line">        resources:</span><br><span class="line">            limits:</span><br><span class="line">              cpu: 800m</span><br><span class="line">              memory: 1224Mi</span><br><span class="line">            requests:</span><br><span class="line">              cpu: 100m</span><br><span class="line">              memory: 512Mi</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>主要参数:hostNetwork: true,containerPort: 8080</li>
+<li>使用host网络模式,使容器使用宿主机ip就无需再进行创建service.yaml</li>
+</ul>
+<p>创建即可获得宿主机ip的容器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">kubectl apply -f app.yaml</span><br><span class="line">[root@k8s-master ~]# kubectl get po --all-namespaces -o wide --show-labels |grep ymall</span><br><span class="line">default         ymall-754946fd54-dwwjp                          1/1     Running   0          37s   192.168.50.54    k8s-work1    &lt;none&gt;           &lt;none&gt;            app=ymall,pod-template-hash=754946fd54</span><br></pre></td></tr></table></figure>
+
+<p>容器ip已经变更为宿主机ip</p>
+<h4 id="挂载容器目录到宿主机目录"><a href="#挂载容器目录到宿主机目录" class="headerlink" title="挂载容器目录到宿主机目录"></a>挂载容器目录到宿主机目录</h4><p>更改yaml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  labels:</span><br><span class="line">    app: appname</span><br><span class="line">  name: appname</span><br><span class="line">  namespace: default</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: appname</span><br><span class="line">  strategy:</span><br><span class="line">    rollingUpdate:</span><br><span class="line">      maxSurge: 25%</span><br><span class="line">      maxUnavailable: 25%</span><br><span class="line">    type: RollingUpdate</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: appname</span><br><span class="line">    spec:</span><br><span class="line">      hostNetwork: true</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br><span class="line">      containers:</span><br><span class="line">      - name: appname</span><br><span class="line">        image: 192.168.50.52:8551/appname:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        volumeMounts:</span><br><span class="line">        - name: appname</span><br><span class="line">          mountPath: /home/www/appCenterTest/public</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 8081</span><br><span class="line">        resources:</span><br><span class="line">            limits:</span><br><span class="line">              cpu: 800m</span><br><span class="line">              memory: 1224Mi</span><br><span class="line">            requests:</span><br><span class="line">              cpu: 100m</span><br><span class="line">              memory: 512Mi</span><br><span class="line">      volumes:</span><br><span class="line">      - name: appname</span><br><span class="line">        hostPath:</span><br><span class="line">           path: /data</span><br><span class="line">           type: Directory</span><br></pre></td></tr></table></figure>
+
+<h3 id="Prometheus"><a href="#Prometheus" class="headerlink" title="Prometheus"></a>Prometheus</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@k8s-master ~]# wget https://github.com/prometheus-operator/kube-prometheus/archive/v0.6.0.tar.gz</span><br><span class="line">[root@k8s-master ~]# tar zxvf kube-prometheus-0.6.0.tar.gz</span><br><span class="line">[root@k8s-master ~]# cd kube-prometheus-0.6.0</span><br><span class="line">[root@k8s-master ~]# kubectl create -f manifests/setup</span><br><span class="line">[root@k8s-master ~]# until kubectl get servicemonitors --all-namespaces ; do date; sleep 1; echo “”; done</span><br><span class="line">[root@k8s-master ~]# kubectl create -f manifests/</span><br><span class="line">[root@k8s-master ~]# kubectl get pod -n monitoring</span><br><span class="line">NAME                                   READY   STATUS    RESTARTS   AGE</span><br><span class="line">alertmanager-main-0                    2/2     Running   0          74m</span><br><span class="line">alertmanager-main-1                    2/2     Running   0          74m</span><br><span class="line">alertmanager-main-2                    2/2     Running   0          74m</span><br><span class="line">grafana-7c9bc466d8-r566p               1/1     Running   0          88m</span><br><span class="line">kube-state-metrics-66b65b78bc-mhgxq    3/3     Running   0          88m</span><br><span class="line">node-exporter-2764r                    2/2     Running   0          88m</span><br><span class="line">node-exporter-92pd7                    2/2     Running   0          88m</span><br><span class="line">node-exporter-mkj2p                    2/2     Running   0          88m</span><br><span class="line">node-exporter-mxrd9                    2/2     Running   0          88m</span><br><span class="line">prometheus-adapter-557648f58c-j4jcz    1/1     Running   0          88m</span><br><span class="line">prometheus-k8s-0                       3/3     Running   1          74m</span><br><span class="line">prometheus-k8s-1                       3/3     Running   0          74m</span><br><span class="line">prometheus-operator-5b7946f4d6-jqwbb   2/2     Running   0          88m</span><br><span class="line"></span><br><span class="line">#因端口问题,需手动修改prometheus alertmanager grafana的Nodeport,加入nodePort: 8001和type: NodePort即可</span><br><span class="line">示例</span><br><span class="line">---</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: &apos;2020-12-05T09:37:14Z&apos;</span><br><span class="line">  labels:</span><br><span class="line">    app: grafana</span><br><span class="line">  managedFields:</span><br><span class="line">    - apiVersion: v1</span><br><span class="line">      fieldsType: FieldsV1</span><br><span class="line">      fieldsV1:</span><br><span class="line">        &apos;f:metadata&apos;: &#123;&#125;</span><br><span class="line">        &apos;f:spec&apos;:</span><br><span class="line">          &apos;f:ports&apos;: &#123;&#125;</span><br><span class="line">      manager: kubectl-create</span><br><span class="line">      operation: Update</span><br><span class="line">      time: &apos;2020-12-05T09:37:14Z&apos;</span><br><span class="line">  name: grafana</span><br><span class="line">  namespace: monitoring</span><br><span class="line">  resourceVersion: &apos;9637020&apos;</span><br><span class="line">  selfLink: /api/v1/namespaces/monitoring/services/grafana</span><br><span class="line">  uid: 6e6edd10-68b4-43b6-93ba-9b72e280d411</span><br><span class="line">spec:</span><br><span class="line">  clusterIP: 10.96.98.51</span><br><span class="line">  ports:</span><br><span class="line">    - name: http</span><br><span class="line">      port: 3000</span><br><span class="line">      protocol: TCP</span><br><span class="line">      targetPort: http</span><br><span class="line">  selector:</span><br><span class="line">    app: grafana</span><br><span class="line">  sessionAffinity: None</span><br><span class="line">  type: ClusterIP</span><br><span class="line">改为</span><br><span class="line">spec:</span><br><span class="line">  clusterIP: 10.96.98.51</span><br><span class="line">  ports:</span><br><span class="line">    - name: http</span><br><span class="line">      nodePort: 8001</span><br><span class="line">      port: 3000</span><br><span class="line">      protocol: TCP</span><br><span class="line">      targetPort: http</span><br><span class="line">  selector:</span><br><span class="line">    app: grafana</span><br><span class="line">  sessionAffinity: None</span><br><span class="line">  type: NodePort</span><br></pre></td></tr></table></figure>
+
+<p>等待全部启动完毕即可<br><img src="/image/placeholder.jpg" data-original="\image\image-20201210154137980.png"></p>
+<p>导入监控模板<br><img src="/image/placeholder.jpg" data-original="\image\image-20201210154216377.png"></p>
+<p>完成<br><img src="/image/placeholder.jpg" data-original="\image\image-20201210154228617.png"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/k8s/"># k8s</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/10/17/Redis 与 MQ 的区别/">消息队列</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/16/Process/">Process</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

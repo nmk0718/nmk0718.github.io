@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>生产告警</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">生产告警</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2021-11-02&nbsp;&nbsp;18:10</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>新增报警联系人</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102142732840.png">
+
+<p>配置报警联系人</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102142749711.png">
+
+<p>获取Webhook地址:</p>
+<p>钉钉群聊&gt;群设置&gt;智能群助手&gt;添加自定义机器人</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102143103962.png">
+
+<p>把Webhook复制下来,粘贴到报警联系人处,配置钉钉机器人接受的消息,包含有自定义的关键词该钉钉机器人才能告警</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102143149384.png">
+
+<p>添加新建的报警联系人到报警联系组里</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102143358722.png">
+
+<p>开启已使用服务的一键告警</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102143552738.png">
+
+<p>添加告警规则</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102144026183.png">
+
+<p>创建站点监控</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102144614290.png">
+
+<p>添加监控地址</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102144708411.png">
+
+<p>选择默认探测点</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102144729537.png">
+
+<p>添加状态码监控</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102144849168.png">
+
+<p>选择通知联系人</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102144907626.png">
+
+<p>添加事件报警规则</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102145059404.png">
+
+<p>因节约开支,暂时使用的免费版,这里不介绍日志监控</p>
+<p>添加容器监控</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102145557851.png">
+
+<p>创建报警规则</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102145848290.png">
+
+<p>kubernetes集群报警</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102150127881.png">
+
+<p>开启事件告警</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102150323136.png">
+
+<p>点击编辑,更改告警策略,新增行动策略</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102164419525.png">
+
+<p>配置钉钉和短信告警的通知内容和通知人员,可自定义内容模板配置通知的消息样式</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102164508877.png">
+
+<p>钉钉的Webhook需要进行新建在告警管理&gt;Webhook继承中新增配置</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102164717899.png">
+
+<p>查询服务报错的日志通过日志监控进行告警</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102171254181.png">
+
+<p>配置每15分钟监控日志,如果日志中有该数据会进行告警</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102171409665.png">
+
+<p>可在告警看到创建的告警,该告警的执行状态,是否触发通知</p>
+<img src="/image/placeholder.jpg" data-original="\image/image-20211102171609247.png">
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/01/10/goproxy/">goproxy</a>
+            
+            
+            <a class="next" rel="next" href="/2021/10/19/sql审核/">sql审核</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

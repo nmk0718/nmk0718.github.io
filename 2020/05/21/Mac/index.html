@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>Mac</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Mac</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-05-21&nbsp;&nbsp;22:20</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="Mac写入Windows-NTFS"><a href="#Mac写入Windows-NTFS" class="headerlink" title="Mac写入Windows(NTFS)"></a>Mac写入Windows(NTFS)</h3><h4 id="第一步：查看磁盘设备文件名"><a href="#第一步：查看磁盘设备文件名" class="headerlink" title="第一步：查看磁盘设备文件名"></a>第一步：查看磁盘设备文件名</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">diskutil list</span><br></pre></td></tr></table></figure>
+
+<p>可以看到移动硬盘被挂载了disk2的位置上，其中Windows磁盘<strong>设备文件名</strong>为<strong>disk2s1</strong></p>
+<h4 id="第二步：新建挂载点"><a href="#第二步：新建挂载点" class="headerlink" title="第二步：新建挂载点"></a>第二步：新建挂载点</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir ~/Desktop/Windows</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三步：推出磁盘（重新挂载）"><a href="#第三步：推出磁盘（重新挂载）" class="headerlink" title="第三步：推出磁盘（重新挂载）"></a>第三步：推出磁盘（重新挂载）</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo umount /dev/disk2s1</span><br></pre></td></tr></table></figure>
+
+<h4 id="第四步：重新挂载"><a href="#第四步：重新挂载" class="headerlink" title="第四步：重新挂载"></a>第四步：重新挂载</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mount_ntfs -o rw,nobrowse /dev/disk2s1 ~/Desktop/Windows</span><br></pre></td></tr></table></figure>
+
+<p>磁盘可以正常读写了！！！</p>
+<p>或者</p>
+<p>更新fstab文件，此步骤需要输入密码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo nano /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<p>在fstab文件中写入一下内容(movie替换为你自己的Volume Name，建议用英文命名)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">LABEL=K none ntfs rw,auto,nobrowse</span><br></pre></td></tr></table></figure>
+
+<p>CTRL + X保存，选择 Y，然后按回车键。</p>
+<hr>
+<h3 id="Mac使用pptp"><a href="#Mac使用pptp" class="headerlink" title="Mac使用pptp"></a>Mac使用pptp</h3><p>macos 10.15+ 版本以后系统就删除了对PPTP的支持。</p>
+<p>在macos 10.15中被删除的文件是 <code>/usr/local/bin/pptp</code> 和 <code>/System/Library/Extensions/PPTP.ppp</code>。</p>
+<p>[下载pptp和PPTP.ppp]</p>
+<p>链接: <a href="https://pan.baidu.com/s/1lANcpclyTMJPZZLcgOpXFQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1lANcpclyTMJPZZLcgOpXFQ</a> 提取码: vbr9</p>
+<p>Mac OS X系统默认情况是开启了完整性保护（System Intregrity Protection，SIP）的，所以即使是root帐户也无法修改系统目录中的文件。为了能够修改受保护的文件，需要禁用保护功能。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1.重启电脑，按Command+R(直到出现苹果标志)进入Recovery Mode(恢复模式)</span><br><span class="line">2.选择用户&gt;下一步&gt;输入密码&gt;左上角&quot;实用工具&quot;&gt;终端</span><br><span class="line">3.在终端中输入csrutil disable命令回车。</span><br><span class="line">4.sudo cp -R PPTP.ppp /System/Library/Extensions</span><br><span class="line">	sudo cp -R pptp /usr/local/bin/pptp</span><br><span class="line">	拷贝文件到相应目录</span><br><span class="line">5.csrutil enable（启用完整性保护）</span><br></pre></td></tr></table></figure>
+
+<p>进入 /etc/ppp/peers/ 目录，创建 nmk.vpn，此文件名自己取；</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd /etc/ppp/peers</span><br><span class="line">sudo vim nmk.vpn</span><br><span class="line">内容为以下代码:</span><br><span class="line"></span><br><span class="line">plugin PPTP.ppp</span><br><span class="line">noauth</span><br><span class="line">remoteaddress &quot;------VPN server name or IP address------&quot;</span><br><span class="line">user &quot;------VPN username------&quot;</span><br><span class="line">password &quot;------VPN password------&quot;</span><br><span class="line">redialcount 1</span><br><span class="line">redialtimer 5</span><br><span class="line">idle 1800</span><br><span class="line"># mru 1368</span><br><span class="line"># mtu 1368</span><br><span class="line">receive-all</span><br><span class="line">novj 0:0</span><br><span class="line">ipcp-accept-local</span><br><span class="line">ipcp-accept-remote</span><br><span class="line">refuse-eap</span><br><span class="line">refuse-pap</span><br><span class="line">refuse-chap-md5</span><br><span class="line">hide-password</span><br><span class="line">mppe-stateless</span><br><span class="line">mppe-128</span><br><span class="line"># require-mppe-128</span><br><span class="line">looplocal</span><br><span class="line">nodetach</span><br><span class="line">ms-dns 8.8.8.8</span><br><span class="line">usepeerdns</span><br><span class="line"># ipparam gwvpn</span><br><span class="line">defaultroute</span><br><span class="line">debug</span><br></pre></td></tr></table></figure>
+
+<p>连接vpn</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pppd call nmk.vpn</span><br></pre></td></tr></table></figure>
+
+<p>断开vpn</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo pkill pppd</span><br><span class="line">#此处注意使用pkill,实测kill-9 杀掉进程后,网络断开,使用pkill网络正常</span><br><span class="line"> 百度得知pkill为ps和kill的结合,但具体差异未知请使用pkill结束进程</span><br></pre></td></tr></table></figure>
+
+<p>报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">MPPE required but peer negotiation failed</span><br><span class="line">解决方案:注释掉nmk.vpn中的</span><br><span class="line">			mppe-stateless</span><br><span class="line">			mppe-128</span><br><span class="line">LCP terminated by peer (MPPE required but peer refused)</span><br><span class="line">解决方案:取消注释或添加 nmk.vpn中的require-mppe-128</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mac卸载程序清除残留文件"><a href="#Mac卸载程序清除残留文件" class="headerlink" title="Mac卸载程序清除残留文件"></a>Mac卸载程序清除残留文件</h3><p>卸载某些应用程序后会留下一些预置文件和缓存等，一般这些文件没有潜在坏处，但是你可以删除它们来彻底跟该应用程序说拜拜。这些文件通常位于以下路径：</p>
+<p>~/Library/Application Support/(应用程序名称)<br>~/Library/Preferences/(应用程序名称)<br>~/Library/Caches/(应用程序名称)</p>
+<p>注：有时你会需要寻找开发商名称，而不是应用程序的名称，因为并不是所有的应用程序文件都是由它们的名称标识出来的。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/macOS/"># macOS</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/07/01/lftp/">lftp</a>
+            
+            
+            <a class="next" rel="next" href="/2020/05/21/expect/">expect</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

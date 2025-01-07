@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>消息队列</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">消息队列</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2020-10-17&nbsp;&nbsp;16:38</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="Redis发布订阅与rabbitmq的区别"><a href="#Redis发布订阅与rabbitmq的区别" class="headerlink" title="Redis发布订阅与rabbitmq的区别"></a>Redis发布订阅与rabbitmq的区别</h3><p>　　Redis是一个高性能的key-value数据库，它的出现很大程度补偿了memcached这类key-value存储的不足。虽然它是一个数据库系统，但本身支持MQ功能，完全可以当做一个轻量级的队列服务器使用。</p>
+<p>　　不过，Redis只是提供一个高性能的、原子操作内存键值队，具有高速访问能力，虽可用做消息队列的存储，但是不具备消息队列的任何功能和逻辑，要作做为消息队列来实现的话，功能和逻辑要通过上层应用自己实现。</p>
+<p>　　Redis从2.0版本开始支持发布/订阅指令，发布者调用redis的publish方法往特定的channel发送消息，订阅者在初始化的时候要订阅到该channel，一旦有消息就会立即接收。</p>
+<p>　　Redis 消息推送（基于分布式 pub/sub）多用于实时性较高的消息推送，并不保证可靠。redis-pub/sub断电就清空，而使用redis-list作为消息推送虽然有持久化，但是也并非完全可靠不会丢。其他的mq和kafka保证可靠但有一些延迟（非实时系统没有保证延迟）。</p>
+<p>　　另外一点，redis 发布订阅除了表示不同的 topic 外，并不支持分组。但kafka是支持分组的，比如kafka中发布一个东西，多个订阅者可以分组，同一个组里只有一个订阅者会收到该消息，而这个可以用作负载均衡。</p>
+<p><strong>1. 可靠性</strong></p>
+<p>　　redis ：没有相应的机制保证消息的可靠消费，如果发布者发布一条消息，而没有对应的订阅者的话，这条消息将丢失，不会存在内存中；</p>
+<p>　　rabbitmq：具有消息消费确认机制，如果发布一条消息，还没有消费者消费该队列，那么这条消息将一直存放在队列中，直到有消费者消费了该条消息，以此可以保证消息的可靠消费。</p>
+<p><strong>2. 实时性</strong></p>
+<p>　　redis:实时性高，redis作为高效的缓存服务器，所有数据都存在内存中，所以它具有更高的实时性</p>
+<p><strong>3. 消费者负载均衡：</strong></p>
+<p>　　rabbitmq队列可以被多个消费者同时监控消费，但是每一条消息只能被消费一次，由于rabbitmq的消费确认机制，因此它能够根据消费者的消费能力而调整它的负载；</p>
+<p>　　redis发布订阅模式，一个队列可以被多个消费者同时订阅，当有消息到达时，会将该消息依次发送给每个订阅者，她是一种消息的广播形式，redis本身不做消费者的负载均衡，因此消费效率存在瓶颈；</p>
+<p><strong>4. 持久性</strong></p>
+<p>　　redis：redis的持久化是针对于整个redis缓存的内容，它有RDB和AOF两种持久化方式（redis持久化方式，后续更新），可以将整个redis实例持久化到磁盘，以此来做数据备份，防止异常情况下导致数据丢失。</p>
+<p>　　rabbitmq：队列，每条消息都可以选择性持久化，持久化粒度更小，更灵活；</p>
+<p><strong>5. 队列监控</strong></p>
+<p>　　rabbitmq实现了后台监控平台，可以在该平台上看到所有创建的队列的详细情况，良好的后台管理平台可以方面我们更好的使用；</p>
+<p>　　redis没有所谓的监控平台。</p>
+<p><strong>6. 性能</strong></p>
+<blockquote>
+<p>性能上，对于RabbitMQ和Redis的入队和出队操作，各执行100万次，每10万次记录一次执行时间。测试数据分为128Bytes、512Bytes、1K和10K四个不同大小的数据。实验表明：入队时，当数据比较小时Redis的性能要高于RabbitMQ，而如果数据大小超过了10K，Redis则慢的无法忍受；出队时，无论数据大小，Redis都表现出非常好的性能，而RabbitMQ的出队性能则远低于Redis。</p>
+</blockquote>
+<p><strong>总结</strong></p>
+<p>　　redis： 轻量级，低延迟，高并发，低可靠性；</p>
+<p>　　rabbitmq：重量级，高可靠，异步，不保证实时；</p>
+<p>　　rabbitmq是一个专门的AMQP协议队列，他的优势就在于提供可靠的队列服务，并且可做到异步，而redis主要是用于缓存的，redis的发布订阅模块，可用于实现及时性，且可靠性低的功能。</p>
+<h3 id="Redis的高可用"><a href="#Redis的高可用" class="headerlink" title="Redis的高可用"></a>Redis的高可用</h3><h5 id="单机持久化"><a href="#单机持久化" class="headerlink" title="单机持久化"></a>单机持久化</h5><p>众所周知，放在内存中的数据是不稳定的。为了解决因为系统或者 Redis 重启造成的数据丢失问题。 Redis 提供了两种数据持久化方案。</p>
+<ol>
+<li>快照备份把 Redis 数据库中的数据，定时备份到磁盘中。当数据库重启的时候，可以通过定时备份到磁盘文件中的快照文件进行数据恢复。这样 Redis 既保证了数据的读写速度，又保证了数据的高可用。</li>
+<li>AOF 同步写快照备份有个缺点，就是会丢失一部分数据。比如在新的快照文件生成之前，系统发生了问题，那么最近一次快照之后的数据将丢失。 Redis 为了解决这个问题，提出了 AOF 解决方案。所谓的 AOF 就是将每次写入数据的命令都以追加的方式记录到文件中。这样在系统出问题的时候，只要将这个文件中的命令全部重放一下就OK了。这样就可以做到不丢数了。</li>
+</ol>
+<p>但是如果数据写入操作太多的话，会造成 AOF 文件过大，为了解决这个问题 Redis 提供了 AOF 自动压缩功能，以及去重功能，这样可以达到对文件体积大小进行优化的目的。</p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p1-tt.byteimg.com/origin/dfic-imagehandler/361414f0-7aa1-4e4a-8154-860a804633bd?from=pc&quot;" target="_blank" rel="noopener">https://p1-tt.byteimg.com/origin/dfic-imagehandler/361414f0-7aa1-4e4a-8154-860a804633bd?from=pc&quot;</a> /&gt;</p>
+<h5 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h5><p>上面的两种持久化方案，对于单节点 Redis 来说，基本已经够用了。但是我们的系统总是越做越大，要求越来越多。有的时候单节点 Redis 往往撑不住系统的访问量。这种情况下 Redis 提供了主从模式。</p>
+<p>所谓的主从模式就是一个主节点，负责读和写，一个从节点，负责将主节点的数据同步到从节点，这样主从节点信息就是一致的。</p>
+<p>注意：从节点不支持写操作，但是可以支持读操作。当其中任意一个点挂掉之后，数据不会损失。而且可以将读的压力分散到多个节点，支持更大的访问量。</p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p1-tt.byteimg.com/origin/dfic-imagehandler/8a165be2-6ee2-4f78-ad94-4adfa63df06e?from=pc&quot;" target="_blank" rel="noopener">https://p1-tt.byteimg.com/origin/dfic-imagehandler/8a165be2-6ee2-4f78-ad94-4adfa63df06e?from=pc&quot;</a> /&gt;</p>
+<h5 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h5><p>对于主从模式，这里有个最大的痛点。当主节点挂掉后，从节点是不会自动升级为主节点的。也就是负责往 Redis 写入的程序会报错，但是读操作不会有问题。这一点不太符合高可用的要求。为了解决发生故障，主节点自动切换的问题， Redis 又给大家提供了哨兵模式。</p>
+<p>所谓的哨兵模式就是，提供三个哨兵节点（同样是 Redis 实例，只不过不存储数据），来监控主从模式下的所有 Redis 节点（真正存储数据的节点）。客户端程序通过哨兵节点获取主节点信息。当主节点挂掉后，哨兵节点会自动将其中一个从节点升级为主节点，提供给客户端程序执行写入操作。当发生故障的主节点恢复后，会自动变为新的主节点的从节点。</p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p1-tt.byteimg.com/origin/dfic-imagehandler/c9979631-d064-4d1a-b351-1186927e555d?from=pc&quot;" target="_blank" rel="noopener">https://p1-tt.byteimg.com/origin/dfic-imagehandler/c9979631-d064-4d1a-b351-1186927e555d?from=pc&quot;</a> /&gt;</p>
+<h5 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式"></a>集群模式</h5><p>大家可能发现了，无论是主从复制模式，还是哨兵模式都没有解决分布式写的问题，也就是说到目前为止，所有的方案都只能往一个节点写数据，数据存储能力受单节点限制。哨兵模式仅仅解决了主从复制模式下，发生故障后不能自动切换的问题。</p>
+<p>为了解决分布式写的问题， Redis 提供了集群功能。</p>
+<p>Redis 集群可以实现分布式写。集群中的节点分为主节点和从节点。主节点负责数据的读写以及集群信息的维护，从节点负责同步主节点的信息。</p>
+<p>Redis 集群利用数据分片的概念，将要操作的 Key 进行哈希计算，根据得到的结果决定这个 Key 应该存储到那个主节点。这样就可以利用多个主节点进行分布式写操作。进行读操作的时候也会先计算 Key 的哈希值，然后找到对应的主节点。</p>
+<p>![在高可用这条路上你知道Redis有多努力吗](<a href="https://p6-tt.byteimg.com/origin/dfic-imagehandler/d4ad50a3-4fb2-4ad1-942a-cc81e6d5a014?from=pc&quot;" target="_blank" rel="noopener">https://p6-tt.byteimg.com/origin/dfic-imagehandler/d4ad50a3-4fb2-4ad1-942a-cc81e6d5a014?from=pc&quot;</a> /&gt;</p>
+<p>很遗憾的是，集群模式也不是百分百完美，比如 key 的批量操作会受限制，只有当操作的 key都位于一个槽位时才能进行操作。 还有 Keys 操作，只能在任一节点发生，不能 跨 节点。 其实这些所有缺点，都是因为分布式写造成的，因为你把数据分别存到了不同的 Redis 节点</p>
+<h3 id="RabbitMQ的高可用"><a href="#RabbitMQ的高可用" class="headerlink" title="RabbitMQ的高可用"></a>RabbitMQ的高可用</h3><p>rabbitmq有三种模式：<strong>单机模式，普通集群模式，镜像集群模式</strong></p>
+<ul>
+<li>普通集群模式：多台机器部署，每个机器放一个rabbitmq实例，但是创建的queue只会放在一个rabbitmq实例上，每个实例同步queue的元数据。如果消费时连的是其他实例，那个实例会从queue所在实例拉取数据。这就会导致拉取数据的开销，如果那个放queue的实例宕机了，那么其他实例就无法从那个实例拉取，即便开启了消息持久化，让rabbitmq落地存储消息的话，消息不一定会丢，但得等这个实例恢复了，然后才可以继续从这个queue拉取数据，这就没什么高可用可言，主要是提供吞吐量，让集群中多个节点来服务某个queue的读写操作。</li>
+<li>镜像集群模式：queue的元数据和消息都会存放在多个实例，每次写消息就自动同步到多个queue实例里。这样任何一个机器宕机，其他机器都可以顶上，但是性能开销太大，消息同步导致网络带宽压力和消耗很重，另外，没有扩展性可言，如果queue负载很重，加机器，新增的机器也包含了这个queue的所有数据，并没有办法线性扩展你的queue。此时，需要开启镜像集群模式，在rabbit管理控制台新增一个策略，将数据同步到指定数量的节点，然后你再次创建queue的时候，应用这个策略，就会自动将数据同步到其他的节点上去了</li>
+</ul>
+<h3 id="Kafka、ActiveMQ、RabbitMQ、RocketMQ-优缺点"><a href="#Kafka、ActiveMQ、RabbitMQ、RocketMQ-优缺点" class="headerlink" title="Kafka、ActiveMQ、RabbitMQ、RocketMQ 优缺点"></a>Kafka、ActiveMQ、RabbitMQ、RocketMQ 优缺点</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单机吞吐量</td>
+<td>万级，比 RocketMQ、Kafka 低一个数量级</td>
+<td>同 ActiveMQ</td>
+<td>10 万级，支撑高吞吐</td>
+<td>10 万级，高吞吐，一般配合大数据类的系统来进行实时数据计算、日志采集等场景</td>
+</tr>
+<tr>
+<td>topic 数量对吞吐量的影响</td>
+<td></td>
+<td></td>
+<td>topic 可以达到几百/几千的级别，吞吐量会有较小幅度的下降，这是 RocketMQ 的一大优势，在同等机器下，可以支撑大量的 topic</td>
+<td>topic 从几十到几百个时候，吞吐量会大幅度下降，在同等机器下，Kafka 尽量保证 topic 数量不要过多，如果要支撑大规模的 topic，需要增加更多的机器资源</td>
+</tr>
+<tr>
+<td>时效性</td>
+<td>ms 级</td>
+<td>微秒级，这是 RabbitMQ 的一大特点，延迟最低</td>
+<td>ms 级</td>
+<td>延迟在 ms 级以内</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高，基于主从架构实现高可用</td>
+<td>同 ActiveMQ</td>
+<td>非常高，分布式架构</td>
+<td>非常高，分布式，一个数据多个副本，少数机器宕机，不会丢失数据，不会导致不可用</td>
+</tr>
+<tr>
+<td>消息可靠性</td>
+<td>有较低的概率丢失数据</td>
+<td>基本不丢</td>
+<td>经过参数优化配置，可以做到 0 丢失</td>
+<td>同 RocketMQ</td>
+</tr>
+<tr>
+<td>功能支持</td>
+<td>MQ 领域的功能极其完备</td>
+<td>基于 erlang 开发，并发能力很强，性能极好，延时很低</td>
+<td>MQ 功能较为完善，还是分布式的，扩展性好</td>
+<td>功能较为简单，主要支持简单的 MQ 功能，在大数据领域的实时计算以及日志采集被大规模使用</td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/rabbitmq/"># rabbitmq</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/11/30/Windows软件/">Windows软件</a>
+            
+            
+            <a class="next" rel="next" href="/2020/10/17/Kunbernetes自动化部署/">Kunbernetes自动化部署</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>

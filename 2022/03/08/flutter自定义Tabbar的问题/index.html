@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>Flutter自定义Tabbar的长度</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Flutter自定义Tabbar的长度</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2022-03-08&nbsp;&nbsp;14:21</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>效果:用户可自定义Tabbar的长度和排序,通过滑动或点击Tabbar进行请求接口渲染不同的页面</p>
+<p>问题:让用户自定义Tabbar的长度,当用户删除Tabbar的一项时出现报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Controller&apos;s length property (5) does not match the number of tabs (4) prese</span><br></pre></td></tr></table></figure>
+
+<p>代码为:</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">TabController tabController;  </span><br><span class="line">  </span><br><span class="line"><span class="meta">@override</span>  </span><br><span class="line"><span class="keyword">void</span> initState() &#123;  </span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> implement initState  </span></span><br><span class="line">  <span class="keyword">super</span>.initState(); </span><br><span class="line"> tabController = TabController(  </span><br><span class="line">      length: websiteList.length, vsync: <span class="keyword">this</span>);  </span><br><span class="line">  tabController..addListener(() &#123;  </span><br><span class="line">    <span class="keyword">if</span>(tabController.indexIsChanging)&#123;  </span><br><span class="line">      <span class="built_in">print</span>(tabController.index.toString());  </span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;);  </span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span>  </span><br><span class="line">Widget build(BuildContext context) &#123;  </span><br><span class="line">  <span class="keyword">return</span> Scaffold(  </span><br><span class="line">      appBar: AppBar(  </span><br><span class="line">        bottom: TabBar(  </span><br><span class="line">              indicatorColor: Color(<span class="number">0xFFFE1483</span>),  </span><br><span class="line">              labelColor: Color(<span class="number">0xFFFE1483</span>),  </span><br><span class="line">              controller: tabController,  </span><br><span class="line">              unselectedLabelColor: Colors.black54,  </span><br><span class="line">              isScrollable: <span class="keyword">true</span>,  </span><br><span class="line">              indicatorSize: TabBarIndicatorSize.label,  </span><br><span class="line">              tabs: TabList()),  </span><br><span class="line">        ),</span><br><span class="line">      body: TabBarView(  </span><br><span class="line">        controller: tabController,  </span><br><span class="line">        children: CardList(),  </span><br><span class="line">      ),);</span><br></pre></td></tr></table></figure>
+
+<p>initState(){}只初始化一次,当用户删除websiteList中的值时,websiteList.length发生变化,用户再次进入该界面就会出现报错<br>解决:</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="meta">@override</span>  </span><br><span class="line"><span class="keyword">void</span> initState() &#123;  </span><br><span class="line">  <span class="comment">// <span class="doctag">TODO:</span> implement initState  </span></span><br><span class="line">  <span class="keyword">super</span>.initState();  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@override</span>  </span><br><span class="line">Widget build(BuildContext context) &#123;  </span><br><span class="line">  <span class="keyword">return</span> DefaultTabController(  </span><br><span class="line">    length: websiteList.length,  </span><br><span class="line">    child: Builder(  </span><br><span class="line">      builder: (BuildContext context)&#123;  </span><br><span class="line">        <span class="keyword">final</span> TabController tabController = DefaultTabController.of(context);  </span><br><span class="line">        tabController.addListener(() &#123;   </span><br><span class="line"> <span class="keyword">if</span> (tabController.index.toDouble() ==  </span><br><span class="line">                tabController.animation.value) &#123;  </span><br><span class="line">              <span class="built_in">print</span>(tabController.index.toString());  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;);  </span><br><span class="line">        <span class="keyword">return</span> Scaffold(  </span><br><span class="line">          appBar: AppBar(  </span><br><span class="line">            elevation: <span class="number">2</span>,  </span><br><span class="line">            bottom: TabBar(  </span><br><span class="line">                  indicatorColor: Color(<span class="number">0xFFFE1483</span>),  </span><br><span class="line">                  labelColor: Color(<span class="number">0xFFFE1483</span>),  </span><br><span class="line">                  unselectedLabelColor: Colors.black54,  </span><br><span class="line">                  isScrollable: <span class="keyword">true</span>,  </span><br><span class="line">                  indicatorSize: TabBarIndicatorSize.label,  </span><br><span class="line">                  tabs: TabList()),  </span><br><span class="line">            ),  </span><br><span class="line">          body: TabBarView(  </span><br><span class="line">            children: CardList(),  </span><br><span class="line">          ),  </span><br><span class="line">        );  </span><br><span class="line">      &#125;,  </span><br><span class="line">    )  </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>通过DefaultTabController解决因websiteList发生变化出现的问题,通过Builder()进行监听用户是否点击和滑动tabbar,即可解决问题</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/flutter/"># flutter</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/03/08/flutter更新状态无效/">Flutter中使用SetState无效</a>
+            
+            
+            <a class="next" rel="next" href="/2022/01/18/ADB卸载系统自带软件/">adb卸载系统自带软件</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
