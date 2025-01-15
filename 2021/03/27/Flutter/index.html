@@ -584,7 +584,6 @@
         codeBlocks.forEach(function (codeBlock) {
             var copyButton = document.createElement('button');
             copyButton.className = 'copy-button';
-            copyButton.innerText = 'Copy';
 
             // Check if the code block is in the article content
             if (codeBlock.closest('article')) {
@@ -597,10 +596,8 @@
                     if (!isCopying) {
                         var codeText = codeBlock.innerText;
                         navigator.clipboard.writeText(codeText).then(function () {
-                            copyButton.innerText = 'Copied!';
                             isCopying = true;
                             setTimeout(function () {
-                                copyButton.innerText = 'Copy';
                                 isCopying = false;
                             }, 1500);
                         }).catch(function (err) {

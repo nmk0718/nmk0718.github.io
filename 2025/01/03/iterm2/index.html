@@ -258,7 +258,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/01/04/油猴脚本屏蔽腾讯云广告/">油猴脚本屏蔽腾讯云广告</a>
+                <a class="prev" rel="prev" href="/2025/01/04/Tampermonkey屏蔽腾讯云广告/">Tampermonkey屏蔽腾讯云广告</a>
             
             
             <a class="next" rel="next" href="/2024/12/24/Windows热点共享/">Windows热点共享</a>
@@ -307,7 +307,6 @@
         codeBlocks.forEach(function (codeBlock) {
             var copyButton = document.createElement('button');
             copyButton.className = 'copy-button';
-            copyButton.innerText = 'Copy';
 
             // Check if the code block is in the article content
             if (codeBlock.closest('article')) {
@@ -320,10 +319,8 @@
                     if (!isCopying) {
                         var codeText = codeBlock.innerText;
                         navigator.clipboard.writeText(codeText).then(function () {
-                            copyButton.innerText = 'Copied!';
                             isCopying = true;
                             setTimeout(function () {
-                                copyButton.innerText = 'Copy';
                                 isCopying = false;
                             }, 1500);
                         }).catch(function (err) {

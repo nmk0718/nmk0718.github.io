@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>OpenTelemetry</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">OpenTelemetry</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-01-14&nbsp;&nbsp;11:09</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>OpenTelemetry（简称OTel）是一个开源可观测性框架，用于仪表化、生成、收集和导出诸如跟踪、度量、日志等遥测数据<br><image src="https://opentelemetry.io/docs/collector/img/otel-collector.svg" alt="Collector"></image></p>
+<p>部署参考文档：<br><a href="https://opentelemetry.io/zh/docs" target="_blank" rel="noopener">https://opentelemetry.io/zh/docs</a><br><a href="https://www.zhihu.com/question/545762884/answer/3323681028" target="_blank" rel="noopener">https://www.zhihu.com/question/545762884/answer/3323681028</a></p>
+<h3 id="Instrumentation"><a href="#Instrumentation" class="headerlink" title="Instrumentation"></a>Instrumentation</h3><p>Instrumentation 是 OpenTelemetry 中用于对应用程序进行监控和数据收集。它包括手动仪表化（Manual Instrumentation）和自动仪表化（Automatic Instrumentation）两种方式。通过 Instrumentation，开发人员可以将应用程序的运行数据（如追踪、指标、日志）收集并发送到后端系统进行分析和可视化。</p>
+<ol>
+<li>手动仪表化：<ul>
+<li>开发者通过在代码中显式地添加 OpenTelemetry API 调用，来创建和管理追踪、指标等遥测数据。</li>
+<li>可以对应用程序的特定部分进行详细的监控和分析，获取更深入的性能和行为信息。</li>
+<li>在关键的业务逻辑处手动创建 span 来记录操作的开始和结束时间，从而精确地监控特定代码段的执行情况。</li>
+</ul>
+</li>
+<li>自动仪表化：<ul>
+<li>无需修改应用程序源代码，通过特定的机制（如字节码注入、代理等）自动对应用程序中的各种库、框架等进行监控，收集遥测数据。</li>
+<li>减少手动添加监控代码的工作量，快速为应用程序添加基本的监控能力。例如，OpenTelemetry 的 Java 自动仪表化可以通过一个 agent 自动收集日志、指标、trace 并上报。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Collector"><a href="#Collector" class="headerlink" title="Collector"></a>Collector</h3><p>Collector 是一个开源的、可扩展的代理，用于接收、处理和导出遥测数据（如 traces、metrics 和 logs）。它提供了一种厂商中立的方式来收集、处理和导出遥测数据，消除了运行、操作和维护多个代理/收集器的需要。</p>
+<h4 id="Deployment"><a href="#Deployment" class="headerlink" title="Deployment"></a>Deployment</h4><p>在不修改应用程序代码的情况下，收集和处理遥测数据。</p>
+<ol>
+<li>Agent：<ul>
+<li>部署方式：每个客户端SDK或下游采集器都配置一个collector。收集器实例与应用程序在同一主机上运行，例如sidecar或者daemonset方式。</li>
+<li>工作方式：应用程序中的SDK以OTLP协议发送遥测数据给collector。然后collector处理遥测数据并对接到可观测性后端。<image src="https://opentelemetry.io/zh/docs/collector/img/otel-agent-sdk.svg" alt="Agent形态"></image></li>
+</ul>
+</li>
+<li>Gateway：<ul>
+<li>部署方式：使用开箱即用的负载均衡器（比如nginx）在otel-collector之间分配负载。</li>
+<li>工作方式：应用程序中的SDK以OTLP协议发送遥测数据给负载均衡器，负载均衡器根据算法选择其中一个collector实例进行处理并对接到可观测性后端<image src="https://opentelemetry.io/zh/docs/collector/img/otel-gateway-sdk.svg" alt="Gateway形态">
+
+</image></li>
+</ul>
+</li>
+</ol>
+<h4 id="Pipeline-components"><a href="#Pipeline-components" class="headerlink" title="Pipeline components"></a>Pipeline components</h4><ul>
+<li><p>receiver：负责按照对应的协议格式监听接收遥测数据，并把数据转给一个或者多个processor。</p>
+</li>
+<li><p>processor：负责做遥测数据加工处理，如丢弃数据，增加信息，转批处理等，并把数据传递给下一个processor或者传递给一个或多个exporter。</p>
+</li>
+<li><p>exporter：负责把数据往下一个接收端发送（一般是遥测后端），exporter可以定义同时从多个不同的processor中获取遥测数据。</p>
+</li>
+</ul>
+<p>Collector 除了提供让遥测数据收集与业务逻辑处理正交的能力，还充当了遥测数据对接遥测后端的适配器。Collector可以接收 Otlp、Zipkin、Jaeger等任意格式的数据，然后以 Otlp、Zipkin、Jaeger等任意格式的数据转发出去。这一切只取决于你需要输入或输出的格式是否有对应的 receiver 和 exporter 实现</p>
+<h3 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h3><h4 id="Jaeger"><a href="#Jaeger" class="headerlink" title="Jaeger"></a>Jaeger</h4><p>为了便于演示这里使用  jaegertracing/all-in-one 镜像来部署 Jaeger，这个镜像包含了 Jaeger 收集器、内存存储、查询服务和 UI 等组件，非常适合开发和测试使用。通过环境变量 <code>COLLECTOR_OTLP_ENABLED</code> 启动对 OTLP（OpenTelemetry Protocol） 的支持。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="bullet">-</span> <span class="string">&lt;&lt;EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">jaeger</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">jaeger</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">jaeger</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">jaeger</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">jaegertracing/all-in-one:latest</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">COLLECTOR_OTLP_ENABLED</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">"true"</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">16686</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">14268</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">jaeger</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">jaeger</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">ClusterIP</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ui</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">16686</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">16686</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">collector</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">14268</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">14268</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">      <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">4318</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">4318</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">grpc</span></span><br><span class="line">      <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">4317</span></span><br><span class="line">      <span class="attr">targetPort:</span> <span class="number">4317</span>      </span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="​​OpenTelemetry-Operator"><a href="#​​OpenTelemetry-Operator" class="headerlink" title="​​OpenTelemetry Operator"></a>​​OpenTelemetry Operator</h4><p>OpenTelemetry Operator用于管理OpenTelemetry 收集器(OpenTelemetry Collectors)和工作负载的自动检测(auto-instrumentation)<br>安装OpenTelemetry Operator</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts</span><br><span class="line"></span><br><span class="line">helm install opentelemetry-operator open-telemetry/opentelemetry-operator \</span><br><span class="line">  --<span class="built_in">set</span> <span class="string">"manager.collectorImage.repository=otel/opentelemetry-collector-k8s"</span> \</span><br><span class="line">  --<span class="built_in">set</span> admissionWebhooks.certManager.enabled=<span class="literal">false</span> \</span><br><span class="line">  --<span class="built_in">set</span> admissionWebhooks.autoGenerateCert.enabled=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到对应的 Pod 已经正常运行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  ~ kubectl --namespace default get pods -l <span class="string">"app.kubernetes.io/name=opentelemetry-operator"</span></span><br><span class="line">NAME                                     READY   STATUS    RESTARTS   AGE</span><br><span class="line">opentelemetry-operator-f78f45ffc-sgns7   2/2     Running   0          2m44s</span><br></pre></td></tr></table></figure>
+
+<p>还会自动为我们添加OpenTelemetry 相关的 CRD：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  ~ kubectl get crd |grep opentelemetry</span><br><span class="line">instrumentations.opentelemetry.io                    2025-01-14T07:32:04Z</span><br><span class="line">opampbridges.opentelemetry.io                        2025-01-14T07:32:04Z</span><br><span class="line">opentelemetrycollectors.opentelemetry.io             2025-01-14T07:32:04Z</span><br></pre></td></tr></table></figure>
+
+<h4 id="OpenTelemetry-Collector"><a href="#OpenTelemetry-Collector" class="headerlink" title="OpenTelemetry Collector"></a>OpenTelemetry Collector</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="bullet">-</span> <span class="string">&lt;&lt;EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">opentelemetry.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">OpenTelemetryCollector</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">otel</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">config:</span> <span class="string">|</span></span><br><span class="line">    <span class="attr">receivers:</span></span><br><span class="line">      <span class="attr">otlp:</span></span><br><span class="line">        <span class="attr">protocols:</span></span><br><span class="line">          <span class="attr">grpc:</span></span><br><span class="line">          <span class="attr">http:</span></span><br><span class="line">    <span class="attr">processors:</span></span><br><span class="line">      <span class="attr">memory_limiter:</span></span><br><span class="line">        <span class="attr">check_interval:</span> <span class="string">1s</span></span><br><span class="line">        <span class="attr">limit_percentage:</span> <span class="number">75</span></span><br><span class="line">        <span class="attr">spike_limit_percentage:</span> <span class="number">15</span></span><br><span class="line">      <span class="attr">batch:</span></span><br><span class="line">        <span class="attr">send_batch_size:</span> <span class="number">10000</span></span><br><span class="line">        <span class="attr">timeout:</span> <span class="string">10s</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">exporters:</span></span><br><span class="line">      <span class="attr">debug:</span></span><br><span class="line">      <span class="attr">otlp/jaeger:</span></span><br><span class="line">        <span class="attr">endpoint:</span> <span class="string">"jaeger.default:4317"</span></span><br><span class="line">        <span class="attr">tls:</span></span><br><span class="line">          <span class="attr">insecure:</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">service:</span></span><br><span class="line">      <span class="attr">pipelines:</span></span><br><span class="line">        <span class="attr">traces:</span></span><br><span class="line">          <span class="attr">receivers:</span> <span class="string">[otlp]</span></span><br><span class="line">          <span class="attr">processors:</span> <span class="string">[]</span></span><br><span class="line">          <span class="attr">exporters:</span> <span class="string">[debug,otlp/jaeger]</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>创建 CR OpenTelemetryCollector 后，Otel Operator 会创建一个 deployment 和 多个 service。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  ~</span><br><span class="line">kubectl get deployment,service -l app.kubernetes.io/component=opentelemetry-collector</span><br><span class="line"></span><br><span class="line">NAME                             READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/otel-collector   1/1     1            1           3m37s</span><br><span class="line"></span><br><span class="line">NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)             AGE</span><br><span class="line">service/otel-collector              ClusterIP   10.111.0.124     &lt;none&gt;        4317/TCP,4318/TCP   3m36s</span><br><span class="line">service/otel-collector-headless     ClusterIP   None             &lt;none&gt;        4317/TCP,4318/TCP   3m36s</span><br><span class="line">service/otel-collector-monitoring   ClusterIP   10.111.151.111   &lt;none&gt;        8888/TCP            3m36s</span><br></pre></td></tr></table></figure>
+
+<h4 id="Auto-instrumentation"><a href="#Auto-instrumentation" class="headerlink" title="Auto-instrumentation"></a>Auto-instrumentation</h4><p>创建一个Java 服务的基本检测资源</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="bullet">-</span> <span class="string">&lt;&lt;EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">opentelemetry.io/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Instrumentation</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">instrumentation-sample</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">propagators:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">tracecontext</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">baggage</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">b3</span></span><br><span class="line">  <span class="attr">sampler:</span></span><br><span class="line">    <span class="attr">type:</span> <span class="string">parentbased_traceidratio</span></span><br><span class="line">    <span class="attr">argument:</span> <span class="string">"1"</span></span><br><span class="line">  <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_EXPORTER_OTLP_ENDPOINT</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">otel-collector.default:4318</span></span><br><span class="line">  <span class="attr">java:</span>    </span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_EXPORTER_OTLP_ENDPOINT</span></span><br><span class="line">        <span class="attr">value:</span> <span class="string">http://otel-collector.default:4317</span>   </span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>​Instrumentation​​ 由以下属性组成：<br><code>​​exporter.endpoint​</code>​ -（可选）将遥测数据发送到 OTLP 格式的地址。<br><code>​​propagators</code>​​ - 使所有数据源能够共享底层上下文机制，用于在事务的整个生命周期中存储状态和访问数据。<br>​<code>​sampler</code>​​​ - 通过减少收集和发送到后端的跟踪样本数量来引入的噪音和开销的机制。 OpenTelemetry 提供两种类型：​​StaticSampler​​​ 和 ​TraceIDRatioBased​​。<br>语言属性，即​​java​​​、​​nodejs​​​、​​python​​​ 和​​dotnet​​ - 根据 pod 注解中设置的语言，使用自动插桩的自定义镜像</p>
+<p>默认情况下，自动检测 Java 服务的 Instrumentation 资源与协议otlp一起使用http/protobuf。这意味着配置的端点必须能够通过http有效protobuf负载接收 OTLP。因此，示例使用otel-collector.default:4318，它连接到 http上一步中创建的 Collector 的 otlpreceiver 的端口。</p>
+<p>创建java示例应用</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="bullet">-</span> <span class="string">&lt;&lt;EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">java-sample</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">java-sample</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">java-sample</span></span><br><span class="line">      <span class="attr">annotations:</span></span><br><span class="line">        <span class="comment">#spec.template.metadata.annotations特定于语言的注解来完成自动检测</span></span><br><span class="line">        <span class="attr">instrumentation.opentelemetry.io/inject-java:</span> <span class="string">"true"</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">java-sample</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">pinakispecial/spring-boot-rest</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8080</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
+<p>可用注解：<br>​<code>​true</code>​​ - 从命名空间注入和埋点资源。<br>​<code>​my-instrumentation​​</code>​ - 当前命名空间中注入​​Instrumentation​​ CR 实例的名称。<br>​<code>​my-other-namespace/my-instrumentation</code>​​​ - 另一个命名空间中​​Instrumentation​​ CR 实例的名称和命名空间。<br><code>​​false</code>​​ -不注入。</p>
+<p>可以看到 Otel Operator 向 Pod 中注入了一个 otel 的初始化容器</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  ~ kubectl get pod java-sample-6f688ffb4f-gq95j -o jsonpath=<span class="string">'&#123;.spec.initContainers[*].image&#125; &#123;.spec.containers[*].image&#125;'</span></span><br><span class="line">ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:1.33.6 pinakispecial/spring-boot-rest%</span><br></pre></td></tr></table></figure>
+
+<p>以及在 java 容器中注入了一系列的环境变量进行配置</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_NODE_IP</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">fieldRef:</span></span><br><span class="line">          <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">          <span class="attr">fieldPath:</span> <span class="string">status.hostIP</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_POD_IP</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">fieldRef:</span></span><br><span class="line">          <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">          <span class="attr">fieldPath:</span> <span class="string">status.podIP</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_EXPORTER_OTLP_ENDPOINT</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">http://otel-collector.default:4317</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">JAVA_TOOL_OPTIONS</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">' -javaagent:/otel-auto-instrumentation-java/javaagent.jar'</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_SERVICE_NAME</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">java-sample</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_RESOURCE_ATTRIBUTES_POD_NAME</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">fieldRef:</span></span><br><span class="line">          <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">          <span class="attr">fieldPath:</span> <span class="string">metadata.name</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_RESOURCE_ATTRIBUTES_NODE_NAME</span></span><br><span class="line">      <span class="attr">valueFrom:</span></span><br><span class="line">        <span class="attr">fieldRef:</span></span><br><span class="line">          <span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line">          <span class="attr">fieldPath:</span> <span class="string">spec.nodeName</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_PROPAGATORS</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">tracecontext,baggage,b3</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_TRACES_SAMPLER</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">parentbased_traceidratio</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_TRACES_SAMPLER_ARG</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">"1"</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">OTEL_RESOURCE_ATTRIBUTES</span></span><br><span class="line">      <span class="attr">value:</span> <span class="string">k8s.container.name=java-sample,k8s.deployment.name=java-sample,k8s.namespace.name=default,k8s.node.name=$(OTEL_RESOURCE_ATTRIBUTES_NODE_NAME),k8s.pod.name=$(OTEL_RESOURCE_ATTRIBUTES_POD_NAME),k8s.replicaset.name=java-sample-6f688ffb4f,service.instance.id=default.$(OTEL_RESOURCE_ATTRIBUTES_POD_NAME).java-sample</span></span><br></pre></td></tr></table></figure>
+
+<p>请求服务接口</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#开放Java服务的端口访问</span></span><br><span class="line">➜  ~ kubectl port-forward java-sample-6f688ffb4f-gq95j 8080:8080</span><br><span class="line">Forwarding from 127.0.0.1:8080 -&gt; 8080</span><br><span class="line">Forwarding from [::1]:8080 -&gt; 8080</span><br><span class="line"><span class="comment">#请求接口</span></span><br><span class="line">➜  ~ curl localhost:8080</span><br><span class="line">OK%</span><br><span class="line"></span><br><span class="line"><span class="comment">#开放Jaeger UI的端口访问</span></span><br><span class="line">➜  ~ kubectl port-forward svc/jaeger 16686:16686</span><br><span class="line">Forwarding from 127.0.0.1:16686 -&gt; 16686</span><br><span class="line">Forwarding from [::1]:16686 -&gt; 16686</span><br></pre></td></tr></table></figure>
+
+<p>访问 Jaeger UI 查看访问的链路信息<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="\image/JaegerUI.png"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/k8s/"># k8s</a>
+                    
+                        <a href="/tag/OpenTelemetry/"># OpenTelemetry</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/01/04/Tampermonkey屏蔽腾讯云广告/">Tampermonkey屏蔽腾讯云广告</a>
+            
+        </section>
+
+        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            isCopying = true;
+                            setTimeout(function () {
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
