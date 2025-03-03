@@ -11,7 +11,7 @@
 
 
 
-<title>容器内安装基础工具</title>
+<title>获取客户端真实IP</title>
 
 
 
@@ -180,14 +180,14 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">容器内安装基础工具</h1>
+            <h1 class="post-title">获取客户端真实IP</h1>
             
                 <div class="post-meta">
                     
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2024-07-22&nbsp;&nbsp;14:25</a>
+                        Date: <a href="#">2025-02-27&nbsp;&nbsp;17:32</a>
                         </span>
                     
                 </div>
@@ -195,49 +195,41 @@
         </header>
 
         <div class="post-content">
-            <p>使用openjdk:8和openjdk:11作为基础镜像构建业务镜像，但是使用中发现镜像里面没有ping、telnet等基础命令</p>
-<h3 id="在容器中使用"><a href="#在容器中使用" class="headerlink" title="在容器中使用:"></a>在容器中使用:</h3><h4 id="将源更换为清华源"><a href="#将源更换为清华源" class="headerlink" title="将源更换为清华源"></a>将源更换为清华源</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat &gt; /etc/apt/sources.list &lt;&lt; EOF</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free</span><br><span class="line">EOF</span><br></pre></td></tr></table></figure>
+            <p>在访问网站时，会有以下几种方式访问到实际的后端服务，可忽略WAF，本文主要讲解如何把真实IP转发给后端</p>
+<ul>
+<li>DNS &gt; WAF &gt; CLB &gt; Ingress &gt; backend-service</li>
+<li>DNS &gt; WAF &gt; CLB &gt; Nginx &gt; backend-service</li>
+<li>DNS &gt; WAF &gt; CLB &gt; backend-service</li>
+</ul>
+<h4 id="Nginx-Ingress"><a href="#Nginx-Ingress" class="headerlink" title="Nginx Ingress"></a>Nginx Ingress</h4><p>在 Kubernetes 中，应用通过 Nginx Ingress 接收请求，有以下两种方式可以获取到客户端的真实 IP</p>
+<ol>
+<li><p>修改 Nginx Ingress 的 ConfigMap</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-configuration</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">ingress-nginx</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">use-forwarded-headers:</span> <span class="string">"true"</span>  <span class="comment"># 启用 use-forwarded-headers</span></span><br><span class="line">  <span class="attr">compute-full-forwarded-for:</span> <span class="string">"true"</span>  <span class="comment"># 启用 compute-full-forwarded-for</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">apt-get clean</span><br><span class="line">apt-get update</span><br><span class="line">apt-get install -y curl telnet vim iputils-ping net-tools</span><br><span class="line"><span class="comment">#安装mysql</span></span><br><span class="line">apt install -y default-mysql-client</span><br></pre></td></tr></table></figure>
+<p>详解：<br><code>use-forwarded-headers</code>：Nginx Ingress 会信任 X-Forwarded-For 和 X-Forwarded-Proto 头部，将它们传递给后端服务。<br><code>compute-full-forwarded-for</code>：Nginx Ingress 会将客户端的真实 IP 信息完整地记录在 X-Forwarded-For 头部中。</p>
+<image src="https://qcloudimg.tencent-cloud.cn/image/document/7d017fe973aec9ad1f75659a3784db4e.jpeg"></image></li>
+<li><p>通过 Service 资源的配置选项保留客户端源 IP<br>修改Nginx Ingress Controller 的 Service</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">externalTrafficPolicy:</span> <span class="string">Local</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="Dockerfile中使用"><a href="#Dockerfile中使用" class="headerlink" title="Dockerfile中使用:"></a>Dockerfile中使用:</h4><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye main contrib non-free"</span> &gt;/etc/apt/sources.list </span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-updates main contrib non-free"</span> &gt;&gt;/etc/apt/sources.list </span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bullseye-backports main contrib non-free"</span> &gt;&gt;/etc/apt/sources.list </span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"deb https://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security main contrib non-free"</span> &gt;&gt;/etc/apt/sources.list</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  apt-get clean</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  apt-get update</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash">  apt-get install -y curl telnet vim iputils-ping net-tools</span></span><br></pre></td></tr></table></figure>
+<p>详解<br><code>Cluster</code>：表示隐藏客户端源 IP，LoadBalancer 和 NodePort 类型服务流量可能会被转发到其他节点的 Pods。<br><code>Local</code>：表示保留客户端源 IP 并避免 LoadBalancer 和 NodePort 类型的服务流量转发到其他节点的 Pods。<br>⚠️Local的缺点：会存在潜在的 Pods（Endpoints）流量负载不均衡风险。<br><a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/create-external-load-balancer/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/tasks/access-application-cluster/create-external-load-balancer/</a></p>
+<p>配置生效后，在后端获取 HTTP Header 中的 X-Forwarded-For 或 X-Real-IP 字段值得到客户端真实源 IP。</p>
+</li>
+</ol>
+<image src="https://qcloudimg.tencent-cloud.cn/image/document/302d5e26fc4a6d492a232b36d7034870.jpeg">
 
-<h3 id="alpine安装telnet、curl等命令"><a href="#alpine安装telnet、curl等命令" class="headerlink" title="alpine安装telnet、curl等命令"></a>alpine安装telnet、curl等命令</h3><p>很多镜像是使用alpine作为基础镜像，体积小，但apline精简了很多基础组件因此调试起来很麻烦，下方总结了常用的alpine组件安装方法：</p>
-<table>
-<thead>
-<tr>
-<th align="center">功能</th>
-<th align="center">命令</th>
-<th align="center">备注</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">镜像加速</td>
-<td align="center">sed -i ‘s/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g’ /etc/apk/repositories</td>
-<td align="center">将原装的alpine库替换成国内的ustc库</td>
-</tr>
-<tr>
-<td align="center">apk库更新</td>
-<td align="center">apk update</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">安装curl</td>
-<td align="center">apk add curl</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">安装telnet</td>
-<td align="center">apk add busybox-extras</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="center">偷懒N合1</td>
-<td align="center">sed -i ‘s/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g’ /etc/apk/repositories &amp;&amp; apk update &amp;&amp; apk add curl &amp;&amp; apk add busybox-extras</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
+<h4 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h4><p>增加http_realip_module模块，重新编译nginx</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> nginx-1.17.0</span><br><span class="line">./configure --prefix=/path/server/nginx --with-http_realip_module</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
+<p>vi /etc/nginx/nginx.conf</p>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">log_format</span> main <span class="string">'<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] "<span class="variable">$request</span>" '</span></span><br><span class="line">                <span class="string">'<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> "<span class="variable">$http_referer</span>" '</span></span><br><span class="line">                <span class="string">'"<span class="variable">$http_user_agent</span>" "<span class="variable">$http_x_forwarded_for</span>"'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#若代理的回源IP比较分散，或不清楚代理回源IP时，可以写成0.0.0.0/0，代表所有请求都从XFF中获取源IP</span></span><br><span class="line">    <span class="attribute">set_real_ip_from</span> <span class="number">10.0.0.0</span>/<span class="number">8</span>;  <span class="comment"># 假设 CLB 的 IP 段是 10.0.0.0/8</span></span><br><span class="line">    <span class="attribute">real_ip_recursive</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">real_ip_header</span> X-Forwarded-For;</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span> your_domain;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://backend;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">            <span class="comment">#把X-Forwarded-For 和 X-Real-IP 字段转发给后端</span></span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="CLB"><a href="#CLB" class="headerlink" title="CLB"></a>CLB</h4><p>使用云平台中的 CLB 直通 Pod 的转发功能（CLB 透传转发，并绕过 Kubernetes Service 流量转发），后端 Pods 收到的请求的源 IP 即为客户端真实源 IP<br>此方式适用于四层及七层服务的转发场景<br><image src="https://qcloudimg.tencent-cloud.cn/image/document/99f01ebf33d7a1ca525b9695395d7f8a.jpeg"></image></p>
+<p><del>废弃方案,使用后不生效</del></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: networking.k8s.io/v1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress</span><br><span class="line">  annotations:</span><br><span class="line">    # 启用 X-Forwarded-* 请求头的处理</span><br><span class="line">    nginx.ingress.kubernetes.io/use-forwarded-headers: &quot;true&quot;</span><br><span class="line">    # 指定从 X-Forwarded-For 请求头中获取真实 IP</span><br><span class="line">    nginx.ingress.kubernetes.io/real-ip-header: &quot;X-Forwarded-For&quot;</span><br><span class="line">    # 将请求头中的 IP 设置为客户端的真实 IP</span><br><span class="line">    nginx.ingress.kubernetes.io/set-real-ip-header: &quot;true&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="踩坑记录："><a href="#踩坑记录：" class="headerlink" title="踩坑记录："></a>踩坑记录：</h4><p>查看到log_format有启用，access_log 被注释掉了，但仍然有日志输出，日志一直打印不出来真实IP<br>原因：<br>Nginx 默认会生成 access.log 文件，即使在配置文件中没有显式指定 access_log 指令。默认情况下，Nginx 会将访问日志写入 logs/access.log 文件。<br>如果你在配置文件中注释掉了 access_log 指令，但没有完全禁用日志记录，Nginx 仍然会使用默认配置生成日志。<br>解决方案：<br>把access.log开启，重新reload即可</p>
+<p>参考文档：<br><a href="https://cloud.tencent.com/document/product/214/3728" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/214/3728</a><br><a href="https://cloud.tencent.com/document/product/457/48949" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/457/48949</a></p>
+</image>
         </div>
 
         
@@ -257,8 +249,6 @@
                     
                         <a href="/tag/k8s/"># k8s</a>
                     
-                        <a href="/tag/docker/"># docker</a>
-                    
                         
                 </span>
             </div>
@@ -270,10 +260,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/08/23/helm/">helm</a>
             
-            
-            <a class="next" rel="next" href="/2023/12/05/Ubuntu安装Docker和GPU驱动/">Ubuntu安装Docker和GPU驱动</a>
+            <a class="next" rel="next" href="/2025/01/14/OpenTelemetry/">OpenTelemetry</a>
             
         </section>
 
