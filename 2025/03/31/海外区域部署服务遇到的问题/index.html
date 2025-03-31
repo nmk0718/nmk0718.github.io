@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>海外区域部署服务遇到的问题</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/"></a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/"></a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">海外区域部署服务遇到的问题</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-03-31&nbsp;&nbsp;14:40</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>⚠️问题1：在海外部署应用时遇到，海外区域的镜像仓库没有SDK，无法通过内部发布平台推送<br>⚠️问题2：海外区域镜像仓库没有触发器功能</p>
+<h3 id="获取本地最新版本进行推送"><a href="#获取本地最新版本进行推送" class="headerlink" title="获取本地最新版本进行推送"></a>获取本地最新版本进行推送</h3><p>内部发布系统构建镜像后，没有变量声明，在推送镜像步骤中无法获取刚打包的镜像版本进行推送。<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="\image\qixiao-pipeline.png"><br>镜像打包的规则是分支+时间戳，编写脚本通过版本号进行时间排序，拿到最新镜像，进行推送</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">app=<span class="string">"nmk-base"</span></span><br><span class="line">docker images |grep <span class="variable">$app</span></span><br><span class="line"><span class="comment"># 获取镜像的最新版本号</span></span><br><span class="line">version=`docker images --format <span class="string">"&#123;&#123;.Repository&#125;&#125;:&#123;&#123;.Tag&#125;&#125;"</span> | grep <span class="variable">$app</span> | awk -F <span class="string">':release-'</span> <span class="string">'&#123;print $2&#125;'</span> | sort -nr | head -n 1 | awk <span class="string">'&#123;print "release-" $0&#125;'</span>`</span><br><span class="line"><span class="comment"># 登陆镜像仓库</span></span><br><span class="line">docker login -u nmk-p 29bsd2131 test.nmkapp.com</span><br><span class="line"><span class="comment"># 打tag</span></span><br><span class="line">docker tag <span class="variable">$app</span>:<span class="variable">$version</span> test.nmkapp.com/prod-app/<span class="variable">$app</span>:<span class="variable">$version</span></span><br><span class="line"><span class="comment"># 配置代理进行推送到海外镜像仓库</span></span><br><span class="line">HTTP_PROXY=<span class="string">"http://10.8.0.1:8118"</span> HTTPS_PROXY=<span class="string">"http://10.8.0.1:8118"</span> docker push test.nmkapp.com/prod-app/<span class="variable">$app</span>:<span class="variable">$version</span></span><br><span class="line">sleep 3</span><br><span class="line"><span class="comment"># 删除本地镜像</span></span><br><span class="line">docker rmi <span class="variable">$app</span>:<span class="variable">$version</span></span><br><span class="line">docker rmi test.nmkapp.com/prod-app/<span class="variable">$app</span>:<span class="variable">$version</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="通过curl请求服务更新镜像"><a href="#通过curl请求服务更新镜像" class="headerlink" title="通过curl请求服务更新镜像"></a>通过curl请求服务更新镜像</h3><p>让kimi帮我生成go的脚本，修改好的脚本main.go如下</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"encoding/json"</span></span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"io/ioutil"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">	<span class="string">"net/http"</span></span><br><span class="line">	<span class="string">"os/exec"</span></span><br><span class="line">	<span class="string">"strings"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// RequestData 定义请求的 JSON 数据结构</span></span><br><span class="line"><span class="keyword">type</span> RequestData <span class="keyword">struct</span> &#123;</span><br><span class="line">	Image      <span class="keyword">string</span> <span class="string">`json:"image"`</span></span><br><span class="line">	Deployment <span class="keyword">string</span> <span class="string">`json:"deployment"`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 启动 HTTP 服务，监听 8080 端口</span></span><br><span class="line">	http.HandleFunc(<span class="string">"/update-image"</span>, handleUpdateImage)</span><br><span class="line">	fmt.Println(<span class="string">"服务已启动，监听 8080 端口..."</span>)</span><br><span class="line">	log.Fatal(http.ListenAndServe(<span class="string">":8080"</span>, <span class="literal">nil</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// handleUpdateImage 处理 HTTP POST 请求</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">handleUpdateImage</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> &#123;</span><br><span class="line">	<span class="comment">// 检查请求方法是否为 POST</span></span><br><span class="line">	<span class="keyword">if</span> r.Method != http.MethodPost &#123;</span><br><span class="line">		http.Error(w, <span class="string">"仅支持 POST 请求"</span>, http.StatusMethodNotAllowed)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 读取请求体</span></span><br><span class="line">	body, err := ioutil.ReadAll(r.Body)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		http.Error(w, <span class="string">"读取请求体失败"</span>, http.StatusBadRequest)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> r.Body.Close()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 解析 JSON 数据</span></span><br><span class="line">	<span class="keyword">var</span> data RequestData</span><br><span class="line">	<span class="keyword">if</span> err := json.Unmarshal(body, &amp;data); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		http.Error(w, <span class="string">"解析 JSON 失败"</span>, http.StatusBadRequest)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 验证请求数据</span></span><br><span class="line">	<span class="keyword">if</span> data.Image == <span class="string">""</span> || data.Deployment == <span class="string">""</span> &#123;</span><br><span class="line">		http.Error(w, <span class="string">"请求参数不完整"</span>, http.StatusBadRequest)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 从 data.Image 中提取容器名称</span></span><br><span class="line">	imageParts := strings.Split(data.Image, <span class="string">":"</span>)</span><br><span class="line">	imagePath := imageParts[<span class="number">0</span>]</span><br><span class="line">	pathParts := strings.Split(imagePath, <span class="string">"/"</span>)</span><br><span class="line">	containerName := pathParts[<span class="built_in">len</span>(pathParts)<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 执行 kubectl set image 命令</span></span><br><span class="line">	cmd := exec.Command(<span class="string">"kubectl"</span>, <span class="string">"set"</span>, <span class="string">"image"</span>, <span class="string">"deployment/"</span>+data.Deployment, containerName+<span class="string">"="</span>+data.Image)</span><br><span class="line">	output, err := cmd.CombinedOutput()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// 如果命令执行失败，返回错误信息</span></span><br><span class="line">		http.Error(w, fmt.Sprintf(<span class="string">"执行 kubectl 命令失败: %s"</span>, <span class="keyword">string</span>(output)), http.StatusInternalServerError)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 返回成功响应</span></span><br><span class="line">	w.WriteHeader(http.StatusOK)</span><br><span class="line">	fmt.Fprintf(w, <span class="string">"镜像已更新为 %s，Deployment 名称: %s\n输出: %s"</span>, data.Image, data.Deployment, <span class="keyword">string</span>(output))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下载相关依赖</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> init update-image</span><br><span class="line"><span class="keyword">go</span> mod tidy</span><br></pre></td></tr></table></figure>
+
+<p>启动服务</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">go</span> run main.<span class="keyword">go</span></span><br><span class="line">服务已启动，监听 <span class="number">8080</span> 端口...</span><br></pre></td></tr></table></figure>
+
+<p>本地测试请求服务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">➜  ~ curl -X POST -H <span class="string">"Content-Type: application/json"</span> -d <span class="string">'&#123;"image":"test.nmkapp.com/prod-app/nginx:1.27","deployment":"nginx-deployment"&#125;'</span> http://localhost:8080/update-image</span><br><span class="line">镜像已更新为 test.nmkapp.com/prod-app/nginx:1.27，Deployment 名称: nginx-deployment</span><br><span class="line">输出: deployment.apps/nginx-deployment image updated</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看服务已经更新镜像</span></span><br><span class="line">➜  ~ kubectl get deployments.apps -o yaml |grep image:</span><br><span class="line">        - image: test.nmkapp.com/prod-app/nginx:1.27</span><br></pre></td></tr></table></figure>
+
+<p>打包出linux脚本</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">GOOS=linux GOARCH=amd64 <span class="keyword">go</span> build -o update-image</span><br></pre></td></tr></table></figure>
+
+<p>服务器端配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 安装Kubectl</span></span><br><span class="line">curl -LO <span class="string">"https://dl.k8s.io/release/<span class="variable">$(curl -L -s https://dl.k8s.io/release/stable.txt)</span>/bin/linux/amd64/kubectl"</span></span><br><span class="line">chmod +x kubectl</span><br><span class="line">mv -f kubectl /usr/<span class="built_in">local</span>/bin</span><br><span class="line">mkdir -p <span class="variable">$HOME</span>/.kube</span><br><span class="line"><span class="comment"># 配置kubeconfig</span></span><br><span class="line">mv -f kubeconfig <span class="variable">$HOME</span>/.kube/config</span><br><span class="line">kubectl config use-context internal</span><br></pre></td></tr></table></figure>
+
+<p>把打包出的update-image上传到服务器,启动服务</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">nohup ./update-image &amp;</span><br></pre></td></tr></table></figure>
+
+<p>配置公网elb转发到服务器内，并设置白名单<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="\image\huawei-elb-proxy.png"></p>
+<p>本地请求服务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X POST -H Content-Type: application/json -d &#123;<span class="string">"image"</span>:<span class="string">"test.nmkapp.com/prod-app/nmk-base:release-20250331154728"</span>,<span class="string">"deployment"</span>:<span class="string">"nmk-base"</span>&#125; http://181.71.101.211:8080/update-image</span><br><span class="line">% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0 100   297  100   181  100   116    314    201 --:--:-- --:--:-- --:--:--   314</span><br><span class="line">镜像已更新为 test.nmkapp.com/prod-app/nmk-base:release-20250331154728，Deployment 名称: nmk-base</span><br><span class="line">输出: deployment.apps/nmk-base image updated</span><br></pre></td></tr></table></figure>
+
+<p>查看是否更新完成<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="\image\huawei-pod.png"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/k8s/"># k8s</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/02/27/获取客户端真实IP/">获取客户端真实IP</a>
+            
+        </section>
+
+        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            isCopying = true;
+                            setTimeout(function () {
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
