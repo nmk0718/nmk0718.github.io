@@ -1648,12 +1648,12 @@ article .code pre code {
   font-size: 16px;
   margin-bottom: 8px;
   margin-left: 56px;
+  margin-right: 56px;
   color: #222;
 }
 .tweet-img {
   max-width: 90%;
   border-radius: 10px;
-  margin: 0 0 8px 56px;
   display: block;
 }
 .music-player {
