@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>Java应用平滑上线</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">kk&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/moments">Moments</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">kk&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/moments">Moments</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Java应用平滑上线</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-05-09&nbsp;&nbsp;10:30</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><blockquote>
+<p>服务更新上线或重启，网站会出现请求接口错误，单纯的靠k8s自带的健康检测是无法实现平滑上线，以下为平滑上线的解决方案</p>
+</blockquote>
+<h3 id="一、优雅停机的好处"><a href="#一、优雅停机的好处" class="headerlink" title="一、优雅停机的好处"></a>一、优雅停机的好处</h3><ul>
+<li>保障业务连续性 ：确保正在进行的请求能顺利完成，避免业务中断。</li>
+<li>优化资源利用 ：优雅停机时可及时释放数据库连接池、消息队列连接等资源，提高资源利用率。</li>
+<li>提升系统稳定性 ：平稳过渡到新状态，减少因强制停止引发的异常，降低服务雪崩等故障风险。</li>
+<li>减少错误与提高容错能力 ：通过特定终止逻辑处理未完成任务，减少错误发生，增强系统容错性。</li>
+<li>便于运维管理 ：为运维人员提供控制和灵活性，利于部署新版本、维护等操作，提高运维效率。</li>
+<li>提高用户体验 ：避免服务突然中断，保障用户操作顺利进行，提升整体体验。</li>
+<li>便于故障排查 ：停机前记录日志和状态信息，为后续故障排查提供重要依据。</li>
+</ul>
+<h3 id="二、实现原理"><a href="#二、实现原理" class="headerlink" title="二、实现原理"></a>二、实现原理</h3><ol>
+<li><code>服务默认不上线</code>：通过-Dspring.cloud.nacos.discovery.instanceEnabled=false参数设置服务注册到NACOS默认不上线，启动不接收服务发现流量。</li>
+<li><code>startupProbe</code>：配置容器启动后过一段时间进行请求健康检测接口，健康检测通过后把该服务Nacos的状态设置为上线，接收服务发现流量。</li>
+<li><code>liveness</code> 和 <code>readiness</code> 探针配合 ：liveness 探针判断应用是否存活，及时发现停机过程中的异常情况并重启容器。readiness 探针判断应用是否准备好接收ingress流量。</li>
+<li><code>preStop</code> ：配置preStop 钩子在容器停止前发送 HTTP 请求把该服务Nacos的状态设置为下线，不接收服务发现流量。</li>
+</ol>
+<h3 id="三、实现步骤"><a href="#三、实现步骤" class="headerlink" title="三、实现步骤"></a>三、实现步骤</h3><h4 id="设置服务默认不上线"><a href="#设置服务默认不上线" class="headerlink" title="设置服务默认不上线"></a>设置服务默认不上线</h4><p>配置JAVA_OPTS的<code>-Dspring.cloud.nacos.discovery.instanceEnabled</code>参数为false，即可实现服务启动注册后是下线状态</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">    - name: gac-iop-base</span><br><span class="line">      env:</span><br><span class="line">        - name: JAVA_OPTS</span><br><span class="line">          value: &apos;-Xms2g -Xmx4g -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=512m -Dspring.profiles.active=uat -Dspring.cloud.consul.enabled=false -Dtsf.discovery.ribbon.enabled=false -Dspring.cloud.nacos.discovery.instanceEnabled=false&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置startupProbe探针"><a href="#配置startupProbe探针" class="headerlink" title="配置startupProbe探针"></a>配置startupProbe探针</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">startupProbe:</span></span><br><span class="line">  <span class="attr">exec:</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/bin/bash</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'-c'</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'HEALTH_HTTP_CODE=$(curl --connect-timeout 5 -I -s http://localhost:8090/health/Check | grep HTTP | awk '</span><span class="string">'&#123;print $2&#125;'</span><span class="string">') &amp;&amp; if [[ $HEALTH_HTTP_CODE -eq 200 ]]; then curl -X POST "http://localhost:8090/actuator/serviceregistry" --header '</span><span class="string">'Content-Type: application/json'</span><span class="string">' -d '</span><span class="string">'&#123;"status": "UP"&#125;'</span><span class="string">' &amp;&amp; sleep 2s &amp;&amp; NACOS_SERVICE_STATUS=$(curl http://localhost:8090/actuator/service-registry-status) &amp;&amp; if [[ $NACOS_SERVICE_STATUS == *'</span><span class="string">'"status":"UP"'</span><span class="string">'* ]]; then echo '</span><span class="string">'Nacos服务状态为上线状态'</span><span class="string">'; exit 0; else exit 1; fi; else echo '</span><span class="string">'健康检查失败'</span><span class="string">'; exit 1; fi'</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+
+<p>脚本逻辑：</p>
+<ul>
+<li>请求服务健康检测接口，判断接口返回的状态码是否为200，如果为200请求服务接口把Nacos状态改为上线，因为上线接口为异步接口，睡眠2s后，请求接口查看服务状态是否为上线，如果是上线状态返回为成功，如果不是上线状态退出重启</li>
+</ul>
+<h4 id="配置-liveness-和-readiness-探针"><a href="#配置-liveness-和-readiness-探针" class="headerlink" title="配置 liveness 和 readiness 探针"></a>配置 liveness 和 readiness 探针</h4><p>配置 liveness 探针，检查应用健康状态的端点，若探测失败则重启容器</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">livenessProbe:</span></span><br><span class="line">  <span class="attr">httpGet:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/health/Check</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8090</span></span><br><span class="line">    <span class="attr">scheme:</span> <span class="string">HTTP</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<p>配置 readiness 探针，判断应用是否准备好接收流量</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">readinessProbe:</span></span><br><span class="line">  <span class="attr">httpGet:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/health/Check</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8090</span></span><br><span class="line">    <span class="attr">scheme:</span> <span class="string">HTTP</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="配置preStop钩子"><a href="#配置preStop钩子" class="headerlink" title="配置preStop钩子"></a>配置preStop钩子</h4><p>设置 preStop 钩子，在容器关闭前执行服务下线</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line">    <span class="attr">lifecycle:</span></span><br><span class="line">      <span class="attr">preStop:</span></span><br><span class="line">        <span class="attr">exec:</span></span><br><span class="line">          <span class="attr">command:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">/bin/bash</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">'-c'</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">'curl -X POST "http://localhost:8090/actuator/serviceregistry" --header '</span><span class="string">'Content-Type: application/json'</span><span class="string">' -d '</span><span class="string">'&#123;"status": "DOWN"&#125;'</span><span class="string">';sleep 40;'</span></span><br><span class="line"><span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">terminationGracePeriodSeconds:</span> <span class="number">45</span></span><br></pre></td></tr></table></figure>
+
+<p><span style="color: grey;">可在 Pod 定义中添加 terminationGracePeriodSeconds: 30（可根据实际情况调整时间），确保给 Java 应用足够的时间完成优雅停机逻辑。当30s还未处理完commoand,容器会直接kill掉</span><br>⚠️自建Nacos,服务上下线会做主动推送，云服务因安全问题，Nacos SDK 1.X版本不会做主动推送。服务会轮询去Nacos拉取服务状态（时间间隔默认是30s），可观察服务代码和日志确认时间间隔，设置preStop钩子的时间大于该间隔，terminationGracePeriodSeconds时间大于preStop处理时间</p>
+<p>通过以上步骤，即可在 Kubernetes 中实现 Java 应用的优雅停机，充分发挥其带来的种种优势，保障应用的稳定运行和良好的用户体验。</p>
+<h3 id="四、扩展"><a href="#四、扩展" class="headerlink" title="四、扩展"></a>四、扩展</h3><h4 id="Nacos服务上下线的两种方式"><a href="#Nacos服务上下线的两种方式" class="headerlink" title="Nacos服务上下线的两种方式"></a>Nacos服务上下线的两种方式</h4><p><strong>1. 请求Nacos的API接口</strong><br>使用 curl 请求 Nacos 接口无需额外配置，其默认支持，但需确保以下参数正确无误：</p>
+<ul>
+<li>必要参数 ：nacos 的 IP 和端口，服务注册的命名空间、服务名、集群名、分组名，以及服务的实例 IP 和端口。</li>
+</ul>
+<p>服务下线</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">"http://nacosip:port/nacos/v1/ns/instance?serviceName=myservice&amp;groupName=travel-pro&amp;ip=service_ip&amp;port=service_port&amp;namespaceId=namespace-pro&amp;clusterName=cluster-pro&amp;enabled=false"</span></span><br></pre></td></tr></table></figure>
+
+<p>服务上线</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">"http://nacosip:port/nacos/v1/ns/instance?serviceName=myservice&amp;groupName=travel-pro&amp;ip=service_ip&amp;port=service_port&amp;namespaceId=namespace-pro&amp;clusterName=cluster-pro&amp;enabled=true"</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 基于Spring Cloud的service-registry端点</strong></p>
+<p>在配置文件中开启service-registry端点：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">service-registry</span></span><br><span class="line">      <span class="attr">base-path:</span> <span class="string">/actuator</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">serviceregistry:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>通过curl命令来进行服务状态的修改：上线是UP，下线是DOWN</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X POST <span class="string">"http://localhost:<span class="variable">$port</span>/actuator/serviceregistry"</span> --header <span class="string">'Content-Type: application/json'</span> -d <span class="string">'&#123;"status": "DOWN"&#125;'</span></span><br></pre></td></tr></table></figure>
+
+<p>⚠️AI查询serviceregistry端口，PUT请求可更改上下线状态，GET请求可获取服务状态，实测GET请求无任何返回，后续由开发新写接口service-registry-status来查询服务状态是否上下线。<br>springcloud引入actuator的版本的版本不同，端点也会有差异，需与开发确认端点是serviceregistry还是service-registry</p>
+<h4 id="优雅停机清理资源"><a href="#优雅停机清理资源" class="headerlink" title="优雅停机清理资源"></a>优雅停机清理资源</h4><p><strong>结合service-registry端点与Shutdown Hook实现资源的完美清理</strong></p>
+<ul>
+<li>service-registry端点是Spring Cloud提供的一个强大工具，用于管理和监控服务注册状态。通过该端点，我们可以方便地查看和修改服务实例在服务注册中心的状态。例如，当服务需要下线进行维护或更新时，我们可以通过发送HTTP请求将服务状态设置为DOWN或OUT_OF_SERVICE，从而通知其他服务该实例暂时不可用。</li>
+<li>Shutdown Hook是Java提供的一种机制，允许我们在应用停止时执行清理工作。通过Runtime.getRuntime().addShutdownHook()添加Shutdown Hook线程我们可以在其中实现诸如关闭数据库连接池、关闭线程池以及等待正在处理的请求完成等操作。这些操作确保了应用在停止时不会出现资源泄漏或任务中断的问题。</li>
+</ul>
+<p><strong>优雅停机的协同流程</strong></p>
+<p>服务下线流程</p>
+<ol>
+<li>设置服务状态：通过调用service-registry端点，将服务状态设置为DOWN，使服务不再接收新的请求。</li>
+<li>执行清理工作：在应用的Shutdown Hook中，执行内部资源的清理逻辑，如关闭数据库连接池、关闭线程池等。</li>
+<li>停止服务实例：完成上述步骤后，服务实例可以安全地停止。</li>
+</ol>
+<p>服务重启或更新流程</p>
+<ol>
+<li>设置服务状态：在服务重启或更新前，通过service-registry端点将服务状态设置为DOWN。</li>
+<li>执行清理工作：触发Shutdown Hook中的清理逻辑，确保资源被正确释放。</li>
+<li>重启服务：重新启动服务实例。</li>
+<li>恢复服务状态：通过service-registry端点将服务状态重新设置为UP，使服务恢复对外提供服务。</li>
+</ol>
+<p>以下是一个简单的示例，展示如何在Spring Boot应用中添加Shutdown Hook以实现优雅停机：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GracefulShutdownApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(GracefulShutdownApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加Shutdown Hook</span></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// 关闭数据库连接池</span></span><br><span class="line">            <span class="comment">// dataSource.close();</span></span><br><span class="line">            <span class="comment">// 关闭线程池</span></span><br><span class="line">            <span class="comment">// executorService.shutdown();</span></span><br><span class="line">            <span class="comment">// 等待正在处理的请求完成</span></span><br><span class="line">            System.out.println(<span class="string">"正在执行Shutdown Hook，进行资源清理..."</span>);</span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考文档：</p>
+<ul>
+<li><a href="https://cloud.tencent.com/developer/article/1913433" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1913433</a></li>
+<li><a href="https://blog.csdn.net/nihao2q/article/details/147456643" target="_blank" rel="noopener">https://blog.csdn.net/nihao2q/article/details/147456643</a></li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/java/"># java</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/03/31/脚本实现推送部署/">脚本实现推送部署</a>
+            
+        </section>
+
+        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+</script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            isCopying = true;
+                            setTimeout(function () {
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
