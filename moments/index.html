@@ -4,7 +4,8 @@
 <head>
     <meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Moments</title>
@@ -19,8 +20,6 @@
     <link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
 
     <style>
-
-        /* 图片网格样式 */
         .tweet-grid-images {
             position: relative;
             display: grid;
@@ -41,10 +40,9 @@
             object-fit: cover;
         }
 
-        /* 图片查看器样式 */
         .image-viewer {
             display: none;
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -151,81 +149,12 @@
             right: 10px;
         }
 
-        /* 音乐播放器样式 */
-        .music-player {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
-
-        .music-cover-box {
-            position: relative;
-            width: 60px;
-            height: 60px;
-            margin-right: 15px;
-        }
-
-        .music-cover {
-            width: 100%;
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        .music-play-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.5);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .music-info-box {
-            flex: 1;
-        }
-
-        .music-meta {
-            margin-bottom: 10px;
-        }
-
-        .music-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .music-progress-box {
-            display: flex;
-            align-items: center;
-        }
-
-        .music-current-time, .music-duration {
-            font-size: 12px;
-            width: 40px;
-        }
-
-        .music-progress-bar-bg {
-            flex: 1;
-            height: 4px;
-            background-color: #eee;
-            margin: 0 10px;
-            position: relative;
-        }
-
-        .music-progress-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background-color: #1a73e8;
-            width: 0%;
+        .viewer-main-image {
+            position: relative !important;
+            z-index: 1 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
         }
     </style>
 </head>
@@ -234,18 +163,20 @@
     <div class="wrapper">
         <header>
             <nav class="navbar">
-                <div class="navbar-header header-logo"><a href="/"></a></div>
-                <div class="menu navbar-right">
-                    <a class="menu-item" href="/archives">Posts</a>
-                    <a class="menu-item" href="/app">App</a>
-                    <a class="menu-item" href="/moments">Moments</a>
-                    <a class="menu-item" href="/map">Map</a>
-                    <a class="menu-item" href="/game">Game</a>
-                    <a class="menu-item" href="/media">Media</a>
-                    <a class="menu-item" href="/tag">Tags</a>
-                    <a class="menu-item" href="/about">About</a>
-                    <input id="switch_default" type="checkbox" class="switch_default">
-                    <label for="switch_default" class="toggleBtn"></label>
+                <div class="container">
+                    <div class="navbar-header header-logo"><a href="/"></a></div>
+                    <div class="menu navbar-right">
+                        <a class="menu-item" href="/archives">Posts</a>
+                        <a class="menu-item" href="/app">App</a>
+                        <a class="menu-item" href="/moments">Moments</a>
+                        <a class="menu-item" href="/map">Map</a>
+                        <a class="menu-item" href="/game">Game</a>
+                        <a class="menu-item" href="/media">Media</a>
+                        <a class="menu-item" href="/tag">Tags</a>
+                        <a class="menu-item" href="/about">About</a>
+                        <input id="switch_default" type="checkbox" class="switch_default">
+                        <label for="switch_default" class="toggleBtn"></label>
+                    </div>
                 </div>
             </nav>
 
@@ -270,16 +201,277 @@
                 </div>
             </nav>
         </header>
-    </div>
+        <script>
+            var mobileBtn = function f() {
+                var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+                var mobileMenu = document.getElementById("mobile-menu");
+                if (toggleMenu.classList.contains("active")) {
+                    toggleMenu.classList.remove("active")
+                    mobileMenu.classList.remove("active")
+                } else {
+                    toggleMenu.classList.add("active")
+                    mobileMenu.classList.add("active")
+                }
+            }
+        </script>
 
-    <div class="main">
-        <div class="container">
-            <main class="main-content">
-                <div class="tweets-wrapper" id="tweets-container"></div>
-            </main>
+        <div class="main">
+            <div class="container">
+                <main class="main-content">
+                    <div class="tweets-wrapper">
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                正在听：
+                            </div>
+                            <div class="music-player">
+                                <div class="music-cover-box">
+                                    <img class="music-cover"
+                                        src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003l02MY0vw8vs.jpg"
+                                        alt="习惯失恋封面">
+                                    <button class="music-play-btn" id="playBtn" title="播放/暂停">
+                                        <svg id="playIcon" viewBox="0 0 40 40" width="24" height="24" fill="none">
+                                            <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.18)" />
+                                            <polygon points="16,13 28,20 16,27" fill="#fff" />
+                                        </svg>
+                                        <svg id="pauseIcon" viewBox="0 0 40 40" width="24" height="24" fill="none"
+                                            style="display:none;">
+                                            <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.18)" />
+                                            <rect x="15" y="13" width="3.5" height="14" rx="1.5" fill="#fff" />
+                                            <rect x="21.5" y="13" width="3.5" height="14" rx="1.5" fill="#fff" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="music-info-box">
+                                    <div class="music-meta">
+                                        <div class="music-title">习惯失恋 - 容祖儿</div>
+                                    </div>
+                                    <div class="music-progress-box">
+                                        <span class="music-current-time" id="currentTime">0:00</span>
+                                        <div class="music-progress-bar-bg">
+                                            <div class="music-progress-bar" id="progressBar"></div>
+                                        </div>
+                                        <span class="music-duration" id="duration">0:00</span>
+                                    </div>
+                                    <audio id="audio"
+                                        src="https://lw-sycdn.kuwo.cn/4e7ff719a1d78e60133dde0b5beaa711/68243885/resource/30106/trackmedia/M500001pqziT2xshtK.mp3"></audio>
+                                </div>
+                            </div>
+                            <div class="tweet-time">2025年5月13日</div>
+                        </div>
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                驻马店第二站：骑士庄园，西凤山庄
+                            </div>
+                            <div class="tweet-grid-images">
+                                <div class="grid-image-item" onclick="openImageViewer(this)">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/pengpengche.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/huanngjiayizhan.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/guaguale.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/taoquan.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/zhumadian-food1.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xian-food3.jpg">
+                                </div>
+                                <div class="image-viewer">
+                                    <div class="image-viewer-content">
+                                        <div class="main-image-container">
+                                            <img class="main-image viewer-main-image" src="" alt="主图">
+                                            <button class="close-btn" onclick="closeImageViewer(this)">&times;</button>
+                                            <button class="nav-btn prev-btn" onclick="prevImage(this)">&lt;</button>
+                                            <button class="nav-btn next-btn" onclick="nextImage(this)">&gt;</button>
+                                        </div>
+                                        <div class="thumbnail-container">
+                                            <div class="thumbnails"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tweet-time">2025年5月4日</div>
+                        </div>
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                🚄到驻马店，第一站：皇家驿站
+                            </div>
+                            <div class="tweet-grid-images">
+                                <div class="grid-image-item" onclick="openImageViewer(this)">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/pengpengche.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/huanngjiayizhan.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/guaguale.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/taoquan.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/zhumadian-food1.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xian-food3.jpg">
+                                </div>
+                                <div class="image-viewer">
+                                    <div class="image-viewer-content">
+                                        <div class="main-image-container">
+                                            <img class="main-image viewer-main-image" src="" alt="主图">
+                                            <button class="close-btn" onclick="closeImageViewer(this)">&times;</button>
+                                            <button class="nav-btn prev-btn" onclick="prevImage(this)">&lt;</button>
+                                            <button class="nav-btn next-btn" onclick="nextImage(this)">&gt;</button>
+                                        </div>
+                                        <div class="thumbnail-container">
+                                            <div class="thumbnails"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tweet-time">2025年5月3日</div>
+                        </div>
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                ✈️来西安了，吃了窑鸡和泡馍
+                            </div>
+                            <div class="tweet-grid-images">
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/aircraft-xian.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/aircraft-eat.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xian-cat.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xian-food1.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xian-food2.jpg">
+                                </div>
+                                <div class="grid-image-item">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xian-food3.jpg">
+                                </div>
+                                <div class="image-viewer">
+                                    <div class="image-viewer-content">
+                                        <div class="main-image-container">
+                                            <img class="main-image viewer-main-image" src="" alt="主图">
+                                            <button class="close-btn" onclick="closeImageViewer(this)">&times;</button>
+                                            <button class="nav-btn prev-btn" onclick="prevImage(this)">&lt;</button>
+                                            <button class="nav-btn next-btn" onclick="nextImage(this)">&gt;</button>
+                                        </div>
+                                        <div class="thumbnail-container">
+                                            <div class="thumbnails"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tweet-time">2025年5月2日</div>
+                        </div>
+
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div style="display: flex; align-items: flex-start;">
+                                    <div class="tweet-nickname">kk</div>
+                                </div>
+                            </div>
+                            <div class="tweet-content">
+                                开心，今天下班回家收到了老婆准备的周年礼物🎁
+                            </div>
+                            <img class="tweet-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/xiaomi-razor.png" alt="配图">
+                            <div class="tweet-time">2025年4月28日</div>
+                        </div>
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                正在听：
+                            </div>
+                            <div class="music-player">
+                                <div class="music-cover-box">
+                                    <img class="music-cover"
+                                        src="https://p1.music.126.net/_rHCQX84pzW6Po2gnKKZtA==/109951163718466968.jpg"
+                                        alt="幸福之歌封面">
+                                    <button class="music-play-btn" id="playBtn" title="播放/暂停">
+                                        <svg id="playIcon" viewBox="0 0 40 40" width="24" height="24" fill="none">
+                                            <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.18)" />
+                                            <polygon points="16,13 28,20 16,27" fill="#fff" />
+                                        </svg>
+                                        <svg id="pauseIcon" viewBox="0 0 40 40" width="24" height="24" fill="none"
+                                            style="display:none;">
+                                            <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.18)" />
+                                            <rect x="15" y="13" width="3.5" height="14" rx="1.5" fill="#fff" />
+                                            <rect x="21.5" y="13" width="3.5" height="14" rx="1.5" fill="#fff" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="music-info-box">
+                                    <div class="music-meta">
+                                        <div class="music-title">幸福之歌 - Supper Moment</div>
+                                    </div>
+                                    <div class="music-progress-box">
+                                        <span class="music-current-time" id="currentTime">0:00</span>
+                                        <div class="music-progress-bar-bg">
+                                            <div class="music-progress-bar" id="progressBar"></div>
+                                        </div>
+                                        <span class="music-duration" id="duration">0:00</span>
+                                    </div>
+                                    <audio id="audio"
+                                        src="https://sh-sycdn.kuwo.cn/ebf14ce45014328039e1b85d9759e8ec/6824516b/resource/n2/88/82/2436259403.mp3"></audio>
+                                </div>
+                            </div>
+                            <div class="tweet-time">2025年4月28日</div>
+                        </div>
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                公司开放职级晋升窗口，技术答辩通过，今天拿到了晋升后的薪资，涨薪10%,继续努力💪。
+                            </div>
+                            <div class="tweet-time">2025年4月25日</div>
+                        </div>
+                        <div class="tweet-item">
+                            <div class="tweet-header">
+                                <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="../image/avatars.jpg" alt="头像">
+                                <div class="tweet-nickname">kk</div>
+                            </div>
+                            <div class="tweet-content">
+                                开通个人朋友圈，分享生活🥳🥳🥳🎉🎉🎉
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
         </div>
     </div>
-
     <footer id="footer" class="footer">
         <div class="copyright">
             <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
@@ -287,353 +479,177 @@
     </footer>
 
     <script>
-        // 示例数据
-        const tweetsData = [
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '正在听：',
-                music: {
-                    cover: 'https://y.gtimg.cn/music/photo_new/T002R300x300M000003l02MY0vw8vs.jpg',
-                    title: '习惯失恋 - 容祖儿',
-                    audioSrc: 'https://lw-sycdn.kuwo.cn/4e7ff719a1d78e60133dde0b5beaa711/68243885/resource/30106/trackmedia/M500001pqziT2xshtK.mp3'
-                },
-                time: '2025年5月13日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '驻马店第二站：骑士庄园，西凤山庄',
-                images: [
-                    '../image/pengpengche.jpg',
-                    '../image/huanngjiayizhan.jpg',
-                    '../image/guaguale.jpg',
-                    '../image/taoquan.jpg',
-                    '../image/zhumadian-food1.jpg',
-                    '../image/xian-food3.jpg'
-                ],
-                time: '2025年5月4日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '到驻马店，第一站：皇家驿站',
-                images: [
-                    '../image/pengpengche.jpg',
-                    '../image/huanngjiayizhan.jpg',
-                    '../image/guaguale.jpg',
-                    '../image/taoquan.jpg',
-                    '../image/zhumadian-food1.jpg',
-                    '../image/xian-food3.jpg'
-                ],
-                time: '2025年5月3日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '来西安了，吃了窑鸡和泡馍',
-                images: [
-                    '../image/aircraft-xian.jpg',
-                    '../image/aircraft-eat.jpg',
-                    '../image/xian-cat.jpg',
-                    '../image/xian-food1.jpg',
-                    '../image/xian-food2.jpg',
-                    '../image/xian-food3.jpg'
-                ],
-                time: '2025年5月2日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '开心，今天下班回家收到了老婆准备的周年礼物🎁',
-                image: '../image/xiaomi-razor.png',
-                time: '2025年4月28日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '正在听：',
-                music: {
-                    cover: 'https://p1.music.126.net/_rHCQX84pzW6Po2gnKKZtA==/109951163718466968.jpg',
-                    title: '幸福之歌 - Supper Moment',
-                    audioSrc: 'https://sh-sycdn.kuwo.cn/ebf14ce45014328039e1b85d9759e8ec/6824516b/resource/n2/88/82/2436259403.mp3'
-                },
-                time: '2025年4月28日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '公司开放职级晋升窗口，技术答辩通过，今天拿到了晋升后的薪资，涨薪10%,继续努力💪。',
-                time: '2025年4月25日'
-            },
-            {
-                avatar: '../image/avatars.jpg',
-                nickname: 'kk',
-                content: '开通个人朋友圈，分享生活🥳🥳🥳🎉🎉🎉',
-                time: '2025年4月22日'
-            }
-        ];
-
-        // 动态生成推文
-        const tweetsContainer = document.getElementById('tweets-container');
-        tweetsData.forEach(tweet => {
-            let tweetHTML = `
-                <div class="tweet-item">
-                    <div class="tweet-header">
-                        <img class="tweet-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="${tweet.avatar}" alt="头像">
-                        <div class="tweet-nickname">${tweet.nickname}</div>
-                    </div>
-                    <div class="tweet-content">${tweet.content}</div>
-            `;
-
-            if (tweet.music) {
-                tweetHTML += `
-                    <div class="music-player">
-                        <div class="music-cover-box">
-                            <img class="music-cover" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="${tweet.music.cover}" alt="音乐封面">
-                            <button class="music-play-btn" data-audio-src="${tweet.music.audioSrc}" title="播放/暂停">
-                                <svg id="playIcon" viewBox="0 0 40 40" width="24" height="24" fill="none">
-                                    <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.18)" />
-                                    <polygon points="16,13 28,20 16,27" fill="#fff" />
-                                </svg>
-                                <svg id="pauseIcon" viewBox="0 0 40 40" width="24" height="24" fill="none" style="display:none;">
-                                    <circle cx="20" cy="20" r="20" fill="rgba(0,0,0,0.18)" />
-                                    <rect x="15" y="13" width="3.5" height="14" rx="1.5" fill="#fff" />
-                                    <rect x="21.5" y="13" width="3.5" height="14" rx="1.5" fill="#fff" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="music-info-box">
-                            <div class="music-meta">
-                                <div class="music-title">${tweet.music.title}</div>
-                            </div>
-                            <div class="music-progress-box">
-                                <span class="music-current-time">0:00</span>
-                                <div class="music-progress-bar-bg">
-                                    <div class="music-progress-bar"></div>
-                                </div>
-                                <span class="music-duration">0:00</span>
-                            </div>
-                            <audio src="${tweet.music.audioSrc}"></audio>
-                        </div>
-                    </div>
-                `;
-            }
-
-            if (tweet.images) {
-                tweetHTML += `
-                    <div class="tweet-grid-images">
-                        ${tweet.images.map((imgSrc, index) => `
-                            <div class="grid-image-item" onclick="imageViewer.openViewer(event, this)">
-                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="${imgSrc}">
-                            </div>
-                        `).join('')}
-                        <div class="image-viewer">
-                            <div class="image-viewer-content">
-                                <div class="main-image-container">
-                                    data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="<img class="main-image viewer-main-image" src="" alt="主图">
-                                    <button class="close-btn" onclick="imageViewer.closeViewer(event)">&times;</button>
-                                    <button class="nav-btn prev-btn" onclick="imageViewer.prevImage(event)">&lt;</button>
-                                    <button class="nav-btn next-btn" onclick="imageViewer.nextImage(event)">&gt;</button>
-                                </div>
-                                <div class="thumbnail-container">
-                                    <div class="thumbnails"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else if (tweet.image) {
-                tweetHTML += `
-                    <img class="tweet-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="${tweet.image}" alt="配图">
-                `;
-            }
-
-            tweetHTML += `
-                <div class="tweet-time">${tweet.time}</div>
-            </div>
-            `;
-
-            tweetsContainer.innerHTML += tweetHTML;
-        });
-    </script>
-
-    <script>
-        // 图片查看器类
-        const imageViewer = {
-            imageCache: new Map(), // 图片缓存
-
-            preloadImage(src) {
-                if (!this.imageCache.has(src)) {
-                    const img = new Image();
-                    img.src = src;
-                    this.imageCache.set(src, img);
-                }
-                return this.imageCache.get(src);
-            },
-
-            preloadAllImages() {
-                const allImages = document.querySelectorAll('.tweet-grid-images img');
-                allImages.forEach(img => {
-                    this.preloadImage(img.src);
-                });
-            },
-
-            openViewer(event, element) {
-                event.stopPropagation();
-                const tweetGrid = element.closest('.tweet-grid-images');
-                const viewer = tweetGrid.querySelector('.image-viewer');
-                const mainImage = viewer.querySelector('.main-image');
-                const clickedImage = element.querySelector('img');
-                const clickedSrc = clickedImage.src;
-
-                const cachedImage = this.preloadImage(clickedSrc);
-                mainImage.src = cachedImage.src;
-
-                const thumbnails = viewer.querySelector('.thumbnails');
-                thumbnails.innerHTML = '';
-                const imageItems = tweetGrid.querySelectorAll('.grid-image-item img');
-                const images = Array.from(imageItems).map(img => img.src);
-                const currentIndex = Array.from(imageItems).indexOf(clickedImage);
-
-                images.forEach((src, index) => {
-                    const thumbnail = document.createElement('div');
-                    thumbnail.className = `thumbnail ${index === currentIndex ? 'active' : ''}`;
-                    const thumbnailImg = document.createElement('img');
-                    const cachedThumbnail = this.preloadImage(src);
-                    thumbnailImg.src = cachedThumbnail.src;
-                    thumbnail.appendChild(thumbnailImg);
-                    thumbnails.appendChild(thumbnail);
-                    thumbnail.addEventListener('click', (e) => {
-                        this.switchImage(e.currentTarget.querySelector('img'), index);
-                    });
-                });
-
-                viewer.dataset.currentIndex = currentIndex;
-                viewer.style.display = 'block';
-            },
-
-            closeViewer(event) {
-                const viewer = event.target.closest('.image-viewer');
-                if (viewer) {
-                    viewer.style.display = 'none';
-                }
-            },
-
-            switchImage(thumbnailImg, index) {
-                const viewer = thumbnailImg.closest('.thumbnails').closest('.image-viewer');
-                if (!viewer) return;
-
-                const mainImage = viewer.querySelector('.main-image');
-                const thumbnails = viewer.querySelectorAll('.thumbnail');
-                const tweetGrid = viewer.closest('.tweet-grid-images');
-                if (!tweetGrid) return;
-
-                const imageItems = tweetGrid.querySelectorAll('.grid-image-item img');
-                const newSrc = imageItems[index].src;
-
-                const cachedImage = this.preloadImage(newSrc);
-                mainImage.src = cachedImage.src;
-
-                thumbnails.forEach((thumb, i) => {
-                    thumb.classList.toggle('active', i === index);
-                });
-
-                viewer.dataset.currentIndex = index;
-            },
-
-            prevImage(event) {
-                const button = event.target.closest('.prev-btn');
-                if (!button) return;
-
-                const viewer = button.closest('.image-viewer');
-                if (!viewer) return;
-
-                const thumbnails = viewer.querySelectorAll('.thumbnail');
-                const currentIndex = parseInt(viewer.dataset.currentIndex);
-                const newIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
-
-                const newThumbnail = thumbnails[newIndex].querySelector('img');
-                if (newThumbnail) {
-                    this.switchImage(newThumbnail, newIndex);
-                }
-            },
-
-            nextImage(event) {
-                const button = event.target.closest('.next-btn');
-                if (!button) return;
-
-                const viewer = button.closest('.image-viewer');
-                if (!viewer) return;
-
-                const thumbnails = viewer.querySelectorAll('.thumbnail');
-                const currentIndex = parseInt(viewer.dataset.currentIndex);
-                const newIndex = (currentIndex + 1) % thumbnails.length;
-
-                const newThumbnail = thumbnails[newIndex].querySelector('img');
-                if (newThumbnail) {
-                    this.switchImage(newThumbnail, newIndex);
-                }
-            }
-        };
-
-        // 页面加载完成后初始化图片查看器
-        document.addEventListener('DOMContentLoaded', function() {
-            imageViewer.preloadAllImages();
-
-            // 为音乐播放器添加事件监听器
-            const playButtons = document.querySelectorAll('.music-play-btn');
-            playButtons.forEach(button => {
-                const audio = button.nextElementSibling.querySelector('audio');
-                const playIcon = button.querySelector('#playIcon');
-                const pauseIcon = button.querySelector('#pauseIcon');
-                const currentTimeEl = button.nextElementSibling.querySelector('.music-current-time');
-                const durationEl = button.nextElementSibling.querySelector('.music-duration');
-                const progressBar = button.nextElementSibling.querySelector('.music-progress-bar');
-
-                audio.addEventListener('loadedmetadata', function() {
-                    durationEl.textContent = formatTime(audio.duration);
-                });
-
-                audio.addEventListener('timeupdate', function() {
-                    currentTimeEl.textContent = formatTime(audio.currentTime);
-                    if (audio.duration) {
-                        progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
-                    }
-                });
-
-                button.addEventListener('click', function() {
-                    if (audio.paused) {
-                        audio.play();
-                        playIcon.style.display = 'none';
-                        pauseIcon.style.display = '';
-                    } else {
-                        audio.pause();
-                        playIcon.style.display = '';
-                        pauseIcon.style.display = 'none';
-                    }
-                });
-
-                audio.addEventListener('play', function() {
-                    playIcon.style.display = 'none';
-                    pauseIcon.style.display = '';
-                });
-
-                audio.addEventListener('pause', function() {
-                    playIcon.style.display = '';
-                    pauseIcon.style.display = 'none';
-                });
-
-                audio.addEventListener('ended', function() {
-                    playIcon.style.display = '';
-                    pauseIcon.style.display = 'none';
-                });
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+            const audio = document.getElementById('audio');
+            const playBtn = document.getElementById('playBtn');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
 
             function formatTime(sec) {
                 sec = Math.floor(sec);
                 return `${Math.floor(sec / 60)}:${('0' + (sec % 60)).slice(-2)}`;
             }
+
+            audio.addEventListener('loadedmetadata', function () {
+                durationEl.textContent = formatTime(audio.duration);
+            });
+
+            audio.addEventListener('timeupdate', function () {
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+                if (audio.duration) {
+                    progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+                }
+            });
+
+            playBtn.addEventListener('click', function () {
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.style.display = 'none';
+                    pauseIcon.style.display = '';
+                } else {
+                    audio.pause();
+                    playIcon.style.display = '';
+                    pauseIcon.style.display = 'none';
+                }
+            });
+
+            audio.addEventListener('play', function () {
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = '';
+            });
+            audio.addEventListener('pause', function () {
+                playIcon.style.display = '';
+                pauseIcon.style.display = 'none';
+            });
+            audio.addEventListener('ended', function () {
+                playIcon.style.display = '';
+                pauseIcon.style.display = 'none';
+            });
+        });
+    </script>
+    <script>
+        // 图片查看器相关代码
+        const imageCache = new Map(); // 创建图片缓存
+
+        // 预加载图片函数
+        function preloadImage(src) {
+            if (!imageCache.has(src)) {
+                const img = new Image();
+                img.src = src;
+                imageCache.set(src, img);
+            }
+            return imageCache.get(src);
+        }
+
+        // 预加载所有推文的图片
+        function preloadAllTweetImages() {
+            const allTweetImages = document.querySelectorAll('.tweet-grid-images img, .tweet-img');
+            allTweetImages.forEach(img => {
+                preloadImage(img.src);
+            });
+        }
+
+        // 打开图片查看器时，使用缓存的图片
+        function openImageViewer(element) {
+            const tweetGrid = element.closest('.tweet-grid-images');
+            const viewer = tweetGrid.querySelector('.image-viewer');
+            const mainImage = viewer.querySelector('.main-image');
+            const clickedImage = element.querySelector('img');
+            const clickedSrc = clickedImage.src;
+            
+            // 使用缓存的图片
+            const cachedImage = preloadImage(clickedSrc);
+            mainImage.src = cachedImage.src;
+
+            // 生成缩略图
+            const thumbnails = viewer.querySelector('.thumbnails');
+            thumbnails.innerHTML = '';
+            const imageItems = tweetGrid.querySelectorAll('.grid-image-item img');
+            const images = Array.from(imageItems).map(img => img.src);
+            const currentIndex = Array.from(imageItems).indexOf(clickedImage);
+
+            images.forEach((src, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = `thumbnail ${index === currentIndex ? 'active' : ''}`;
+                const thumbnailImg = document.createElement('img');
+                // 使用缓存的图片
+                const cachedThumbnail = preloadImage(src);
+                thumbnailImg.src = cachedThumbnail.src;
+                thumbnail.appendChild(thumbnailImg);
+                thumbnails.appendChild(thumbnail);
+            });
+
+            viewer.dataset.currentIndex = currentIndex;
+            viewer.style.display = 'block';
+        }
+
+        // 关闭图片查看器
+        function closeImageViewer(button) {
+            const viewer = button.closest('.image-viewer');
+            viewer.style.display = 'none';
+        }
+
+        // 切换图片
+        function switchImage(thumbnail, index) {
+            const viewer = thumbnail.closest('.image-viewer');
+            const mainImage = viewer.querySelector('.main-image');
+            const thumbnails = viewer.querySelectorAll('.thumbnail');
+            const tweetGrid = viewer.closest('.tweet-grid-images');
+            const originalImages = tweetGrid.querySelectorAll('.grid-image-item img');
+            const newSrc = originalImages[index].src;
+
+            // 使用缓存的图片
+            const cachedImage = preloadImage(newSrc);
+            mainImage.src = cachedImage.src;
+
+            // 更新缩略图状态
+            thumbnails.forEach((thumb, i) => {
+                thumb.classList.toggle('active', i === index);
+            });
+
+            // 更新当前索引
+            viewer.dataset.currentIndex = index;
+        }
+
+        // 上一张图片
+        function prevImage(button) {
+            const viewer = button.closest('.image-viewer');
+            const thumbnails = viewer.querySelectorAll('.thumbnail');
+            const currentIndex = parseInt(viewer.dataset.currentIndex);
+            const newIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+
+            // 获取新的缩略图并触发点击
+            const newThumbnail = thumbnails[newIndex].querySelector('img');
+            switchImage(newThumbnail, newIndex);
+        }
+
+        // 下一张图片
+        function nextImage(button) {
+            const viewer = button.closest('.image-viewer');
+            const thumbnails = viewer.querySelectorAll('.thumbnail');
+            const currentIndex = parseInt(viewer.dataset.currentIndex);
+            const newIndex = (currentIndex + 1) % thumbnails.length;
+
+            // 获取新的缩略图并触发点击
+            const newThumbnail = thumbnails[newIndex].querySelector('img');
+            switchImage(newThumbnail, newIndex);
+        }
+
+        // 页面加载完成后预加载所有图片并添加点击事件
+        document.addEventListener('DOMContentLoaded', function () {
+            // 预加载所有推文的图片
+            preloadAllTweetImages();
+
+            // 为所有图片添加点击事件
+            const gridImageItems = document.querySelectorAll('.grid-image-item');
+            gridImageItems.forEach(item => {
+                item.onclick = function () {
+                    openImageViewer(this);
+                };
+            });
         });
     </script>
 
