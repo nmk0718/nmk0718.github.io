@@ -4,8 +4,7 @@
 <head>
     <meta name="generator" content="Hexo 3.9.0">
     <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 
@@ -13,17 +12,14 @@
     <title>Map</title>
 
 
-
     <link rel="icon" href="/favicon.png">
 
 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- stylesheets list from _config.yml -->
 
     <link rel="stylesheet" href="/css/style.css">
-
-
 
 
     <!-- scripts list from _config.yml -->
@@ -33,21 +29,53 @@
     <script src="/js/tocbot.min.js"></script>
 
 
-
-    <!--引入jQuery框架-->
-    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-    <!--引入jVectorMap库-->
-    <script type="text/javascript" src="/js/jquery-jvectormap-1.2.2.min.js"></script>
-    <!--引入样式表-->
-    <link href="/js/jquery-jvectormap-1.2.2.css" media="screen">
-
-
-    <!--引入中国地图数据库-->
-    <script type="text/javascript" src="/js/jquery-jvectormap-cn-merc-en.js"></script>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=c59c53eac8f153d0c6d82bd188b3bee7"></script>
 
 
 
     <link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+    <style>
+        /* 地图容器样式 */
+        #mapContainer {
+            width: 70vw;
+            height: 80vh;
+            border-radius: 32px;
+            margin-top: 80px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+
+       /* 城市标记提示样式 */
+       .map-tip {
+            text-align: center;
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 14px;
+       }
+        
+        .marker-text {
+            margin-top: 5px;
+            font-weight: bold;
+            color: #333;
+            text-shadow: 0 1px 1px rgba(255,255,255,0.8);
+            background-color: rgba(255,255,255,0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        /* 标记点动画效果 */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+    </style>
 
 
 </head>
@@ -129,24 +157,98 @@
             }
         </script>
         <div class="main">
-            <div class="container">
-                    <div class="post-content">
-                        <div class="map-container">
-                            <iframe style="max-width: 100%" frameborder="no" border="0" marginwidth="0" marginheight="0"
-                                width="100%" height="600px" src="https://nmk0718.github.io/map/map.html">
-                            </iframe>
-                        </div>
-                    </div>
+            <div id="mapContainer"></div>
+        </div>
+        <footer id="footer" class="footer">
+            <div class="copyright">
+                <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
             </div>
-        </div>
-    </div>
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            <span>© nmk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
-        </div>
-    </footer>
+        </footer>
 
     </div>
+    <script>
+        // 等待页面加载完成后初始化地图
+        window.onload = function () {
+            // 初始化地图
+            var map = new AMap.Map('mapContainer', {
+                viewMode: '2D',
+                zoom: 5, // 初始缩放级别
+                center: [108.94, 34.25], // 初始中心点（西安附近）
+                resizeEnable: true // 允许地图根据容器大小调整
+            });
+
+            // 定义已去过的城市（名称+经纬度）
+            var cities = [
+                { name: '北京', lnglat: [116.41, 39.90] },
+                { name: '上海', lnglat: [121.47, 31.23] },
+                { name: '广州', lnglat: [113.26, 23.13] },
+                { name: '郑州', lnglat: [113.67, 34.75] },
+                { name: '信阳', lnglat: [114.09, 32.15] },
+                { name: '苏州', lnglat: [120.58, 31.31] },
+                { name: '杭州', lnglat: [120.20, 30.24] },
+                { name: '惠州', lnglat: [114.41, 23.11] },
+                { name: '泉州', lnglat: [118.67, 24.87] },
+                { name: '厦门', lnglat: [118.07, 24.63] },
+                { name: '香港', lnglat: [114.10, 22.39] },
+                { name: '衡阳', lnglat: [112.57, 26.89] },
+                { name: '佛山', lnglat: [113.12, 23.02] },
+                { name: '江门', lnglat: [113.08, 22.57] },
+                { name: '清远', lnglat: [113.05, 23.68] },
+                { name: '柳州', lnglat: [109.40, 24.26] },
+                { name: '周口', lnglat: [114.66, 33.57] },
+                { name: '商丘', lnglat: [115.65, 34.44] },
+                { name: '新乡', lnglat: [113.97, 35.31] },
+                { name: '诸暨', lnglat: [120.18, 29.72] },
+                { name: '韶关', lnglat: [113.51, 24.75] },
+                { name: '丽江', lnglat: [100.25, 26.81] },
+                { name: '大理', lnglat: [100.25, 25.58] },
+                { name: '贵阳', lnglat: [106.70, 26.55] },
+                { name: '西安', lnglat: [108.94, 34.25] },
+                { name: '驻马店', lnglat: [114.04, 32.97] },
+                { name: '长沙', lnglat: [112.93, 28.22] }
+            ];
+
+            // 为每个城市添加标记
+            cities.forEach(function(city, index) {
+                // 创建自定义标记内容
+                var markerContent = document.createElement('div');
+                markerContent.className = 'custom-marker';
+                
+                var iconDiv = document.createElement('div');
+                iconDiv.className = 'marker-icon';
+                iconDiv.innerHTML = '<i class="fa-solid fa-location-dot" aria-hidden="true" style="color: #4285f4; font-size: 20px;"></i>';
+                markerContent.appendChild(iconDiv);
+            
+
+                // 创建自定义标记
+                var marker = new AMap.Marker({
+                    position: city.lnglat, // 标记位置
+                    content: markerContent.outerHTML, // 使用自定义HTML内容
+                    offset: new AMap.Pixel(-16, -16), // 偏移量，使标记底部对准坐标点
+                    title: city.name // 鼠标悬停时显示的标题
+                });
+
+                // 将标记添加到地图
+                marker.setMap(map);
+
+                // 给标记添加点击事件：放大显示该城市
+                marker.on('click', function() {
+                    // 地图平滑缩放并移动到目标城市
+                    // 缩放级别12（城市级），中心点设为城市坐标
+                    map.setZoomAndCenter(12, city.lnglat, {
+                        duration: 800 // 动画持续时间（毫秒）
+                    });
+
+                    // 显示信息窗口提示
+                    var infoWindow = new AMap.InfoWindow({
+                        content: `<div style="padding:10px;">我去过${city.name}！</div>`,
+                        offset: new AMap.Pixel(0, -30)
+                    });
+                    infoWindow.open(map, city.lnglat);
+                });
+            });
+        };
+    </script>
 
         <style>
             [bg-lazy] {
