@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang>
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="">
+<head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="kk">
@@ -34,7 +35,7 @@
     <script src="/js/tocbot.min.js"></script>
     
 
-<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
 </head>
 <body>
     <div class="wrapper">
@@ -136,13 +137,13 @@
         <div class="post-content">
             <p>问题:访问https但界面的js或css会加载http,获取不到https</p>
 <p>解决方案<br>1、nginx配置</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">proxy_set_header Host $host;</span><br><span class="line">proxy_pass http://127.0.0.1:8080;</span><br><span class="line">proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">proxy_set_header X-Forwarded-Proto  $scheme;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">proxy_set_header Host $host;</span><br><span class="line">proxy_pass http://127.0.0.1:8080;</span><br><span class="line">proxy_set_header X-Real-IP $remote_addr;</span><br><span class="line">proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">proxy_set_header X-Forwarded-Proto  $scheme;</span><br></pre></td></tr></table></figure>
 
 <p>2、Spring Boot 配置（在启动类里面配置,此方法为Spring Boot 2.X以上）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">@Bean</span><br><span class="line">    public TomcatServletWebServerFactory servletContainer() &#123;</span><br><span class="line">        TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();</span><br><span class="line">        factory.setUriEncoding(Charset.forName(&quot;UTF-8&quot;));</span><br><span class="line">        RemoteIpValve value = new RemoteIpValve();</span><br><span class="line">        value.setRemoteIpHeader(&quot;X-Forwarded-For&quot;);</span><br><span class="line">        value.setProtocolHeader(&quot;X-Forwarded-Proto&quot;);</span><br><span class="line">        value.setProtocolHeaderHttpsValue(&quot;https&quot;);</span><br><span class="line">        factory.addEngineValves(value);</span><br><span class="line">        return factory;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@Bean</span><br><span class="line">    public TomcatServletWebServerFactory servletContainer() &#123;</span><br><span class="line">        TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();</span><br><span class="line">        factory.setUriEncoding(Charset.forName(&quot;UTF-8&quot;));</span><br><span class="line">        RemoteIpValve value = new RemoteIpValve();</span><br><span class="line">        value.setRemoteIpHeader(&quot;X-Forwarded-For&quot;);</span><br><span class="line">        value.setProtocolHeader(&quot;X-Forwarded-Proto&quot;);</span><br><span class="line">        value.setProtocolHeaderHttpsValue(&quot;https&quot;);</span><br><span class="line">        factory.addEngineValves(value);</span><br><span class="line">        return factory;</span><br></pre></td></tr></table></figure>
 
 <p>3、若是war包，在tomcat的在server.xml的Engine模块下面配置多一个以下的Valve</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;Valve  className=&quot;org.apache.catalina.valves.RemoteIpValve&quot; </span><br><span class="line">        remoteIpHeader=&quot;X-Forwarded-For&quot; </span><br><span class="line">        protocolHeader=&quot;X-Forwarded-Proto&quot; </span><br><span class="line">        protocolHeaderHttpsValue=&quot;https&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;Valve  className=&quot;org.apache.catalina.valves.RemoteIpValve&quot; </span><br><span class="line">        remoteIpHeader=&quot;X-Forwarded-For&quot; </span><br><span class="line">        protocolHeader=&quot;X-Forwarded-Proto&quot; </span><br><span class="line">        protocolHeaderHttpsValue=&quot;https&quot;/&gt;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -173,14 +174,28 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/05/21/Mac/">Mac</a>
+                <a class="prev" rel="prev" href="/2020/05/21/expect/">expect</a>
             
             
-            <a class="next" rel="next" href="/2020/05/21/expect/">expect</a>
+            <a class="next" rel="next" href="/2020/05/21/kafka/">kafka</a>
             
         </section>
 
-        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
 </script>
 <script src="/js/clipboard.min.js"></script>
 <script>

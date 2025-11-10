@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang>
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="">
+<head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="kk">
@@ -34,7 +35,7 @@
     <script src="/js/tocbot.min.js"></script>
     
 
-<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
 </head>
 <body>
     <div class="wrapper">
@@ -138,10 +139,9 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">kubectl edit configmap coredns -n kube-system</span><br></pre></td></tr></table></figure>
 
 <p>增加解析</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">hosts</span> &#123;</span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 <p>以下为示例</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">coredns</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line">  <span class="attr">selfLink:</span> <span class="string">/api/v1/namespaces/kube-system/configmaps/coredns</span></span><br><span class="line">  <span class="attr">uid:</span> <span class="string">afe82210-48ab-4e74-a190-7d401a8af49a</span></span><br><span class="line">  <span class="attr">resourceVersion:</span> <span class="string">'240420099'</span></span><br><span class="line">  <span class="attr">creationTimestamp:</span> <span class="string">'2022-09-29T03:44:33Z'</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">forward_config:</span> <span class="string">''</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">Corefile:</span> <span class="string">|-</span></span><br><span class="line">    <span class="string">.:53</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="string">errors</span></span><br><span class="line">        <span class="string">health</span></span><br><span class="line">        <span class="string">ready</span></span><br><span class="line">        <span class="string">hosts</span> <span class="string">&#123;</span></span><br><span class="line">        <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="string">nacos.com</span></span><br><span class="line">        <span class="string">fallthrough</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">kubernetes</span> <span class="string">cluster.local</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span> <span class="string">&#123;</span></span><br><span class="line">           <span class="string">pods</span> <span class="string">insecure</span></span><br><span class="line">           <span class="string">upstream</span></span><br><span class="line">           <span class="string">fallthrough</span> <span class="string">in-addr.arpa</span> <span class="string">ip6.arpa</span></span><br><span class="line">           <span class="string">ttl</span> <span class="number">30</span></span><br><span class="line">        <span class="string">&#125;</span>      </span><br><span class="line">       <span class="string">prometheus</span> <span class="string">:9153</span></span><br><span class="line">        <span class="string">log</span> <span class="string">.</span> <span class="string">&#123;</span></span><br><span class="line">            <span class="string">class</span> <span class="string">all</span></span><br><span class="line">        <span class="string">&#125;</span></span><br><span class="line">        <span class="string">cache</span> <span class="number">30</span></span><br><span class="line">        <span class="string">loop</span></span><br><span class="line">        <span class="string">reload</span></span><br><span class="line">        <span class="string">loadbalance</span></span><br><span class="line">        <span class="string">forward</span> <span class="string">.</span> <span class="string">/etc/resolv.conf</span></span><br><span class="line">    <span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">coredns</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line">  <span class="attr">selfLink:</span> <span class="string">/api/v1/namespaces/kube-system/configmaps/coredns</span></span><br><span class="line">  <span class="attr">uid:</span> <span class="string">afe82210-48ab-4e74-a190-7d401a8af49a</span></span><br><span class="line">  <span class="attr">resourceVersion:</span> <span class="string">&#x27;240420099&#x27;</span></span><br><span class="line">  <span class="attr">creationTimestamp:</span> <span class="string">&#x27;2022-09-29T03:44:33Z&#x27;</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">forward_config:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">Corefile:</span> <span class="string">|-</span></span><br><span class="line"><span class="string">    .:53 &#123;</span></span><br><span class="line"><span class="string">        errors</span></span><br><span class="line"><span class="string">        health</span></span><br><span class="line"><span class="string">        ready</span></span><br><span class="line"><span class="string">        hosts &#123;</span></span><br><span class="line"><span class="string">        127.0.0.1 nacos.com</span></span><br><span class="line"><span class="string">        fallthrough</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        kubernetes cluster.local in-addr.arpa ip6.arpa &#123;</span></span><br><span class="line"><span class="string">           pods insecure</span></span><br><span class="line"><span class="string">           upstream</span></span><br><span class="line"><span class="string">           fallthrough in-addr.arpa ip6.arpa</span></span><br><span class="line"><span class="string">           ttl 30</span></span><br><span class="line"><span class="string">        &#125;      </span></span><br><span class="line"><span class="string">       prometheus :9153</span></span><br><span class="line"><span class="string">        log . &#123;</span></span><br><span class="line"><span class="string">            class all</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        cache 30</span></span><br><span class="line"><span class="string">        loop</span></span><br><span class="line"><span class="string">        reload</span></span><br><span class="line"><span class="string">        loadbalance</span></span><br><span class="line"><span class="string">        forward . /etc/resolv.conf</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -172,14 +172,28 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2023/12/05/Ubuntu安装Docker和GPU驱动/">Ubuntu安装Docker和GPU驱动</a>
+                <a class="prev" rel="prev" href="/2023/12/05/Ubuntu%E5%AE%89%E8%A3%85Docker%E5%92%8CGPU%E9%A9%B1%E5%8A%A8/">Ubuntu安装Docker和GPU驱动</a>
             
             
             <a class="next" rel="next" href="/2022/08/11/istio/">istio</a>
             
         </section>
 
-        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
 </script>
 <script src="/js/clipboard.min.js"></script>
 <script>

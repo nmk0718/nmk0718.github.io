@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang>
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="">
+<head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="kk">
@@ -34,7 +35,7 @@
     <script src="/js/tocbot.min.js"></script>
     
 
-<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
 </head>
 <body>
     <div class="wrapper">
@@ -135,17 +136,16 @@
 
         <div class="post-content">
             <p>执行脚本</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[root@iZj10kpmbmyt18Z ~]# wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line">[root@iZj10kpmbmyt18Z ~]# chmod +x shadowsocks-all.sh</span><br><span class="line">[root@iZj10kpmbmyt18Z ~]# ./shadowsocks-all.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@iZj10kpmbmyt18Z ~]# wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line">[root@iZj10kpmbmyt18Z ~]# chmod +x shadowsocks-all.sh</span><br><span class="line">[root@iZj10kpmbmyt18Z ~]# ./shadowsocks-all.sh </span><br></pre></td></tr></table></figure>
 
 <p>第一次可能会因为github原因失败,可再次尝试,出现以下页面即为安装成功</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Congratulations, Shadowsocks-Python server install completed!</span><br><span class="line">Your Server IP        :  182.92.103.141 </span><br><span class="line">Your Server Port      :  8989 </span><br><span class="line">Your Password         :  teddysun.com </span><br><span class="line">Your Encryption Method:  aes-256-gcm </span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Congratulations, Shadowsocks-Python server install completed!</span><br><span class="line">Your Server IP        :  182.92.103.141 </span><br><span class="line">Your Server Port      :  8989 </span><br><span class="line">Your Password         :  teddysun.com </span><br><span class="line">Your Encryption Method:  aes-256-gcm </span><br><span class="line"></span><br><span class="line">Welcome to visit: https://teddysun.com/486.html</span><br><span class="line">Enjoy it!</span><br></pre></td></tr></table></figure>
 
 <p>修改配置文件 /etc/Shadowsocks-Python/config.json</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,        //配置服务端地址，不需要修改</span><br><span class="line">    &quot;server_port&quot;:8989,           //服务端端口，可以根据需要修改，建议改成大点的不会被占用的端口</span><br><span class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;, //本地地址，不需要修改</span><br><span class="line">    &quot;local_port&quot;:1080,           //本地端口，可以根据需要修改</span><br><span class="line">    &quot;password&quot;:&quot;nmk1234567&quot;,         //密码</span><br><span class="line">    &quot;timeout&quot;:300,               //连接超时时间</span><br><span class="line">    &quot;method&quot;:&quot;rc4-md5&quot;,          //加密方式</span><br><span class="line">    &quot;auth&quot;: false                //需要验证</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;server&quot;:&quot;0.0.0.0&quot;,        //配置服务端地址，不需要修改</span><br><span class="line">    &quot;server_port&quot;:8989,           //服务端端口，可以根据需要修改，建议改成大点的不会被占用的端口</span><br><span class="line">    &quot;local_address&quot;:&quot;127.0.0.1&quot;, //本地地址，不需要修改</span><br><span class="line">    &quot;local_port&quot;:1080,           //本地端口，可以根据需要修改</span><br><span class="line">    &quot;password&quot;:&quot;nmk1234567&quot;,         //密码</span><br><span class="line">    &quot;timeout&quot;:300,               //连接超时时间</span><br><span class="line">    &quot;method&quot;:&quot;rc4-md5&quot;,          //加密方式</span><br><span class="line">    &quot;auth&quot;: false                //需要验证</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>启动</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sslocal -c /etc/shadowsocks-python/config.json</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line">/etc/init.d/shadowsocks restart</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sslocal -c /etc/shadowsocks-python/config.json</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line">/etc/init.d/shadowsocks restart</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -184,7 +184,21 @@
             
         </section>
 
-        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
 </script>
 <script src="/js/clipboard.min.js"></script>
 <script>

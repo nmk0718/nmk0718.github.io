@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang>
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="">
+<head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="kk">
@@ -34,7 +35,7 @@
     <script src="/js/tocbot.min.js"></script>
     
 
-<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
 </head>
 <body>
     <div class="wrapper">
@@ -208,14 +209,12 @@
 <h4 id="Nginx-Ingress"><a href="#Nginx-Ingress" class="headerlink" title="Nginx Ingress"></a>Nginx Ingress</h4><p>在 Kubernetes 中，应用通过 Nginx Ingress 接收请求，有以下两种方式可以获取到客户端的真实 IP</p>
 <ol>
 <li><p>修改 Nginx Ingress 的 ConfigMap</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-configuration</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">ingress-nginx</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">use-forwarded-headers:</span> <span class="string">"true"</span>  <span class="comment"># 启用 use-forwarded-headers</span></span><br><span class="line">  <span class="attr">compute-full-forwarded-for:</span> <span class="string">"true"</span>  <span class="comment"># 启用 compute-full-forwarded-for</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-configuration</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">ingress-nginx</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">use-forwarded-headers:</span> <span class="string">&quot;true&quot;</span>  <span class="comment"># 启用 use-forwarded-headers</span></span><br><span class="line">  <span class="attr">compute-full-forwarded-for:</span> <span class="string">&quot;true&quot;</span>  <span class="comment"># 启用 compute-full-forwarded-for</span></span><br></pre></td></tr></table></figure>
 <p>详解：<br><code>use-forwarded-headers</code>：Nginx Ingress 会信任 X-Forwarded-For 和 X-Forwarded-Proto 头部，将它们传递给后端服务。<br><code>compute-full-forwarded-for</code>：Nginx Ingress 会将客户端的真实 IP 信息完整地记录在 X-Forwarded-For 头部中。</p>
-<image src="https://qcloudimg.tencent-cloud.cn/image/document/7d017fe973aec9ad1f75659a3784db4e.jpeg"></image></li>
+<image src="https://qcloudimg.tencent-cloud.cn/image/document/7d017fe973aec9ad1f75659a3784db4e.jpeg"></li>
 <li><p>通过 Service 资源的配置选项保留客户端源 IP<br>修改Nginx Ingress Controller 的 Service</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">externalTrafficPolicy:</span> <span class="string">Local</span></span><br></pre></td></tr></table></figure>
-
-<p>详解<br><code>Cluster</code>：表示隐藏客户端源 IP，LoadBalancer 和 NodePort 类型服务流量可能会被转发到其他节点的 Pods。<br><code>Local</code>：表示保留客户端源 IP 并避免 LoadBalancer 和 NodePort 类型的服务流量转发到其他节点的 Pods。<br>⚠️Local的缺点：会存在潜在的 Pods（Endpoints）流量负载不均衡风险。<br><a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/create-external-load-balancer/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/tasks/access-application-cluster/create-external-load-balancer/</a></p>
+<p>详解<br><code>Cluster</code>：表示隐藏客户端源 IP，LoadBalancer 和 NodePort 类型服务流量可能会被转发到其他节点的 Pods。<br><code>Local</code>：表示保留客户端源 IP 并避免 LoadBalancer 和 NodePort 类型的服务流量转发到其他节点的 Pods。<br>⚠️Local的缺点：会存在潜在的 Pods（Endpoints）流量负载不均衡风险。<br><a href="https://kubernetes.io/zh/docs/tasks/access-application-cluster/create-external-load-balancer/">https://kubernetes.io/zh/docs/tasks/access-application-cluster/create-external-load-balancer/</a></p>
 <p>配置生效后，在后端获取 HTTP Header 中的 X-Forwarded-For 或 X-Real-IP 字段值得到客户端真实源 IP。</p>
 </li>
 </ol>
@@ -225,15 +224,15 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> nginx-1.17.0</span><br><span class="line">./configure --prefix=/path/server/nginx --with-http_realip_module</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>vi /etc/nginx/nginx.conf</p>
-<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">log_format</span> main <span class="string">'<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] "<span class="variable">$request</span>" '</span></span><br><span class="line">                <span class="string">'<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> "<span class="variable">$http_referer</span>" '</span></span><br><span class="line">                <span class="string">'"<span class="variable">$http_user_agent</span>" "<span class="variable">$http_x_forwarded_for</span>"'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#若代理的回源IP比较分散，或不清楚代理回源IP时，可以写成0.0.0.0/0，代表所有请求都从XFF中获取源IP</span></span><br><span class="line">    <span class="attribute">set_real_ip_from</span> <span class="number">10.0.0.0</span>/<span class="number">8</span>;  <span class="comment"># 假设 CLB 的 IP 段是 10.0.0.0/8</span></span><br><span class="line">    <span class="attribute">real_ip_recursive</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">real_ip_header</span> X-Forwarded-For;</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span> your_domain;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://backend;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">            <span class="comment">#把X-Forwarded-For 和 X-Real-IP 字段转发给后端</span></span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="attribute">log_format</span> main <span class="string">&#x27;<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] &quot;<span class="variable">$request</span>&quot; &#x27;</span></span><br><span class="line">                <span class="string">&#x27;<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> &quot;<span class="variable">$http_referer</span>&quot; &#x27;</span></span><br><span class="line">                <span class="string">&#x27;&quot;<span class="variable">$http_user_agent</span>&quot; &quot;<span class="variable">$http_x_forwarded_for</span>&quot;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#若代理的回源IP比较分散，或不清楚代理回源IP时，可以写成0.0.0.0/0，代表所有请求都从XFF中获取源IP</span></span><br><span class="line">    <span class="attribute">set_real_ip_from</span> <span class="number">10.0.0.0</span>/<span class="number">8</span>;  <span class="comment"># 假设 CLB 的 IP 段是 10.0.0.0/8</span></span><br><span class="line">    <span class="attribute">real_ip_recursive</span> <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">real_ip_header</span> X-Forwarded-For;</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span> your_domain;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://backend;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</span><br><span class="line">            <span class="comment">#把X-Forwarded-For 和 X-Real-IP 字段转发给后端</span></span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</span><br><span class="line">            <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="CLB"><a href="#CLB" class="headerlink" title="CLB"></a>CLB</h4><p>使用云平台中的 CLB 直通 Pod 的转发功能（CLB 透传转发，并绕过 Kubernetes Service 流量转发），后端 Pods 收到的请求的源 IP 即为客户端真实源 IP<br>此方式适用于四层及七层服务的转发场景<br><image src="https://qcloudimg.tencent-cloud.cn/image/document/99f01ebf33d7a1ca525b9695395d7f8a.jpeg"></image></p>
+<h4 id="CLB"><a href="#CLB" class="headerlink" title="CLB"></a>CLB</h4><p>使用云平台中的 CLB 直通 Pod 的转发功能（CLB 透传转发，并绕过 Kubernetes Service 流量转发），后端 Pods 收到的请求的源 IP 即为客户端真实源 IP<br>此方式适用于四层及七层服务的转发场景<br><image src="https://qcloudimg.tencent-cloud.cn/image/document/99f01ebf33d7a1ca525b9695395d7f8a.jpeg"></p>
 <p><del>废弃方案,使用后不生效</del></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apiVersion: networking.k8s.io/v1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress</span><br><span class="line">  annotations:</span><br><span class="line">    # 启用 X-Forwarded-* 请求头的处理</span><br><span class="line">    nginx.ingress.kubernetes.io/use-forwarded-headers: &quot;true&quot;</span><br><span class="line">    # 指定从 X-Forwarded-For 请求头中获取真实 IP</span><br><span class="line">    nginx.ingress.kubernetes.io/real-ip-header: &quot;X-Forwarded-For&quot;</span><br><span class="line">    # 将请求头中的 IP 设置为客户端的真实 IP</span><br><span class="line">    nginx.ingress.kubernetes.io/set-real-ip-header: &quot;true&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apiVersion: networking.k8s.io/v1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: ingress</span><br><span class="line">  annotations:</span><br><span class="line">    # 启用 X-Forwarded-* 请求头的处理</span><br><span class="line">    nginx.ingress.kubernetes.io/use-forwarded-headers: &quot;true&quot;</span><br><span class="line">    # 指定从 X-Forwarded-For 请求头中获取真实 IP</span><br><span class="line">    nginx.ingress.kubernetes.io/real-ip-header: &quot;X-Forwarded-For&quot;</span><br><span class="line">    # 将请求头中的 IP 设置为客户端的真实 IP</span><br><span class="line">    nginx.ingress.kubernetes.io/set-real-ip-header: &quot;true&quot;</span><br></pre></td></tr></table></figure>
 
 <h4 id="踩坑记录："><a href="#踩坑记录：" class="headerlink" title="踩坑记录："></a>踩坑记录：</h4><p>查看到log_format有启用，access_log 被注释掉了，但仍然有日志输出，日志一直打印不出来真实IP<br>原因：<br>Nginx 默认会生成 access.log 文件，即使在配置文件中没有显式指定 access_log 指令。默认情况下，Nginx 会将访问日志写入 logs/access.log 文件。<br>如果你在配置文件中注释掉了 access_log 指令，但没有完全禁用日志记录，Nginx 仍然会使用默认配置生成日志。<br>解决方案：<br>把access.log开启，重新reload即可</p>
-<p>参考文档：<br><a href="https://cloud.tencent.com/document/product/214/3728" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/214/3728</a><br><a href="https://cloud.tencent.com/document/product/457/48949" target="_blank" rel="noopener">https://cloud.tencent.com/document/product/457/48949</a></p>
-</image>
+<p>参考文档：<br><a href="https://cloud.tencent.com/document/product/214/3728">https://cloud.tencent.com/document/product/214/3728</a><br><a href="https://cloud.tencent.com/document/product/457/48949">https://cloud.tencent.com/document/product/457/48949</a></p>
+
         </div>
 
         
@@ -264,14 +263,28 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/03/31/脚本实现推送部署/">脚本实现推送部署</a>
+                <a class="prev" rel="prev" href="/2025/03/31/%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E6%8E%A8%E9%80%81%E9%83%A8%E7%BD%B2/">脚本实现推送部署</a>
             
             
             <a class="next" rel="next" href="/2025/01/14/OpenTelemetry/">OpenTelemetry</a>
             
         </section>
 
-        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
 </script>
 <script src="/js/clipboard.min.js"></script>
 <script>

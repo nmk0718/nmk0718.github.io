@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang>
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="">
+<head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="kk">
@@ -34,7 +35,7 @@
     <script src="/js/tocbot.min.js"></script>
     
 
-<link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
 </head>
 <body>
     <div class="wrapper">
@@ -218,10 +219,9 @@
 <li><code>preStop</code> ：配置preStop 钩子在容器停止前发送 HTTP 请求把该服务Nacos的状态设置为下线，不接收服务发现流量。</li>
 </ol>
 <h3 id="三、实现步骤"><a href="#三、实现步骤" class="headerlink" title="三、实现步骤"></a>三、实现步骤</h3><h4 id="设置服务默认不上线"><a href="#设置服务默认不上线" class="headerlink" title="设置服务默认不上线"></a>设置服务默认不上线</h4><p>配置JAVA_OPTS的<code>-Dspring.cloud.nacos.discovery.instanceEnabled</code>参数为false，即可实现服务启动注册后是下线状态</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">    - name: gac-iop-base</span><br><span class="line">      env:</span><br><span class="line">        - name: JAVA_OPTS</span><br><span class="line">          value: &apos;-Xms2g -Xmx4g -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=512m -Dspring.profiles.active=uat -Dspring.cloud.consul.enabled=false -Dtsf.discovery.ribbon.enabled=false -Dspring.cloud.nacos.discovery.instanceEnabled=false&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">    - name: gac-iop-base</span><br><span class="line">      env:</span><br><span class="line">        - name: JAVA_OPTS</span><br><span class="line">          value: &#x27;-Xms2g -Xmx4g -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=512m -Dspring.profiles.active=uat -Dspring.cloud.consul.enabled=false -Dtsf.discovery.ribbon.enabled=false -Dspring.cloud.nacos.discovery.instanceEnabled=false&#x27;</span><br></pre></td></tr></table></figure>
 
-<h4 id="配置startupProbe探针"><a href="#配置startupProbe探针" class="headerlink" title="配置startupProbe探针"></a>配置startupProbe探针</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">startupProbe:</span></span><br><span class="line">  <span class="attr">exec:</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/bin/bash</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'-c'</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">'HEALTH_HTTP_CODE=$(curl --connect-timeout 5 -I -s http://localhost:8090/health/Check | grep HTTP | awk '</span><span class="string">'&#123;print $2&#125;'</span><span class="string">') &amp;&amp; if [[ $HEALTH_HTTP_CODE -eq 200 ]]; then curl -X POST "http://localhost:8090/actuator/serviceregistry" --header '</span><span class="string">'Content-Type: application/json'</span><span class="string">' -d '</span><span class="string">'&#123;"status": "UP"&#125;'</span><span class="string">' &amp;&amp; sleep 2s &amp;&amp; NACOS_SERVICE_STATUS=$(curl http://localhost:8090/actuator/service-registry-status) &amp;&amp; if [[ $NACOS_SERVICE_STATUS == *'</span><span class="string">'"status":"UP"'</span><span class="string">'* ]]; then echo '</span><span class="string">'Nacos服务状态为上线状态'</span><span class="string">'; exit 0; else exit 1; fi; else echo '</span><span class="string">'健康检查失败'</span><span class="string">'; exit 1; fi'</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
-
+<h4 id="配置startupProbe探针"><a href="#配置startupProbe探针" class="headerlink" title="配置startupProbe探针"></a>配置startupProbe探针</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">startupProbe:</span></span><br><span class="line">  <span class="attr">exec:</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/bin/bash</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;-c&#x27;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&#x27;HEALTH_HTTP_CODE=$(curl --connect-timeout 5 -I -s http://localhost:8090/health/Check | grep HTTP | awk <span class="char escape_">&#x27;&#x27;</span>&#123;print $2&#125;<span class="char escape_">&#x27;&#x27;</span>) &amp;&amp; if [[ $HEALTH_HTTP_CODE -eq 200 ]]; then curl -X POST &quot;http://localhost:8090/actuator/serviceregistry&quot; --header <span class="char escape_">&#x27;&#x27;</span>Content-Type: application/json<span class="char escape_">&#x27;&#x27;</span> -d <span class="char escape_">&#x27;&#x27;</span>&#123;&quot;status&quot;: &quot;UP&quot;&#125;<span class="char escape_">&#x27;&#x27;</span> &amp;&amp; sleep 2s &amp;&amp; NACOS_SERVICE_STATUS=$(curl http://localhost:8090/actuator/service-registry-status) &amp;&amp; if [[ $NACOS_SERVICE_STATUS == *<span class="char escape_">&#x27;&#x27;</span>&quot;status&quot;:&quot;UP&quot;<span class="char escape_">&#x27;&#x27;</span>* ]]; then echo <span class="char escape_">&#x27;&#x27;</span>Nacos服务状态为上线状态<span class="char escape_">&#x27;&#x27;</span>; exit 0; else exit 1; fi; else echo <span class="char escape_">&#x27;&#x27;</span>健康检查失败<span class="char escape_">&#x27;&#x27;</span>; exit 1; fi&#x27;</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
 <p>脚本逻辑：</p>
 <ul>
 <li>请求服务健康检测接口，判断接口返回的状态码是否为200，如果为200请求服务接口把Nacos状态改为上线，因为上线接口为异步接口，睡眠2s后，请求接口查看服务状态是否为上线，如果是上线状态返回为成功，如果不是上线状态退出重启</li>
@@ -233,8 +233,7 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">readinessProbe:</span></span><br><span class="line">  <span class="attr">httpGet:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/health/Check</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8090</span></span><br><span class="line">    <span class="attr">scheme:</span> <span class="string">HTTP</span></span><br><span class="line">  <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">timeoutSeconds:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">periodSeconds:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">successThreshold:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">failureThreshold:</span> <span class="number">3</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="配置preStop钩子"><a href="#配置preStop钩子" class="headerlink" title="配置preStop钩子"></a>配置preStop钩子</h4><p>设置 preStop 钩子，在容器关闭前执行服务下线</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line">    <span class="attr">lifecycle:</span></span><br><span class="line">      <span class="attr">preStop:</span></span><br><span class="line">        <span class="attr">exec:</span></span><br><span class="line">          <span class="attr">command:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">/bin/bash</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">'-c'</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">'curl -X POST "http://localhost:8090/actuator/serviceregistry" --header '</span><span class="string">'Content-Type: application/json'</span><span class="string">' -d '</span><span class="string">'&#123;"status": "DOWN"&#125;'</span><span class="string">';sleep 40;'</span></span><br><span class="line"><span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">terminationGracePeriodSeconds:</span> <span class="number">45</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line">    <span class="attr">lifecycle:</span></span><br><span class="line">      <span class="attr">preStop:</span></span><br><span class="line">        <span class="attr">exec:</span></span><br><span class="line">          <span class="attr">command:</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">/bin/bash</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">&#x27;-c&#x27;</span></span><br><span class="line">            <span class="bullet">-</span> <span class="string">&#x27;curl -X POST &quot;http://localhost:8090/actuator/serviceregistry&quot; --header <span class="char escape_">&#x27;&#x27;</span>Content-Type: application/json<span class="char escape_">&#x27;&#x27;</span> -d <span class="char escape_">&#x27;&#x27;</span>&#123;&quot;status&quot;: &quot;DOWN&quot;&#125;<span class="char escape_">&#x27;&#x27;</span>;sleep 40;&#x27;</span></span><br><span class="line"><span class="attr">restartPolicy:</span> <span class="string">Always</span></span><br><span class="line"><span class="attr">terminationGracePeriodSeconds:</span> <span class="number">45</span></span><br></pre></td></tr></table></figure>
 <p><span style="color: grey;">可在 Pod 定义中添加 terminationGracePeriodSeconds: 30（可根据实际情况调整时间），确保给 Java 应用足够的时间完成优雅停机逻辑。当30s还未处理完commoand,容器会直接kill掉</span><br>⚠️自建Nacos,服务上下线会做主动推送，云服务因安全问题，Nacos SDK 1.X版本不会做主动推送。服务会轮询去Nacos拉取服务状态（时间间隔默认是30s），可观察服务代码和日志确认时间间隔，设置preStop钩子的时间大于该间隔，terminationGracePeriodSeconds时间大于preStop处理时间</p>
 <p>通过以上步骤，即可在 Kubernetes 中实现 Java 应用的优雅停机，充分发挥其带来的种种优势，保障应用的稳定运行和良好的用户体验。</p>
 <h3 id="四、扩展"><a href="#四、扩展" class="headerlink" title="四、扩展"></a>四、扩展</h3><h4 id="Nacos服务上下线的两种方式"><a href="#Nacos服务上下线的两种方式" class="headerlink" title="Nacos服务上下线的两种方式"></a>Nacos服务上下线的两种方式</h4><p><strong>1. 请求Nacos的API接口</strong><br>使用 curl 请求 Nacos 接口无需额外配置，其默认支持，但需确保以下参数正确无误：</p>
@@ -242,18 +241,16 @@
 <li>必要参数 ：nacos 的 IP 和端口，服务注册的命名空间、服务名、集群名、分组名，以及服务的实例 IP 和端口。</li>
 </ul>
 <p>服务下线</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">"http://nacosip:port/nacos/v1/ns/instance?serviceName=myservice&amp;groupName=travel-pro&amp;ip=service_ip&amp;port=service_port&amp;namespaceId=namespace-pro&amp;clusterName=cluster-pro&amp;enabled=false"</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">&quot;http://nacosip:port/nacos/v1/ns/instance?serviceName=myservice&amp;groupName=travel-pro&amp;ip=service_ip&amp;port=service_port&amp;namespaceId=namespace-pro&amp;clusterName=cluster-pro&amp;enabled=false&quot;</span></span><br></pre></td></tr></table></figure>
 <p>服务上线</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">"http://nacosip:port/nacos/v1/ns/instance?serviceName=myservice&amp;groupName=travel-pro&amp;ip=service_ip&amp;port=service_port&amp;namespaceId=namespace-pro&amp;clusterName=cluster-pro&amp;enabled=true"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X PUT <span class="string">&quot;http://nacosip:port/nacos/v1/ns/instance?serviceName=myservice&amp;groupName=travel-pro&amp;ip=service_ip&amp;port=service_port&amp;namespaceId=namespace-pro&amp;clusterName=cluster-pro&amp;enabled=true&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>2. 基于Spring Cloud的service-registry端点</strong></p>
 <p>在配置文件中开启service-registry端点：</p>
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line">  <span class="attr">endpoints:</span></span><br><span class="line">    <span class="attr">web:</span></span><br><span class="line">      <span class="attr">exposure:</span></span><br><span class="line">        <span class="attr">include:</span> <span class="string">service-registry</span></span><br><span class="line">      <span class="attr">base-path:</span> <span class="string">/actuator</span></span><br><span class="line">  <span class="attr">endpoint:</span></span><br><span class="line">    <span class="attr">serviceregistry:</span></span><br><span class="line">      <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <p>通过curl命令来进行服务状态的修改：上线是UP，下线是DOWN</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X POST <span class="string">"http://localhost:<span class="variable">$port</span>/actuator/serviceregistry"</span> --header <span class="string">'Content-Type: application/json'</span> -d <span class="string">'&#123;"status": "DOWN"&#125;'</span></span><br></pre></td></tr></table></figure>
-
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -X POST <span class="string">&quot;http://localhost:<span class="variable">$port</span>/actuator/serviceregistry&quot;</span> --header <span class="string">&#x27;Content-Type: application/json&#x27;</span> -d <span class="string">&#x27;&#123;&quot;status&quot;: &quot;DOWN&quot;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
 <p>⚠️AI查询serviceregistry端口，PUT请求可更改上下线状态，GET请求可获取服务状态，实测GET请求无任何返回，后续由开发新写接口service-registry-status来查询服务状态是否上下线。<br>springcloud引入actuator的版本的版本不同，端点也会有差异，需与开发确认端点是serviceregistry还是service-registry</p>
 <h4 id="优雅停机清理资源"><a href="#优雅停机清理资源" class="headerlink" title="优雅停机清理资源"></a>优雅停机清理资源</h4><p><strong>结合service-registry端点与Shutdown Hook实现资源的完美清理</strong></p>
 <ul>
@@ -275,12 +272,12 @@
 <li>恢复服务状态：通过service-registry端点将服务状态重新设置为UP，使服务恢复对外提供服务。</li>
 </ol>
 <p>以下是一个简单的示例，展示如何在Spring Boot应用中添加Shutdown Hook以实现优雅停机：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GracefulShutdownApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(GracefulShutdownApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加Shutdown Hook</span></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// 关闭数据库连接池</span></span><br><span class="line">            <span class="comment">// dataSource.close();</span></span><br><span class="line">            <span class="comment">// 关闭线程池</span></span><br><span class="line">            <span class="comment">// executorService.shutdown();</span></span><br><span class="line">            <span class="comment">// 等待正在处理的请求完成</span></span><br><span class="line">            System.out.println(<span class="string">"正在执行Shutdown Hook，进行资源清理..."</span>);</span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.client.discovery.EnableDiscoveryClient;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableDiscoveryClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">GracefulShutdownApplication</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(GracefulShutdownApplication.class, args);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 添加Shutdown Hook</span></span><br><span class="line">        Runtime.getRuntime().addShutdownHook(<span class="keyword">new</span> <span class="title class_">Thread</span>(() -&gt; &#123;</span><br><span class="line">            <span class="comment">// 关闭数据库连接池</span></span><br><span class="line">            <span class="comment">// dataSource.close();</span></span><br><span class="line">            <span class="comment">// 关闭线程池</span></span><br><span class="line">            <span class="comment">// executorService.shutdown();</span></span><br><span class="line">            <span class="comment">// 等待正在处理的请求完成</span></span><br><span class="line">            System.out.println(<span class="string">&quot;正在执行Shutdown Hook，进行资源清理...&quot;</span>);</span><br><span class="line">        &#125;));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>参考文档：</p>
 <ul>
-<li><a href="https://cloud.tencent.com/developer/article/1913433" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1913433</a></li>
-<li><a href="https://blog.csdn.net/nihao2q/article/details/147456643" target="_blank" rel="noopener">https://blog.csdn.net/nihao2q/article/details/147456643</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1913433">https://cloud.tencent.com/developer/article/1913433</a></li>
+<li><a href="https://blog.csdn.net/nihao2q/article/details/147456643">https://blog.csdn.net/nihao2q/article/details/147456643</a></li>
 </ul>
 
         </div>
@@ -314,11 +311,25 @@
         <section class="post-nav">
             
             
-            <a class="next" rel="next" href="/2025/03/31/脚本实现推送部署/">脚本实现推送部署</a>
+            <a class="next" rel="next" href="/2025/03/31/%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E6%8E%A8%E9%80%81%E9%83%A8%E7%BD%B2/">脚本实现推送部署</a>
             
         </section>
 
-        <script src="https://giscus.app/client.js" data-repo="nmk0718/nmk0718.github.io" data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY=" data-category="Announcements" data-category-id="DIC_kwDODJpn8s4Clzt8" data-mapping="title" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="noborder_light" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
 </script>
 <script src="/js/clipboard.min.js"></script>
 <script>
