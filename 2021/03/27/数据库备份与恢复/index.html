@@ -204,13 +204,10 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir -p /data/mysqlbackup/</span><br></pre></td></tr></table></figure>
 
 <p>创建备份的脚本</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@prod-ghospital mysqlbackup]# cat backup.sh </span><br><span class="line">#!/bin/bash</span><br><span class="line">mysqldump -upraise -pAf9Ed1Bb827b.4@9eB=&#123;9c4f --all-databases &gt;/data/mysqlbackup/praise-`date &quot;+%y-%m-%d&quot;`.sql</span><br><span class="line">mysqldump -umessage -p4666dd3a@79.d24=9cD&#123;b382 --all-databases &gt;/data/mysqlbackup/message-`date &quot;+%y-%m-%d&quot;`.sql</span><br><span class="line">mysqldump -uvideo -pDd0&#123;A9e2026c=94d13b@.62f --all-databases &gt;/data/mysqlbackup/video-`date &quot;+%y-%m-%d&quot;`.sql</span><br><span class="line">mysqldump --single-transaction -unethospital -p97@9EbeA7.=1Fb04&#123;e87998d --all-databases &gt;/data/mysqlbackup/nethospital-`date &quot;+%y-%m-%d&quot;`.sql</span><br><span class="line">mysqldump -uhospunion -p76984a&#125;74aE964e69b4Ce31,.ff&#123;2f02 --all-databases &gt;/data/mysqlbackup/hospunion-`date &quot;+%y-%m-%d&quot;`.sql</span><br><span class="line">find /data/mysqlbackup -type f -name &quot;*.sql&quot; -mtime +7 -exec rm -rf &#123;&#125; \;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@prod-ghospital mysqlbackup]# cat backup.sh </span><br><span class="line">#!/bin/bash</span><br><span class="line">mysqldump -upraise -p12345 --all-databases &gt;/data/mysqlbackup/praise-`date &quot;+%y-%m-%d&quot;`.sql</span><br><span class="line">find /data/mysqlbackup -type f -name &quot;*.sql&quot; -mtime +7 -exec rm -rf &#123;&#125; \;</span><br></pre></td></tr></table></figure>
 
 <p>加入定时任务</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@prod-ghospital mysqlbackup]# crontab -l</span><br><span class="line">*/10 1 * * * /bin/sh /data/mysqlbackup/backup.sh</span><br></pre></td></tr></table></figure>
-
-<p>备份公众号数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysqldump -ucdh -pCDH360lj#com2019 -h139.159.192.185 --all-databases &gt;/home/mysql.sql</span><br></pre></td></tr></table></figure>
 
 <h4 id="备份Postgresql"><a href="#备份Postgresql" class="headerlink" title="备份Postgresql"></a>备份Postgresql</h4><p>更改为postgres用户</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">su postgres</span><br></pre></td></tr></table></figure>
@@ -267,21 +264,21 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@dev-database ~]# grep &quot;temporary password&quot; /var/log/mysqld.log</span><br><span class="line">2020-10-27T08:30:11.011852Z 1 [Note] A temporary password is generated for root@localhost: iEOu+Tz47m-)</span><br></pre></td></tr></table></figure>
 
 <p>登录mysql</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@dev-database ~]# mysql -u root -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 5</span><br><span class="line">Server version: 5.7.32</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#x27;Liangjian@360&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; grant all privileges on *.* to &#x27;root&#x27;@&#x27;%&#x27; identified by &#x27;Liangjian@360&#x27;;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@dev-database ~]# mysql -u root -p</span><br><span class="line">Enter password: </span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 5</span><br><span class="line">Server version: 5.7.32</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; ALTER USER USER() IDENTIFIED BY &#x27;Liasdvzx@12345&#x27;;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; grant all privileges on *.* to &#x27;root&#x27;@&#x27;%&#x27; identified by &#x27;Liasdvzx@12345&#x27;;</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
 
 <p>创建用户</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER &#x27;hospitalTest&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;Liangjian123360@8899&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">CREATE USER &#x27;Test&#x27;@&#x27;%&#x27; IDENTIFIED BY &#x27;Liasdvzqwex@123451&#x27;;</span><br></pre></td></tr></table></figure>
 
 <p>授权</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT ALL ON *.* TO &#x27;hospitalTest&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">GRANT ALL ON *.* TO &#x27;Test&#x27;@&#x27;%&#x27;;</span><br></pre></td></tr></table></figure>
 
 <p>恢复数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uhospitalTest -pLiangjian123360@8899</span><br><span class="line">CREATE DATABASE hospunion;</span><br><span class="line">use hospunion;</span><br><span class="line">source /home/hospunion-20-10-27.sql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uTest -Liasdvzqwex@123451</span><br><span class="line">CREATE DATABASE hospunion;</span><br><span class="line">use hospunion;</span><br><span class="line">source /home/hospunion-20-10-27.sql</span><br></pre></td></tr></table></figure>
 
 <h5 id="恢复单个库"><a href="#恢复单个库" class="headerlink" title="恢复单个库"></a>恢复单个库</h5><p>方法一:</p>
 <p>从全备中直接导入单个库 </p>
 <p>格式：mysql -u用户 -p密码 单个数据库名  –one-database &lt; 全备的sql文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p&#x27;nmk@0718&#x27;  test  -o  &lt; databases-2022-07-08.sql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p&#x27;nmk123141&#x27;  test  -o  &lt; databases-2022-07-08.sql</span><br></pre></td></tr></table></figure>
 
 <p>方法二:</p>
 <p>从全备中直接导出库数据到新的sql文件</p>
@@ -289,7 +286,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sed -n &#x27;/^-- Current Database: `test`/,/^-- Current Database: `/p&#x27; databases-2022-07-08.sql &gt; test.sql</span><br></pre></td></tr></table></figure>
 
 <p>将提取出的新的sql数据导入数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p&#x27;nmk@0718&#x27;  &lt; test.sql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mysql -uroot -p&#x27;nmk123141&#x27;  &lt; test.sql</span><br></pre></td></tr></table></figure>
 
 <h5 id="恢复单个表"><a href="#恢复单个表" class="headerlink" title="恢复单个表"></a>恢复单个表</h5><p>方法一:</p>
 <p>从全备份中导出该表的建表语句到新的sql文件中</p>
@@ -321,7 +318,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">psql</span><br></pre></td></tr></table></figure>
 
 <p>修改密码</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">postgres=# ALTER ROLE postgres WITH PASSWORD &#x27;Liangjian@360&#x27;;</span><br><span class="line">ALTER ROLE</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">postgres=# ALTER ROLE postgres WITH PASSWORD &#x27;Liasdvzx@12345&#x27;;</span><br><span class="line">ALTER ROLE</span><br></pre></td></tr></table></figure>
 
 <p>将认证方式修改为密码认证，打开</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/var/lib/pgsql/12/data/pg_hba.conf</span><br><span class="line"></span><br><span class="line">更改为以下配置</span><br><span class="line"># TYPE  DATABASE        USER            ADDRESS                 METHOD</span><br><span class="line"></span><br><span class="line"># &quot;local&quot; is for Unix domain socket connections only</span><br><span class="line">local   all             all                                     peer</span><br><span class="line"># IPv4 local connections:</span><br><span class="line">host    all             all             127.0.0.1/32            ident</span><br><span class="line"># IPv6 local connections:</span><br><span class="line">host    all             all             ::1/128                 ident</span><br><span class="line"># Allow replication connections from localhost, by a user with the</span><br><span class="line"># replication privilege.</span><br><span class="line">#local   replication     all                                     peer</span><br><span class="line">#host    replication     all             127.0.0.1/32            ident</span><br><span class="line">#host    replication     all             ::1/128                 ident</span><br><span class="line">host    all             all             0.0.0.0/0              md5</span><br></pre></td></tr></table></figure>
@@ -345,7 +342,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">psql -U postgres -f pgbackup-2020-10-27.bak</span><br></pre></td></tr></table></figure>
 
 <p>数据库恢复完,postgres远程连接密码会默认变为生产数据库密码,需要手动进行修改才可远程连接,本地连接密码不变</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter user postgres with password &#x27;Liangjian@360&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">alter user postgres with password &#x27;Liasdvzx@12345&#x27;;</span><br></pre></td></tr></table></figure>
 
 <h4 id="恢复sqlserver"><a href="#恢复sqlserver" class="headerlink" title="恢复sqlserver"></a>恢复sqlserver</h4><p>下载sql server的源，便于通过yum命令来安装</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@dev-database home]# curl https://packages.microsoft.com/config/rhel/7/mssql-server-2017.repo &gt; /etc/yum.repos.d/mssql-server.repo</span><br><span class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><br><span class="line">                                 Dload  Upload   Total   Spent    Left  Speed</span><br><span class="line">100   232  100   232    0     0    153      0  0:00:01  0:00:01 --:--:--   153</span><br><span class="line">[root@dev-database home]# cat /etc/yum.repos.d/mssql-server.repo</span><br><span class="line">[packages-microsoft-com-mssql-server-2017]</span><br><span class="line">name=packages-microsoft-com-mssql-server-2017</span><br><span class="line">baseurl=https://packages.microsoft.com/rhel/7/mssql-server-2017/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">gpgkey=https://packages.microsoft.com/keys/microsoft.asc</span><br></pre></td></tr></table></figure>

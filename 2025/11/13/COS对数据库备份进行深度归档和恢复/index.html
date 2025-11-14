@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>COS对数据库备份进行深度归档和恢复</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Home</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/moments">Moments</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Home</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/moments">Moments</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">COS对数据库备份进行深度归档和恢复</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2025-11-13&nbsp;&nbsp;16:20</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><blockquote>
+<p>数据库控制台备份只保留了7天，审计要求保留较久的备份，通过COS函数计算把备份的文件投递到COS进行深度归档，来满足审计要求。</p>
+</blockquote>
+<p>底层逻辑：</p>
+<ul>
+<li>数据备份函数是把腾讯云数据库的备份文件复制到COS进行持久保存.</li>
+<li>若未开启数据库备份，则无法执行备份函数。</li>
+<li>该操作只是复制备份，对数据库实例不会造成影响。</li>
+</ul>
+<h4 id="Mysql备份恢复"><a href="#Mysql备份恢复" class="headerlink" title="Mysql备份恢复"></a>Mysql备份恢复</h4><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/mysql-scf.png" />
+- 触发器周期：MySQL 数据备份函数通过定时触发器来触发备份转存操作，触发周期支持每天、每周及自定义周期。
+- 数据库实例：当前存储桶所在地域的 MySQL 数据库实例列表。
+- 投递路径：备份文件的投递路径前缀，不填写则默认保存在存储桶根路径。
+- 回溯天数：输入要回溯的时间跨度，回溯天数必须为 0 ~ 3 的整数。例如回溯天数为3，则会拉取您数据库实例近 3 天的备份文件列表，将备份文件下载并上传到 COS。
+
+
+<p>备份完成后，对备份的数据库文件进行归档存储。（因MYSQL备份函数不支持选择存储类型，通过生命周期实现）</p>
+<table>
+<thead>
+<tr>
+<th>规则名称</th>
+<th>应用范围</th>
+<th>规则内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mysql_archive_backup</td>
+<td>前缀：pro_mysql_archive_backup/</td>
+<td>当前版本文件沉降至深度归档存储：1 天</td>
+</tr>
+</tbody></table>
+<p>恢复已备份的数据库文件<br>取回备份文件<br>对归档的数据库备份文件进行快速取回<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/mysql-objectrestore.png" /><br>取回文件后，即可通过下载链接进行下载该备份<br>下载并安装 XtraBackup 工具。<br>请确保您下载的工具的版本与您数据库的版本一致，例如您的实例数据库版本为 MySQL 8.0.30，则请对应下载8.0.30版本的 Percona XtraBackup 工具。<br>查看到部分生产开启了数据库备份加密，部分未开启，UAT是未开启备份加密，所以此处恢复还原是没有加密操作的。<br>查看数据库版本<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/mysql-version.png" /><br>根据对应的版本信息，查询对应的Mysql版本<br><a href="https://cloud.tencent.com/document/product/236/42539?from=console_document_search">https://cloud.tencent.com/document/product/236/42539?from=console_document_search</a><br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/mysql-doc.png" /></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://downloads.percona.com/downloads/Percona-XtraBackup-2.4/Percona-XtraBackup-2.4.27/binary/redhat/7/x86_64/percona-xtrabackup-24-2.4.27-1.el7.x86_64.rpm</span><br><span class="line">yum install -y percona-xtrabackup-24-2.4.27-1.el7.x86_64.rpm</span><br></pre></td></tr></table></figure>
+<p>#查看支持的版本</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@test-nmk ~]# xtrabackup -v</span><br><span class="line">xtrabackup: recognized server arguments: --datadir=/var/lib/mysql</span><br><span class="line">xtrabackup version 2.4.27 based on MySQL server 5.7.40 Linux (x86_64) (revision <span class="built_in">id</span>: aae8e82)</span><br></pre></td></tr></table></figure>
+<p>下载备份文件<br>通过内网下载cos的备份文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -c <span class="string">&#x27;https://dba-test.cos.ap-guangzhou.myqcloud.com/cdb-123/asda&#x27;</span> -O cdb-123_backup_20250807000826.xb</span><br></pre></td></tr></table></figure>
+<p>解包备份文件<br>使用 xbstream 命令将数据备份文件解包到目标目录。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">xbstream -x  -C /data/mysql &lt; /data/backup/cdb-123_backup_20250807000826.xb</span><br></pre></td></tr></table></figure>
+<p>解压备份文件<br>下载 qpress 工具</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -d --user-agent=<span class="string">&quot;Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0&quot;</span> https://docs-tencentdb-1256569818.cos.ap-guangzhou.myqcloud.com/qpress-11-linux-x64.tar</span><br></pre></td></tr></table></figure>
+<p>通过命令解压出qpress 二进制文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xf qpress-11-linux-x64.tar -C /usr/local/bin</span><br><span class="line"><span class="built_in">source</span> /etc/profile</span><br><span class="line">```bash</span><br><span class="line">将目标目录下所有以.qp结尾的文件都解压出来</span><br><span class="line">```bash</span><br><span class="line">[root@test-nmk mysql]# xtrabackup --decompress --target-dir=/data/mysql</span><br><span class="line">250807 15:24:14 [01] decompressing ./performance_schema/table_lock_waits_summary_by_table.frm.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./performance_schema/accounts.frm.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./__cdb_recycle_bin__/db.opt.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./brintech_ruqi_dev/db.opt.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./xtrabackup_slave_info.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./xtrabackup_binlog_info.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./xtrabackup_logfile.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./ib_buffer_pool.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./backup-my.cnf.qp</span><br><span class="line">250807 15:24:14 [01] decompressing ./xtrabackup_info.qp</span><br><span class="line">250807 15:24:14 completed OK!</span><br></pre></td></tr></table></figure>
+<p>Prepare 备份文件<br>备份解压出来之后，执行如下命令进行 apply log 操作。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@test-nmk mysql]# xtrabackup --prepare  --target-dir=/data/mysql</span><br><span class="line">xtrabackup: recognized server arguments: --innodb_checksum_algorithm=crc32 --innodb_log_checksum_algorithm=strict_crc32 --innodb_data_file_path=ibdata1:12M:autoextend --innodb_log_files_in_group=4 --innodb_log_file_size=1048576000 --innodb_fast_checksum=0 --innodb_page_size=16384 --innodb_log_block_size=512 --innodb_undo_directory=./ --innodb_undo_tablespaces=0 --server-id=0 --redo-log-version=1</span><br><span class="line">xtrabackup: recognized client arguments: --prepare=1 --target-dir=/data/mysql</span><br><span class="line">xtrabackup version 2.4.27 based on MySQL server 5.7.40 Linux (x86_64) (revision <span class="built_in">id</span>: aae8e82)</span><br><span class="line">xtrabackup: <span class="built_in">cd</span> to /data/mysql/</span><br><span class="line">xtrabackup: This target seems to be not prepared yet.</span><br><span class="line">InnoDB: Number of pools: 1</span><br><span class="line">InnoDB: FTS optimize thread exiting.</span><br><span class="line">InnoDB: Starting shutdown...</span><br><span class="line">InnoDB: Shutdown completed; <span class="built_in">log</span> sequence number 186619553320</span><br><span class="line">250807 16:16:42 completed OK!</span><br></pre></td></tr></table></figure>
+<p>修改配置文件<br>执行如下命令打开 backup-my.cnf 文件。<br>[root@test-nmk mysql]# vi /data/mysql/backup-my.cnf<br>说明：<br>由于存在的版本问题，请将解压文件 backup-my.cnf 中如下参数进行注释。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">innodb_checksum_algorithm</span></span><br><span class="line"><span class="string">innodb_log_checksum_algorithm</span></span><br><span class="line"><span class="string">innodb_fast_checksum</span></span><br><span class="line"><span class="string">innodb_page_size</span> </span><br><span class="line"><span class="string">innodb_log_block_size</span></span><br><span class="line"><span class="string">redo_log_version</span></span><br><span class="line"><span class="string">server_uuid</span></span><br><span class="line"><span class="string">master_key_id</span></span><br></pre></td></tr></table></figure>
+<p>修改文件属性<br>修改文件属性，并检查文件所属为 mysql 用户。<br>[root@test-nmk mysql]# chown -R mysql:mysql /data/mysql<br>启动 mysqld 进程并登录验证<br>启动 mysqld 进程。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@test-nmk mysql]# mysqld --defaults-file=/data/mysql/backup-my.cnf --user=mysql --datadir=/data/mysql &amp;</span><br><span class="line">[1] 54351</span><br></pre></td></tr></table></figure>
+<p>使用原数据库的账号进行登陆本地mysql</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@test-nmk ~]# mysql -h 10.30.24.180 -ugac_travel_test_new -p</span><br></pre></td></tr></table></figure>
+<p>对比原数据库的库数量，表数量，库大小，表大小，均是正常。<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/mysql-select.png" /><br>恢复完成。</p>
+<h4 id="PostgresSQL备份恢复"><a href="#PostgresSQL备份恢复" class="headerlink" title="PostgresSQL备份恢复"></a>PostgresSQL备份恢复</h4><p>通过PostgreSQL备份函数实现数据库备份<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/pgsql-scf.png" /><br>备份函数触发后，文件夹下会生成备份文件，备份的文件会自动创建以实例ID为开头的文件夹进行区分，BaseBackup为数据备份文件 logbackup为日志备份文件<br>可通过 <a href="https://cloud.tencent.com/document/product/409/11642">https://cloud.tencent.com/document/product/409/11642</a> 进行恢复</p>
+<p>备份完成后，配置生命周期对备份的数据库文件进行归档存储。</p>
+<table>
+<thead>
+<tr>
+<th>规则名称</th>
+<th>应用范围</th>
+<th>规则内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>postgresql_archive_backup</td>
+<td>前缀：pro_postgresql_archive_backup/</td>
+<td>当前版本文件沉降至深度归档存储：1 天</td>
+</tr>
+</tbody></table>
+<p>下载备份文件<br>通过内网下载cos的备份文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -c <span class="string">&#x27;https://dba-test.cos.ap-guangzhou.myqcloud.com/postgres-123/adb&#x27;</span> -O automatic-20251105144446.tar.zst</span><br></pre></td></tr></table></figure>
+<p>创建数据的恢复目录，并设置权限</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> pgsql</span><br><span class="line"><span class="built_in">chown</span> postgres /data/pgsql</span><br></pre></td></tr></table></figure>
+<p>安装 zstd 解压工具</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install epel-release -y</span><br><span class="line">yum install zstd -y</span><br><span class="line">zstd --version</span><br></pre></td></tr></table></figure>
+<p>解压备份的文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -I zstd -xvf automatic-20251105144446.tar.zst</span><br></pre></td></tr></table></figure>
+<p>删除多余的临时文件<br>执行如下命令，删除多余的临时文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf backup_label</span><br></pre></td></tr></table></figure>
+<p>修改配置文件<br>使用vi编辑器修改配置文件 postgresql.conf 。<br>在文件中找到以下内容，在每一行的行首添加 #，将其变为注释。 如有重复出现，则全部注释掉。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">pg_stat_statements.track</span></span><br><span class="line"><span class="string">synchronous_standby_names</span></span><br><span class="line"><span class="string">extension_blacklist</span></span><br><span class="line"><span class="string">archive_mode</span></span><br><span class="line"><span class="string">basebackup_exclude_paths</span></span><br><span class="line"><span class="string">tencentdb_syscache_max_num</span></span><br><span class="line"><span class="string">shared_preload_libraries</span></span><br><span class="line"><span class="string">tencentdb_relcache_max_num</span></span><br><span class="line"><span class="string">archive_command</span></span><br><span class="line"><span class="string">disable_dblink_connect_to_other</span></span><br><span class="line"><span class="string">tencentdb_az_five</span></span><br><span class="line"><span class="string">tencentdb_az_five</span></span><br><span class="line"><span class="string">tencentdb_relcache_evict_num</span></span><br><span class="line"><span class="string">pg_stat_statements.max</span></span><br><span class="line"><span class="string">soft_limit_connections</span></span><br><span class="line"><span class="string">tencentdb_syscache_evict_num</span></span><br><span class="line"><span class="string">tencentdb_enable_trusted_extension</span></span><br><span class="line"><span class="string">synchronous_commit</span></span><br><span class="line"><span class="string">tencentdb_enable_superuser_unsafe_behaviour</span></span><br><span class="line"><span class="string">tencentdb_enable_copy_to</span></span><br><span class="line"><span class="string">local_preload_libraries</span></span><br></pre></td></tr></table></figure>
+<p>说明：<br>特别地，必须注释 <code>include = &#39;standby.conf&#39;</code> 这一行。<br>将 log_destination = ‘csvlog,auditlog’ 修改为 log_destination = ‘csvlog’。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">log_destination = ‘csvlog’</span><br></pre></td></tr></table></figure>
+<p>找到 port ，将其值修改为5433，以免与主实例端口冲突。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">port = &#x27;5433&#x27;</span><br></pre></td></tr></table></figure>
+<p>在文件末尾文件末尾增加如下内容，表示不再使用强同步模式。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">synchronous_commit = local</span><br><span class="line">synchronous_standby_names = &#x27;&#x27;</span><br></pre></td></tr></table></figure>
+<p>使用 root 用户更改文件夹权限</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> 0700 pgsql</span><br><span class="line"><span class="built_in">chown</span> postgres:postgres pgsql -R</span><br></pre></td></tr></table></figure>
+<p>使用 postgres 用户启动数据库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@test-nmk pgsql]# su postgres</span><br><span class="line">bash-4.2$ /usr/pgsql-12/bin/pg_ctl start -D /data/pgsql -l logfile</span><br><span class="line">waiting <span class="keyword">for</span> server to start.... <span class="keyword">done</span></span><br><span class="line">server started</span><br></pre></td></tr></table></figure>
+<p>验证数据库是否运行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash-4.2$ /usr/pgsql-12/bin/pg_ctl status -D /data/pgsql</span><br><span class="line">pg_ctl: server is running (PID: 100081)</span><br><span class="line">/usr/pgsql-12/bin/postgres <span class="string">&quot;-D&quot;</span> <span class="string">&quot;/data/pgsql&quot;</span></span><br></pre></td></tr></table></figure>
+<p>登录数据库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash-4.2$ psql -h localhost -p 5433 -Utest -dmap</span><br><span class="line">psql (12.22)</span><br><span class="line">Type <span class="string">&quot;help&quot;</span> <span class="keyword">for</span> <span class="built_in">help</span>.</span><br><span class="line"></span><br><span class="line">map=&gt;</span><br></pre></td></tr></table></figure>
+<p>通过查询语句查看数据正常，恢复完成</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">map=&gt; \l</span><br><span class="line">                                List of databases</span><br><span class="line">   Name    |      Owner      | Encoding | Collate | Ctype |   Access privileges</span><br><span class="line">-----------+-----------------+----------+---------+-------+-----------------------</span><br><span class="line"> map       | <span class="built_in">test</span> | UTF8     | C       | C     |</span><br><span class="line"> postgres  | postgres        | UTF8     | C       | C     |</span><br><span class="line">(2 rows)</span><br><span class="line"></span><br><span class="line">map=&gt; \dn;</span><br><span class="line">     List of schemas</span><br><span class="line">  Name  |      Owner</span><br><span class="line">--------+-----------------</span><br><span class="line"> lbs    | <span class="built_in">test</span></span><br><span class="line"> map    | <span class="built_in">test</span></span><br><span class="line"> public | postgres</span><br><span class="line"></span><br><span class="line">map=&gt; \d map.*</span><br><span class="line">                                       Table <span class="string">&quot;map.action_log&quot;</span></span><br><span class="line">   Column   |       Type        | Collation | Nullable |                  Default</span><br><span class="line">------------+-------------------+-----------+----------+--------------------------------------------</span><br><span class="line"> <span class="built_in">id</span>         | <span class="built_in">integer</span>           |           | not null | nextval(<span class="string">&#x27;map.action_log_id_seq&#x27;</span>::regclass)</span><br><span class="line"> uid        | bigint            |           |          |</span><br><span class="line"> module     | character varying |           |          |</span><br><span class="line">Indexes:</span><br><span class="line">    <span class="string">&quot;action_log_pkey&quot;</span> PRIMARY KEY, btree (<span class="built_in">id</span>)</span><br><span class="line"></span><br><span class="line">                   Sequence <span class="string">&quot;map.action_log_id_seq&quot;</span></span><br><span class="line">  Type   | Start | Minimum |  Maximum   | Increment | Cycles? | Cache</span><br><span class="line">---------+-------+---------+------------+-----------+---------+-------</span><br><span class="line"> <span class="built_in">integer</span> |     1 |       1 | 2147483647 |         1 | no      |     1</span><br><span class="line">Owned by: map.action_log.id</span><br></pre></td></tr></table></figure>
+<h4 id="Mongdb备份恢复"><a href="#Mongdb备份恢复" class="headerlink" title="Mongdb备份恢复"></a>Mongdb备份恢复</h4><p>备份完成后，配置生命周期对备份的数据库文件进行归档存储。</p>
+<table>
+<thead>
+<tr>
+<th>规则名称</th>
+<th>应用范围</th>
+<th>规则内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mongodb_archive_backup</td>
+<td>前缀：pro_mongodb_archive_backup/</td>
+<td>当前版本文件沉降至深度归档存储：1 天</td>
+</tr>
+</tbody></table>
+<p>安装Mongodb<br>配置系统yum源，创建.repo文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vi /etc/yum.repos.d/mongodb-org-4.0.repo</span><br></pre></td></tr></table></figure>
+<p>添加以下配置信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[mongodb-org-4.0]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/<span class="variable">$releasever</span>/mongodb-org/4.0/x86_64/</span><br><span class="line">gpgcheck=0</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc</span><br></pre></td></tr></table></figure>
+<p>安装MongoDB</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install -y mongodb-org</span><br></pre></td></tr></table></figure>
+<p>启动MongoDB</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl start mongod.service</span><br></pre></td></tr></table></figure>
+<p>下载备份文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget -c <span class="string">&quot;https://dba-test.cos.ap-guangzhou.myqcloud.com/cmgo-123/adb&quot;</span> -O f162f9025712e1d3c07eb0d99d399105-0.tar</span><br></pre></td></tr></table></figure>
+<p>解压备份文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xf f162f9025712e1d3c07eb0d99d399105-0.tar</span><br></pre></td></tr></table></figure>
+<p>下载恢复工具</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-rhel70-x86_64-100.13.0.tgz</span><br><span class="line">tar zxvf  mongodb-database-tools-rhel70-x86_64-100.13.0.tgz</span><br></pre></td></tr></table></figure>
+<p>恢复数据库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">/data/mongodb-database-tools-rhel70-x86_64-100.13.0/bin/mongorestore --gzip --drop -h127.0.0.1:27017 --<span class="built_in">dir</span> /data/mongodb/cmgo-123\ 01\:00+f162f9025712e1d3c07eb0d99d399105-0/</span><br></pre></td></tr></table></figure>
+<p>恢复后看到日志打印</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">2025-11-13T16:04:31.114+0800        35274076 document(s) restored successfully. 0 document(s) failed to restore.</span><br></pre></td></tr></table></figure>
+<p>查看恢复的数据</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">\<span class="keyword">show</span> dbs</span><br><span class="line">TencetDTSData       <span class="number">0.000</span>GB</span><br><span class="line">admin               <span class="number">0.000</span>GB</span><br><span class="line">config              <span class="number">0.000</span>GB</span><br><span class="line">dts_verify_result   <span class="number">0.000</span>GB</span><br><span class="line"><span class="keyword">local</span>               <span class="number">0.000</span>GB</span><br><span class="line"><span class="keyword">user</span>               <span class="number">10.506</span>GB</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/database/"># database</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/11/10/%E4%BF%AE%E6%94%B9%E5%AE%B9%E5%99%A8%E6%97%B6%E9%97%B4/">修改容器时间</a>
+            
+        </section>
+
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            isCopying = true;
+                            setTimeout(function () {
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
