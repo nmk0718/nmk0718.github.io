@@ -12,7 +12,7 @@
 
 
 
-<title>腾讯云只授权用户tke登陆容器权限</title>
+<title>容器文件拉取指南</title>
 
 
 
@@ -185,14 +185,14 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">腾讯云只授权用户tke登陆容器权限</h1>
+            <h1 class="post-title">容器文件拉取指南</h1>
             
                 <div class="post-meta">
                     
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2024-09-23&nbsp;&nbsp;16:00</a>
+                        Date: <a href="#">2025-11-28&nbsp;&nbsp;15:24</a>
                         </span>
                     
                 </div>
@@ -200,16 +200,66 @@
         </header>
 
         <div class="post-content">
-            <h3 id="授权只读权限"><a href="#授权只读权限" class="headerlink" title="授权只读权限"></a>授权只读权限</h3><h4 id="选择策略生成器"><a href="#选择策略生成器" class="headerlink" title="选择策略生成器"></a>选择策略生成器</h4><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/RBAC-create.png" />
+            <h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><blockquote>
+<p>在 Kubernetes 容器环境中，通过 kubectl cp命令拷贝大文件时，经常会遇到连接中断、超时等问题，导致文件传输失败。这一问题在文件大小超过 500MB 时尤为明显，严重影响了数据备份、故障排查和应用程序部署的效率。</p>
+</blockquote>
+<h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><p>可通过FTP和对象存储的方式进行解决该问题，以下表格为不同方式的优缺点对比</p>
+<table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>Kubectl cp</th>
+<th>FTP</th>
+<th>对象存储</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>大文件传输稳定性</td>
+<td>差，易中断</td>
+<td>好，支持断点续传</td>
+<td>好，分片上传</td>
+</tr>
+<tr>
+<td>传输速度</td>
+<td>慢，单线程</td>
+<td>快，多线程</td>
+<td>快，并行分片</td>
+</tr>
+<tr>
+<td>文件大小限制</td>
+<td>有，受内存和超时限制</td>
+<td>无限制</td>
+<td>无限制，支持48.8TB</td>
+</tr>
+<tr>
+<td>对集群的影响</td>
+<td>高，占用APIServer资源</td>
+<td>低，独立通道</td>
+<td>低，独立通道</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>需要高权限(exec)</td>
+<td>可配置认证和加密</td>
+<td>高，支持加密和访问控制</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>小文件临时传输</td>
+<td>大文件内外网传输</td>
+<td>海量数据存储与分发</td>
+</tr>
+</tbody></table>
+<p>在使用 FTP 时，需要在不同集群之间开放网络端口，配置防火墙规则，增加了攻击面。而对象存储作为云服务，无需任何网络配置，可直接使用，有更好的账号权限控制体系，降低了安全风险。</p>
+<h4 id="服务器FTP"><a href="#服务器FTP" class="headerlink" title="服务器FTP"></a>服务器FTP</h4><p>在10.1.1.1上使用SFTP服务，创建用户，并配置授权和文件目录</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER=ftp_user</span><br><span class="line">BASE=/home/vsftpd/<span class="variable">$USER</span>          <span class="comment"># 真实目录</span></span><br><span class="line">UPLOAD=<span class="variable">$BASE</span>/dump                <span class="comment"># 上传目录</span></span><br><span class="line"><span class="comment"># 1. 建用户 / 设 shell 为 nologin</span></span><br><span class="line">useradd -d <span class="variable">$BASE</span> -s /sbin/nologin -M <span class="variable">$USER</span></span><br><span class="line"><span class="comment"># 2. 建目录并赋权</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$UPLOAD</span></span><br><span class="line"><span class="built_in">chown</span> root:root <span class="variable">$BASE</span>            </span><br><span class="line"><span class="comment"># 根目录必须属 root，否则 chroot 报错</span></span><br><span class="line"><span class="built_in">chmod</span> 755 <span class="variable">$BASE</span></span><br><span class="line"><span class="built_in">chown</span> <span class="variable">$USER</span>:<span class="variable">$USER</span> <span class="variable">$UPLOAD</span>        </span><br><span class="line"><span class="comment"># 上传目录归用户，方便写文件chmod 750 $UPLOAD</span></span><br><span class="line"><span class="built_in">chmod</span> 750 <span class="variable">$UPLOAD</span></span><br></pre></td></tr></table></figure>
+<p>在容器内进行上传文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://yw-ops.cos.ap-guangzhou.myqcloud.com/ncftpput &amp;&amp; <span class="built_in">chmod</span> 775 ncftpput &amp;&amp;  ./ncftpput -m -u ftp_user -p nmk@2025 10.1.1.1 /dump/$(<span class="built_in">date</span> +%Y%m%d)  /要上传的文件</span><br></pre></td></tr></table></figure>
+<p>通过FTP客户端或SCP进行下载容器文件</p>
+<h4 id="对象存储（字节云举例）"><a href="#对象存储（字节云举例）" class="headerlink" title="对象存储（字节云举例）"></a>对象存储（字节云举例）</h4><p>创建存储桶<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/create-bucket.png" /><br>创建账号，只保留编程访问，去掉控制台访问，只授权对象存储只读的权限<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/bucket-user.png" /><br>对aksk进行授权<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/bucket-aksk-auth.png" /><br>登录容器上传文件</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://m645b3e1bb36e-mrap.mrap.accesspoint.tos-global.volces.com/linux/amd64/tosutil &amp;&amp; <span class="built_in">chmod</span> +x tosutil &amp;&amp; ./tosutil <span class="built_in">cp</span> -i AKLTYjZhNTlhNGJiNzdlNDJjN -k TUdNNE0yTTBZek14T  -e tos-cn-guangzhou.ivolces.com -re cn-guangzhou &#123;FILENAME&#125; tos://tos-vke-file/DIR/FILENAME</span><br></pre></td></tr></table></figure>
+<p>通过对象存储工具或对象存储带验证的链接下载容器文件<br>参考：<a href="https://www.volcengine.com/docs/6349/152743?lang=zh">https://www.volcengine.com/docs/6349/152743?lang=zh</a></p>
 
-<h4 id="选择要授权的账号"><a href="#选择要授权的账号" class="headerlink" title="选择要授权的账号"></a>选择要授权的账号</h4><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/RBAC-auth-user.png" />
-
-<h4 id="授权只读权限-1"><a href="#授权只读权限-1" class="headerlink" title="授权只读权限"></a>授权只读权限</h4><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/RBAC-auth.png" />
-
-<h3 id="授权容器登录权限"><a href="#授权容器登录权限" class="headerlink" title="授权容器登录权限"></a>授权容器登录权限</h3><h4 id="创建ClusterRole"><a href="#创建ClusterRole" class="headerlink" title="创建ClusterRole"></a>创建ClusterRole</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">cloud.tencent.com/tke-rbac-generated:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tke:pod-exec</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pods</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pods/attach</span></span><br><span class="line">  <span class="attr">verbs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">get</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">list</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">patch</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">update</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">watch</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">pods/exec</span></span><br><span class="line">  <span class="attr">verbs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">create</span></span><br></pre></td></tr></table></figure>
-<h4 id="创建RoleBinging授权给用户"><a href="#创建RoleBinging授权给用户" class="headerlink" title="创建RoleBinging授权给用户"></a>创建RoleBinging授权给用户</h4><p>复制只读权限中的相关信息<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/ClusterRoleBinding-yaml.png" /></p>
-<p>对账号进行授权容器登录权限</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">cloud.tencent.com/tke-account-nickname:</span> <span class="string">nmk</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">cloud.tencent.com/tke-account:</span> <span class="string">&quot;100023199976&quot;</span></span><br><span class="line">  <span class="attr">name:</span> <span class="number">100023199976</span><span class="string">-Role-pod-exec</span>    </span><br><span class="line">  <span class="comment">#namespace: no-critical-service #填写namespace为针对某个命令空间</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">tke:pod-exec</span>    <span class="comment">#指定刚创建的ClusterRole</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">User</span></span><br><span class="line">  <span class="attr">name:</span> <span class="number">100023199976</span><span class="number">-1682220970</span> </span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -240,10 +290,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2024/09/29/Adhell3/">Adhell3 阻止广告（三星）</a>
             
-            
-            <a class="next" rel="next" href="/2024/09/05/arthas/">arthas</a>
+            <a class="next" rel="next" href="/2025/11/13/COS%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%BD%92%E6%A1%A3%E5%92%8C%E6%81%A2%E5%A4%8D/">COS对数据库备份进行深度归档和恢复</a>
             
         </section>
 

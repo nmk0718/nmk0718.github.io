@@ -143,7 +143,7 @@ template {
   display: none;
 }
 html {
-  font-family: PingFang SC, Microsoft YaHei;
+  font-family: PingFang SC, Helvetica Neue;
 }
 html::-webkit-scrollbar {
   width: 8px;
@@ -514,6 +514,7 @@ header label {
   float: right;
   text-align: right;
   color: #a9a9b3;
+  font-family: "Helvetica Neue";
 }
 .dark-theme .archive-item-date {
   color: #87878d;

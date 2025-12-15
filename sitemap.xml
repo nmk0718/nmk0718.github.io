@@ -2,7 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://nmk0718.github.io/2025/11/28/%E5%AE%B9%E5%99%A8%E6%96%87%E4%BB%B6%E6%8B%89%E5%8F%96%E6%8C%87%E5%8D%97/</loc>
+    
+    <lastmod>2025-12-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://nmk0718.github.io/2025/11/13/COS%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%BD%92%E6%A1%A3%E5%92%8C%E6%81%A2%E5%A4%8D/</loc>
+    
+    <lastmod>2025-11-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://nmk0718.github.io/2021/03/27/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</loc>
     
     <lastmod>2025-11-14</lastmod>
     
@@ -488,15 +506,6 @@
   </url>
   
   <url>
-    <loc>https://nmk0718.github.io/2021/03/27/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D/</loc>
-    
-    <lastmod>2024-11-29</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://nmk0718.github.io/2023/12/05/Ubuntu%E5%AE%89%E8%A3%85Docker%E5%92%8CGPU%E9%A9%B1%E5%8A%A8/</loc>
     
     <lastmod>2024-11-29</lastmod>
@@ -598,7 +607,7 @@
 
   <url>
     <loc>https://nmk0718.github.io/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -606,294 +615,294 @@
   
   <url>
     <loc>https://nmk0718.github.io/tag/database/</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://nmk0718.github.io/tag/Flutter/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/java/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://nmk0718.github.io/tag/Flutter/</loc>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Jenkins/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Jmeter/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/k8s/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/log/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/macOS/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/nexus/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/OpenTelemetry/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Process/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Prometheus/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/IM/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Rsync/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/SonarQube/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/windows/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/redis/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/ubuntu/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/docker/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/VictoriaMetrics/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/arthas/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Packaging-deployment/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/easyimage/</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://nmk0718.github.io/tag/elasticsearch/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/expect/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://nmk0718.github.io/tag/elasticsearch/</loc>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/flutter/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/FTP/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/GitLab/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/gogs/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/proxy/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/helm/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/hexo/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/https/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/istio/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/kafka/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/mysql/</loc>
-    <lastmod>2025-11-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://nmk0718.github.io/tag/nginx/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/oracle/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/shadowsocks/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://nmk0718.github.io/tag/nginx/</loc>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/Skywalking/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/verdaccio/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://nmk0718.github.io/tag/zookeeper/</loc>
-    <lastmod>2025-11-14</lastmod>
+    <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
