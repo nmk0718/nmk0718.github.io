@@ -12,7 +12,7 @@
 
 
 
-<title>容器文件拉取指南</title>
+<title>PyCharm远程开发</title>
 
 
 
@@ -185,14 +185,14 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">容器文件拉取指南</h1>
+            <h1 class="post-title">PyCharm远程开发</h1>
             
                 <div class="post-meta">
                     
 
                     
                         <span class="post-time">
-                        Date: <a href="#">2025-11-28&nbsp;&nbsp;15:24</a>
+                        Date: <a href="#">2026-01-06&nbsp;&nbsp;15:08</a>
                         </span>
                     
                 </div>
@@ -201,64 +201,25 @@
 
         <div class="post-content">
             <h3 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h3><blockquote>
-<p>在 Kubernetes 容器环境中，通过 kubectl cp命令拷贝大文件时，经常会遇到连接中断、超时等问题，导致文件传输失败。这一问题在文件大小超过 500MB 时尤为明显，严重影响了数据备份、故障排查和应用程序部署的效率。</p>
+<p>算法开发想要远程开发调试服务器的代码，使用PyCharm自带的ssh功能连接堡垒机，会无法列出有权限的机器，导致无法正常远程开发，开发直连又会有安全风险。</p>
 </blockquote>
-<h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><p>可通过FTP和对象存储的方式进行解决该问题，以下表格为不同方式的优缺点对比</p>
-<table>
-<thead>
-<tr>
-<th>对比维度</th>
-<th>Kubectl cp</th>
-<th>FTP</th>
-<th>对象存储</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>大文件传输稳定性</td>
-<td>差，易中断</td>
-<td>好，支持断点续传</td>
-<td>好，分片上传</td>
-</tr>
-<tr>
-<td>传输速度</td>
-<td>慢，单线程</td>
-<td>快，多线程</td>
-<td>快，并行分片</td>
-</tr>
-<tr>
-<td>文件大小限制</td>
-<td>有，受内存和超时限制</td>
-<td>无限制</td>
-<td>无限制，支持48.8TB</td>
-</tr>
-<tr>
-<td>对集群的影响</td>
-<td>高，占用APIServer资源</td>
-<td>低，独立通道</td>
-<td>低，独立通道</td>
-</tr>
-<tr>
-<td>安全性</td>
-<td>需要高权限(exec)</td>
-<td>可配置认证和加密</td>
-<td>高，支持加密和访问控制</td>
-</tr>
-<tr>
-<td>适用场景</td>
-<td>小文件临时传输</td>
-<td>大文件内外网传输</td>
-<td>海量数据存储与分发</td>
-</tr>
-</tbody></table>
-<p>在使用 FTP 时，需要在不同集群之间开放网络端口，配置防火墙规则，增加了攻击面。而对象存储作为云服务，无需任何网络配置，可直接使用，有更好的账号权限控制体系，降低了安全风险。</p>
-<h4 id="服务器FTP"><a href="#服务器FTP" class="headerlink" title="服务器FTP"></a>服务器FTP</h4><p>在10.1.1.1上使用SFTP服务，创建用户，并配置授权和文件目录</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">USER=ftp_user</span><br><span class="line">BASE=/home/vsftpd/<span class="variable">$USER</span>          <span class="comment"># 真实目录</span></span><br><span class="line">UPLOAD=<span class="variable">$BASE</span>/dump                <span class="comment"># 上传目录</span></span><br><span class="line"><span class="comment"># 1. 建用户 / 设 shell 为 nologin</span></span><br><span class="line">useradd -d <span class="variable">$BASE</span> -s /sbin/nologin -M <span class="variable">$USER</span></span><br><span class="line"><span class="comment"># 2. 建目录并赋权</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="variable">$UPLOAD</span></span><br><span class="line"><span class="built_in">chown</span> root:root <span class="variable">$BASE</span>            </span><br><span class="line"><span class="comment"># 根目录必须属 root，否则 chroot 报错</span></span><br><span class="line"><span class="built_in">chmod</span> 755 <span class="variable">$BASE</span></span><br><span class="line"><span class="built_in">chown</span> <span class="variable">$USER</span>:<span class="variable">$USER</span> <span class="variable">$UPLOAD</span>        </span><br><span class="line"><span class="comment"># 上传目录归用户，方便写文件chmod 750 $UPLOAD</span></span><br><span class="line"><span class="built_in">chmod</span> 750 <span class="variable">$UPLOAD</span></span><br></pre></td></tr></table></figure>
-<p>在容器内进行上传文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://yw-ops.cos.ap-guangzhou.myqcloud.com/ncftpput &amp;&amp; <span class="built_in">chmod</span> 775 ncftpput &amp;&amp;  ./ncftpput -m -u ftp_user -p nmk@2025 10.1.1.1 /dump/$(<span class="built_in">date</span> +%Y%m%d)  /要上传的文件</span><br></pre></td></tr></table></figure>
-<p>通过FTP客户端或SCP进行下载容器文件</p>
-<h4 id="对象存储（字节云举例）"><a href="#对象存储（字节云举例）" class="headerlink" title="对象存储（字节云举例）"></a>对象存储（字节云举例）</h4><p>创建存储桶<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/create-bucket.png" /><br>创建账号，只保留编程访问，去掉控制台访问，只授权对象存储只读的权限<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/bucket-user.png" /><br>对aksk进行授权<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/bucket-aksk-auth.png" /><br>登录容器上传文件</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget https://m645b3e1bb36e-mrap.mrap.accesspoint.tos-global.volces.com/linux/amd64/tosutil &amp;&amp; <span class="built_in">chmod</span> +x tosutil &amp;&amp; ./tosutil <span class="built_in">cp</span> -i AKLTYjZhNTlhNGJiNzdlNDJjN -k TUdNNE0yTTBZek14T  -e tos-cn-guangzhou.ivolces.com -re cn-guangzhou &#123;FILENAME&#125; tos://tos-vke-file/DIR/FILENAME</span><br></pre></td></tr></table></figure>
-<p>通过对象存储工具或对象存储带验证的链接下载容器文件<br>参考：<a href="https://www.volcengine.com/docs/6349/152743?lang=zh">https://www.volcengine.com/docs/6349/152743?lang=zh</a></p>
+<h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在 Ubuntu 上部署 JetBrains Projector，并把 PyCharm 跑在浏览器里实现“Web PyCharm 远程开发”。</span><br><span class="line">整套方案不依赖本地 JetBrains 客户端，只要有浏览器就能写代码，非常适合在平板、低配笔记本或公司跳板机上直接开发。</span><br></pre></td></tr></table></figure>
+<h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> <span class="built_in">mkdir</span> -p /opt/jetbrains</span><br><span class="line"><span class="built_in">cd</span> /opt/jetbrains</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载 PyCharm 2021.3.3</span></span><br><span class="line"><span class="built_in">sudo</span> wget -O pycharm-2021.3.3.tar.gz https://download.jetbrains.com/python/pycharm-professional-2021.3.3.tar.gz</span><br><span class="line"><span class="built_in">sudo</span> tar -xzf pycharm-2021.3.3.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载 projector-server v1.8.1（GitHub release 还留着）</span></span><br><span class="line"><span class="built_in">sudo</span> wget -O projector-server-v1.8.1.zip https://github.com/JetBrains/projector-server/releases/download/v1.8.1/projector-server-v1.8.1.zip</span><br><span class="line"><span class="built_in">sudo</span> unzip -o projector-server-v1.8.1.zip -d pycharm-2021.3.3/</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改启动脚本"><a href="#修改启动脚本" class="headerlink" title="修改启动脚本"></a>修改启动脚本</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nano pycharm-2021.3.3/bin/pycharm.sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="新增配置"><a href="#新增配置" class="headerlink" title="新增配置"></a>新增配置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">CLASSPATH=<span class="string">&quot;<span class="variable">$IDE_HOME</span>/lib/util.jar&quot;</span></span><br><span class="line">CLASSPATH=<span class="string">&quot;<span class="variable">$CLASSPATH</span>:<span class="variable">$IDE_HOME</span>/lib/bootstrap.jar&quot;</span></span><br><span class="line"><span class="comment"># 1.加入配置</span></span><br><span class="line">CLASSPATH=<span class="string">&quot;<span class="variable">$CLASSPATH</span>:/opt/jetbrains/pycharm-2021.3.3/projector-server-1.8.1/lib/*&quot;</span></span><br></pre></td></tr></table></figure>
+<h4 id="更改配置"><a href="#更改配置" class="headerlink" title="更改配置"></a>更改配置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;<span class="variable">$JAVA_BIN</span>&quot;</span> \</span><br><span class="line">  -classpath <span class="string">&quot;<span class="variable">$CLASSPATH</span>&quot;</span> \</span><br><span class="line">  <span class="variable">$&#123;VM_OPTIONS&#125;</span> \</span><br><span class="line">  <span class="string">&quot;-XX:ErrorFile=<span class="variable">$HOME</span>/java_error_in_pycharm_%p.log&quot;</span> \</span><br><span class="line">  <span class="string">&quot;-XX:HeapDumpPath=<span class="variable">$HOME</span>/java_error_in_pycharm_.hprof&quot;</span> \</span><br><span class="line"><span class="string">&quot;-Djb.vmOptionsFile=<span class="variable">$&#123;USER_VM_OPTIONS_FILE:-<span class="variable">$&#123;VM_OPTIONS_FILE&#125;</span>&#125;</span>&quot;</span> \</span><br><span class="line">  <span class="variable">$&#123;IDE_PROPERTIES_PROPERTY&#125;</span> \</span><br><span class="line">  -Djava.system.class.loader=com.intellij.util.lang.PathClassLoader -Didea.vendor.name=JetBrains -Didea.paths.selector=PyCharm2021.3 -Didea.platform.prefix=Python -Dsplash=<span class="literal">true</span> \</span><br><span class="line">  <span class="comment"># 2.替换配置 com.intellij.idea.Main 为 -Dorg.jetbrains.projector.server.classToLaunch=com.intellij.idea.Main org.jetbrains.projector.server.ProjectorLauncher</span></span><br><span class="line">  -Dorg.jetbrains.projector.server.classToLaunch=com.intellij.idea.Main org.jetbrains.projector.server.ProjectorLauncher \</span><br><span class="line">  <span class="string">&quot;<span class="variable">$@</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ubuntu: <span class="built_in">sudo</span> <span class="built_in">chmod</span> +x  pycharm-2021.3.3/bin/pycharm.sh</span><br><span class="line">ubuntu: /opt/jetbrains$ <span class="built_in">sudo</span> ./pycharm-2021.3.3/bin/pycharm.sh</span><br><span class="line">[DEBUG] :: IdeState :: Starting attempts to Init ProjectorClassLoader</span><br><span class="line">[DEBUG] :: util.agent.MiscKt :: dynamically attaching agent: jar=/tmp/projector-agent13168037892774388622.jar, args=isAgent=<span class="literal">false</span>;mdPanelClass=org.jetbrains.projector.server.core.ij.md.ProjectorMarkdownPanel;isIdeAttached=<span class="literal">true</span></span><br><span class="line">[DEBUG] :: IjInjectorAgent :: IjInjectorAgent agentmain start, args=isAgent=<span class="literal">false</span>;mdPanelClass=org.jetbrains.projector.server.core.ij.md.ProjectorMarkdownPanel;isIdeAttached=<span class="literal">true</span></span><br><span class="line">[DEBUG] :: ProjectorBatchTransformer :: Success (State: Initial): [IjAwtTransformer: (java.awt.GraphicsEnvironment)]</span><br><span class="line">[DEBUG] :: IdeState :: Starting attempts to run transformations</span><br><span class="line">[DEBUG] :: IjInjectorAgent :: IjInjectorAgent agentmain finish</span><br><span class="line">[DEBUG] :: util.agent.MiscKt :: dynamically attaching agent is <span class="keyword">done</span>: jar=/tmp/projector-agent13168037892774388622.jar, args=isAgent=<span class="literal">false</span>;mdPanelClass=org.jetbrains.projector.server.core.ij.md.ProjectorMarkdownPanel;isIdeAttached=<span class="literal">true</span></span><br><span class="line">[DEBUG] :: IdeState :: Starting attempts to initialize IDEA: fix AA and <span class="built_in">disable</span> smooth scrolling (at start)</span><br><span class="line">[DEBUG] :: IdeState :: Starting attempts to Forbid platform updates and plugin update notifications</span><br><span class="line">[DEBUG] :: IdeState :: Starting attempts to Getting IDE colors</span><br><span class="line">[DEBUG] :: IdeState :: Starting attempts to search <span class="keyword">for</span> editors</span><br><span class="line">[DEBUG] :: ProjectorServer :: Daemon thread starts</span><br><span class="line">[INFO] :: WebsocketServer :: ProjectorServer is starting on host 0.0.0.0/0.0.0.0 and port 8887</span><br><span class="line">[INFO] :: HttpWsServerBuilder :: WebSocket SSL is disabled</span><br><span class="line">[INFO] :: HttpWsServer :: Server started on host 0.0.0.0/0.0.0.0 and port 8887</span><br><span class="line">[DEBUG] :: IdeState :: <span class="string">&quot;Init ProjectorClassLoader&quot;</span> is <span class="keyword">done</span></span><br><span class="line">Jan 06, 2026 2:47:22 PM java.util.prefs.FileSystemPreferences<span class="variable">$1</span> run</span><br><span class="line">INFO: Created user preferences directory.</span><br></pre></td></tr></table></figure>
+<h4 id="访问页面"><a href="#访问页面" class="headerlink" title="访问页面"></a>访问页面</h4><p>浏览器打开<a href="http://10.2.1.1:8887">http://10.2.1.1:8887</a></p>
+<ul>
+<li>如果碰到一直在转，无法访问，需要科学上网一下，让浏览器能加载<a href="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js">https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js</a>.</li>
+</ul>
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/PyCharm.jpeg" />
+
+
+<h4 id="踩坑记录"><a href="#踩坑记录" class="headerlink" title="踩坑记录"></a>踩坑记录</h4><p>刚开始通过projector+PyCharm Professional 安装失败，查询文档得知JetBrains 的 Projector 项目 2022 年起就停止维护，官方把仓库归档、CDN 也陆续下线，只好通过旧包进行部署</p>
 
         </div>
 
@@ -277,7 +238,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tag/k8s/"># k8s</a>
+                        <a href="/tag/tools/"># tools</a>
                     
                         
                 </span>
@@ -290,10 +251,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2026/01/06/PyCharm%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91/">PyCharm远程开发</a>
             
-            
-            <a class="next" rel="next" href="/2025/11/13/COS%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%BD%92%E6%A1%A3%E5%92%8C%E6%81%A2%E5%A4%8D/">COS对数据库备份进行深度归档和恢复</a>
+            <a class="next" rel="next" href="/2025/11/28/%E5%AE%B9%E5%99%A8%E6%96%87%E4%BB%B6%E6%8B%89%E5%8F%96%E6%8C%87%E5%8D%97/">容器文件拉取指南</a>
             
         </section>
 
