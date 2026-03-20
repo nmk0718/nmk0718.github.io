@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="kk">
+
+
+
+
+
+<title>OpenClaw</title>
+
+
+
+    <link rel="icon" href="/favicon.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+<meta name="generator" content="Hexo 7.0.0"><link rel="alternate" href="/atom.xml" title="kk's Blog" type="application/atom+xml">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Home</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/moments">Moments</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Home</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/app">App</a>
+                
+                    <a class="menu-item" href="/moments">Moments</a>
+                
+                    <a class="menu-item" href="/map">Map</a>
+                
+                    <a class="menu-item" href="/game">Game</a>
+                
+                    <a class="menu-item" href="/media">Media</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">OpenClaw</h1>
+            
+                <div class="post-meta">
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">2026-03-16&nbsp;&nbsp;15:23</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="安装OpenClaw"><a href="#安装OpenClaw" class="headerlink" title="安装OpenClaw"></a>安装OpenClaw</h3><h4 id="快速安装"><a href="#快速安装" class="headerlink" title="快速安装"></a>快速安装</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://openclaw.ai/install.sh | bash</span><br></pre></td></tr></table></figure>
+<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://mintcdn.com/clawdhub/U8jr7qEbUc9OU9YR/assets/install-script.svg?w=1100&fit=max&auto=format&n=U8jr7qEbUc9OU9YR&q=85&s=b5bc84222a0a894ebf01ab00b70c9ec4" />
+
+<h4 id="快速配置"><a href="#快速配置" class="headerlink" title="快速配置"></a>快速配置</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">◇  I understand this is personal-by-default and shared/multi-user use requires lock-down. Continue?</span><br><span class="line">│  Yes</span><br><span class="line">│</span><br><span class="line">◇  Onboarding mode</span><br><span class="line">│  QuickStart</span><br><span class="line">│</span><br><span class="line">◇  Model/auth provider</span><br><span class="line">│  Skip <span class="keyword">for</span> now</span><br><span class="line">│</span><br><span class="line">◇  Filter models by provider</span><br><span class="line">│  All providers</span><br><span class="line">│</span><br><span class="line">◇  Default model</span><br><span class="line">│  Keep current (default: anthropic/claude-opus-4-6)</span><br><span class="line">│</span><br><span class="line">◇  Select channel (QuickStart)</span><br><span class="line">│  Skip <span class="keyword">for</span> now</span><br><span class="line">Updated ~/.openclaw/openclaw.json</span><br><span class="line">Workspace OK: ~/.openclaw/workspace</span><br><span class="line">Sessions OK: ~/.openclaw/agents/main/sessions</span><br><span class="line">│</span><br><span class="line">◇  Configure skills now? (recommended)</span><br><span class="line">│  No</span><br><span class="line">│</span><br><span class="line">◇  Enable hooks?</span><br><span class="line">│  Skip <span class="keyword">for</span> now</span><br><span class="line">Config overwrite: /root/.openclaw/openclaw.json (sha256 e20bf2f01a35a0877c70f2eb2ecec6dfad6b9e7b0f9cd59f2342f4706992179b -&gt; 2829efaa7bb43b4f26346d98a3cdf72c0608746bb141eab195e4fd2967a6cda8, backup=/root/.openclaw/openclaw.json.bak)</span><br><span class="line">│</span><br><span class="line">◑  Installing Gateway service…</span><br><span class="line">Installed systemd service: /root/.config/systemd/user/openclaw-gateway.service</span><br><span class="line">◇  Gateway service installed.</span><br><span class="line">│</span><br><span class="line">└  Onboarding complete. Use the dashboard <span class="built_in">link</span> above to control OpenClaw.</span><br></pre></td></tr></table></figure>
+<h4 id="更改UI的默认访问IP端口"><a href="#更改UI的默认访问IP端口" class="headerlink" title="更改UI的默认访问IP端口"></a>更改UI的默认访问IP端口</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[root@VM-4-13-opencloudos ~]# openclaw configure</span><br><span class="line"></span><br><span class="line">┌  OpenClaw configure</span><br><span class="line">│</span><br><span class="line">◇  Where will the Gateway run?</span><br><span class="line">│  Local (this machine)</span><br><span class="line">│</span><br><span class="line">◇  Select sections to configure</span><br><span class="line">│  Gateway</span><br><span class="line">│</span><br><span class="line">◇  Gateway port</span><br><span class="line">│  8789</span><br><span class="line">│</span><br><span class="line">◇  Gateway bind mode</span><br><span class="line">│  Custom IP</span><br><span class="line">│</span><br><span class="line">◇  Custom IP address</span><br><span class="line">│  0.0.0.0</span><br><span class="line">│</span><br><span class="line">◇  Gateway auth</span><br><span class="line">│  Token</span><br><span class="line">│</span><br><span class="line">◇  Tailscale exposure</span><br><span class="line">│  Off</span><br><span class="line">│</span><br><span class="line">◇  Gateway token source</span><br><span class="line">│  Generate/store plaintext token</span><br><span class="line">│</span><br><span class="line">◇  Gateway token (blank to generate)</span><br><span class="line">│  6a27e5710dddasda2219b35894d8d78a4f24</span><br><span class="line">Config overwrite: /root/.openclaw/openclaw.json (sha256 2829efaa7bb43b4f26346d98a3cdf72c0608746bb141eab195e4fd2967a6cda8 -&gt; fb43886a843bceb3d8d68224e3c0e1a6486f82577ebdaec9bf45a869df23cedf, backup=/root/.openclaw/openclaw.json.bak)</span><br><span class="line">Updated ~/.openclaw/openclaw.json</span><br><span class="line">│</span><br><span class="line">◇  Select sections to configure</span><br><span class="line">│  Continue</span><br><span class="line">│</span><br><span class="line">└  Configure complete.</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置本地IP访问-允许HTTP"><a href="#配置本地IP访问-允许HTTP" class="headerlink" title="配置本地IP访问+允许HTTP"></a>配置本地IP访问+允许HTTP</h4><p>编辑~/.openclaw/openclaw.json</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;gateway&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;port&quot;</span><span class="punctuation">:</span> <span class="number">8789</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;local&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;bind&quot;</span><span class="punctuation">:</span> <span class="string">&quot;custom&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;customBindHost&quot;</span><span class="punctuation">:</span> <span class="string">&quot;0.0.0.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;controlUi&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;allowedOrigins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;http://localhost:8789&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;http://127.0.0.1:8789&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;http://0.0.0.0:8789&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="string">&quot;http://10.0.4.13:8789&quot;</span> # 新增</span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;dangerouslyAllowHostHeaderOriginFallback&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> # 新增</span><br><span class="line">    <span class="attr">&quot;allowInsecureAuth&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span> # 新增</span><br><span class="line">    <span class="attr">&quot;dangerouslyDisableDeviceAuth&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span> # 新增</span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置后重启服务"><a href="#配置后重启服务" class="headerlink" title="配置后重启服务"></a>配置后重启服务</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 停止服务</span></span><br><span class="line">[root@VM-4-13-opencloudos ~]# openclaw gateway stop</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清理残留元数据</span></span><br><span class="line">[root@VM-4-13-opencloudos ~]# openclaw gateway install --force </span><br><span class="line"></span><br><span class="line">Installed systemd service: /root/.config/systemd/user/openclaw-gateway.service</span><br><span class="line">Previous unit backed up to: /root/.config/systemd/user/openclaw-gateway.service.bak</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重新启动服务</span></span><br><span class="line">[root@VM-4-13-opencloudos ~]# openclaw gateway start</span><br><span class="line"></span><br><span class="line">Restarted systemd service: openclaw-gateway.service</span><br></pre></td></tr></table></figure>
+<h4 id="浏览器验证"><a href="#浏览器验证" class="headerlink" title="浏览器验证"></a>浏览器验证</h4><p>使用浏览器打开UI<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/OpenClaw-login.png" /><br>通过token登陆<br><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSI0IiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgaWQ9InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAiIGF0dHJpYnV0ZU5hbWU9InIiIGJlZ2luPSIwO3N2Z1NwaW5uZXJzM0RvdHNTY2FsZTEuZW5kLTAuMjVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjMiIGZpbGw9ImN1cnJlbnRDb2xvciI+PGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNnMiIGR1cj0iMC43NXMiIHZhbHVlcz0iMzsuMjszIi8+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMjAiIGN5PSIxMiIgcj0iMyIgZmlsbD0iY3VycmVudENvbG9yIj48YW5pbWF0ZSBpZD0ic3ZnU3Bpbm5lcnMzRG90c1NjYWxlMSIgYXR0cmlidXRlTmFtZT0iciIgYmVnaW49InN2Z1NwaW5uZXJzM0RvdHNTY2FsZTAuZW5kLTAuNDVzIiBkdXI9IjAuNzVzIiB2YWx1ZXM9IjM7LjI7MyIvPjwvY2lyY2xlPjwvc3ZnPg==" data-original="https://nmk0718.github.io/image/OpenClaw-chat.png" /></p>
+<p>参考文档：<br><a href="https://docs.openclaw.ai/start/getting-started">https://docs.openclaw.ai/start/getting-started</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">Back</a>
+                <span>· </span>
+                <a href="/">Home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2026/03/17/LiteLLM/">LiteLLM</a>
+            
+            
+            <a class="next" rel="next" href="/2026/01/06/PyCharm%E8%BF%9C%E7%A8%8B%E5%BC%80%E5%8F%91/">PyCharm远程开发</a>
+            
+        </section>
+
+        <script src="https://giscus.app/client.js"
+        data-repo="nmk0718/nmk0718.github.io"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyMTE0NDU3NDY="
+        data-category="Announcements"
+        data-category-id="DIC_kwDODJpn8s4Clzt8"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="top"
+        data-theme="noborder_light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+<script src="/js/clipboard.min.js"></script>
+<script>
+    // 更新 giscus 主题
+    function updateGiscusTheme() {
+        // 添加短暂延时，确保在主题切换后执行
+        setTimeout(() => {
+            const isDark = document.body.classList.contains('dark-theme');
+            const theme = isDark ? 'noborder_dark' : 'noborder_light';
+            const iframe = document.querySelector('.giscus-frame');
+            
+            if (iframe) {
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme: theme } } },
+                    'https://giscus.app'
+                );
+            }
+        }, 100);  // 100ms 延时
+    }
+
+    // 监听主题变化
+    const toggleBtn = document.getElementsByClassName('toggleBtn')[0];
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 移动端主题切换监听
+    const mobileToggle = document.getElementById('mobile-toggle-theme');
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', updateGiscusTheme);
+    }
+
+    // 初始化主题
+    document.addEventListener('DOMContentLoaded', updateGiscusTheme);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var codeBlocks = document.querySelectorAll('article .code pre');
+
+        codeBlocks.forEach(function (codeBlock) {
+            var copyButton = document.createElement('button');
+            copyButton.className = 'copy-button';
+
+            // Check if the code block is in the article content
+            if (codeBlock.closest('article')) {
+                codeBlock.parentNode.parentNode.style.position = 'relative'; // Update this line to select parent of span (pre)
+                codeBlock.parentNode.parentNode.appendChild(copyButton); // Update this line to select parent of span (pre) 
+
+                var isCopying = false;
+
+                copyButton.addEventListener('click', function () {
+                    if (!isCopying) {
+                        var codeText = codeBlock.innerText;
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            isCopying = true;
+                            setTimeout(function () {
+                                isCopying = false;
+                            }, 1500);
+                        }).catch(function (err) {
+                            console.error('Copy failed', err);
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>
+    </article>
+</div>
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© kk | Powered by <a href="https://hexo.io" target="_blank">Hexo</a></span>
+    </div>
+</footer>
+
+    </div>
+
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script></body>
+</html>
