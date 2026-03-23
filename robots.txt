@@ -7,11 +7,7 @@ Allow: /game/
 Allow: /media/
 Allow: /tag/
 Allow: /about/
-
-Disallow: /vendors/
-Disallow: /js/
-Disallow: /css/
-Disallow: /fonts/
-Disallow: /fancybox/
+Allow: /js/
+Allow: /css/
 
 Sitemap: https://nmk0718.github.io/sitemap.xml
